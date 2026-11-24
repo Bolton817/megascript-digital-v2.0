@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Default Bright/Light Theme Tokens (MegaScript Digital) */
+  --background: 255 255 255;
+  --foreground: 15 23 42; /* slate-900: strong deep blue/slate contrast */
+  --surface: 255 255 255;
+  --surface-subtle: 248 250 252; /* slate-50 */
+  --surface-elevated: 255 255 255;
+  --surface-border: 226 232 240; /* slate-200 */
+
+  /* Brand Primary: Approachable Light Blue */
+  --primary: 2 132 199; /* sky-600 */
+  --primary-hover: 3 105 161; /* sky-700 */
+  --primary-foreground: 255 255 255;
+  --primary-subtle: 240 249 255; /* sky-50 */
+
+  /* Restrained Accent: Warm Orange */
+  --accent: 234 88 12; /* orange-600 */
+  --accent-hover: 194 65 12; /* orange-700 */
+  --accent-foreground: 255 255 255;
+  --accent-subtle: 255 247 237; /* orange-50 */
+
+  --muted: 100 116 139; /* slate-500 */
+  --muted-foreground: 71 85 105; /* slate-600 */
+  --border: 226 232 240; /* slate-200 */
+}
+
+.dark {
+  /* Optional Dark Mode Preference */
+  --background: 15 23 42; /* slate-900 */
+  --foreground: 248 250 252; /* slate-50 */
+  --surface: 30 41 59; /* slate-800 */
+  --surface-subtle: 15 23 42; /* slate-900 */
+  --surface-elevated: 51 65 85; /* slate-700 */
+  --surface-border: 51 65 85; /* slate-700 */
+
+  --primary: 56 189 248; /* sky-400 */
+  --primary-hover: 14 165 233; /* sky-500 */
+  --primary-foreground: 15 23 42;
+  --primary-subtle: 12 74 110; /* sky-950 */
+
+  --accent: 249 115 22; /* orange-500 */
+  --accent-hover: 234 88 12; /* orange-600 */
+  --accent-foreground: 255 255 255;
+  --accent-subtle: 67 20 7; /* orange-950 */
+
+  --muted: 148 163 184; /* slate-400 */
+  --muted-foreground: 203 213 225; /* slate-300 */
+  --border: 51 65 85; /* slate-700 */
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  color: rgb(var(--foreground));
+  background-color: rgb(var(--background));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
