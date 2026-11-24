@@ -56,29 +56,29 @@ export default async function MasterContentHubPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6 sm:p-12">
+    <div className="min-h-screen bg-background text-foreground p-6 sm:p-12">
       <SessionInactivityGuard />
 
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[var(--border)] gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-border gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Link
                 href="/master/overview"
-                className="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] hover:text-[var(--primary)] transition-colors"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
               >
                 /master Operations
               </Link>
-              <span className="text-xs text-[var(--muted-foreground)]">/</span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">
+              <span className="text-xs text-muted-foreground">/</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                 Content Hub
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
               CMS Content Management &amp; Revisions
             </h1>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Manage live services, independent products, portfolio showcase, testimonials, and audit revisions.
             </p>
           </div>
@@ -101,10 +101,10 @@ export default async function MasterContentHubPage() {
         {/* CMS Modules Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Module 1: Services Catalog */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between hover:border-[var(--primary)] transition-colors">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between hover:border-primary transition-colors">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="p-3 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)]">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary">
                   <Briefcase className="h-6 w-6" />
                 </div>
                 <Badge variant="outline" size="sm">
@@ -113,13 +113,13 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Services Catalog</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   3 Core services and 4 Complementary services with descriptions, categories, and SEO metadata.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between">
-              <span className="text-xs text-[var(--muted-foreground)] font-medium">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground font-medium">
                 {servicesCount} Active Records
               </span>
               <Link href="/master/content/services">
@@ -132,7 +132,7 @@ export default async function MasterContentHubPage() {
           </div>
 
           {/* Module 2: Portfolio Showcase */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between hover:border-[var(--primary)] transition-colors">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between hover:border-primary transition-colors">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
@@ -144,13 +144,13 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Portfolio Showcase</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   11 Client engagements. Enforces strict zero-screenshot and zero-tech-stack-label policy.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between">
-              <span className="text-xs text-[var(--muted-foreground)] font-medium">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground font-medium">
                 {portfolioCount} Total Projects
               </span>
               <Link href="/master/content/portfolio">
@@ -163,7 +163,7 @@ export default async function MasterContentHubPage() {
           </div>
 
           {/* Module 3: Independent Products */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between hover:border-[var(--primary)] transition-colors">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between hover:border-primary transition-colors">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
@@ -175,13 +175,13 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Independent Products</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   Fortress (AI Builder), LeaseFlow, UzaDigital, and FM Scheduler independent landing profiles.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between">
-              <span className="text-xs text-[var(--muted-foreground)] font-medium">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground font-medium">
                 {productsCount} SaaS Products
               </span>
               <Link href="/master/content/products">
@@ -194,7 +194,7 @@ export default async function MasterContentHubPage() {
           </div>
 
           {/* Module 4: Client Testimonials */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
@@ -206,13 +206,13 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Testimonials</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   Verified client feedback with recorded approval evidence and display ordering.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between">
-              <span className="text-xs text-[var(--muted-foreground)] font-medium">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground font-medium">
                 {testimonialsCount} Total Records
               </span>
               <Link href="/master/content/testimonials">
@@ -225,7 +225,7 @@ export default async function MasterContentHubPage() {
           </div>
 
           {/* Module 5: Static Pages */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm flex flex-col justify-between">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="p-3 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400">
@@ -237,13 +237,13 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Static &amp; Policy Pages</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   Terms, Privacy Notice, Cookie Policy, and standalone informational landing routes.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between">
-              <span className="text-xs text-[var(--muted-foreground)] font-medium">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between">
+              <span className="text-xs text-muted-foreground font-medium">
                 App Router
               </span>
               <Badge variant="neutral" size="sm">
@@ -253,10 +253,10 @@ export default async function MasterContentHubPage() {
           </div>
 
           {/* Module 6: Revision & Rollback Engine */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] p-6 shadow-sm flex flex-col justify-between">
+          <div className="rounded-2xl border border-border bg-surface-muted p-6 shadow-sm flex flex-col justify-between">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="p-3 rounded-xl bg-[var(--foreground)]/5 text-[var(--foreground)]">
+                <div className="p-3 rounded-xl bg-foreground/5 text-foreground">
                   <History className="h-6 w-6" />
                 </div>
                 <Badge variant="primary" size="sm">
@@ -265,12 +265,12 @@ export default async function MasterContentHubPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold">Revision History</h3>
-                <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                   Every change to services, products, pages, and portfolio creates a versioned snapshot with rollback capability.
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-[var(--border)] mt-6 flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+            <div className="pt-6 border-t border-border mt-6 flex items-center justify-between text-xs text-muted-foreground">
               <span className="font-mono">ContentRevision</span>
               <span>Automated</span>
             </div>
@@ -278,26 +278,26 @@ export default async function MasterContentHubPage() {
         </div>
 
         {/* Recent Revision Log */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm space-y-4">
+        <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <History className="h-5 w-5 text-[var(--primary)]" />
+              <History className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-bold">Recent Content Revisions</h2>
             </div>
-            <span className="text-xs text-[var(--muted-foreground)]">
+            <span className="text-xs text-muted-foreground">
               Showing last {recentRevisions.length} records
             </span>
           </div>
 
           {recentRevisions.length === 0 ? (
-            <p className="text-xs text-[var(--muted-foreground)] py-4">
+            <p className="text-xs text-muted-foreground py-4">
               No content revisions recorded yet. Edits made in CMS modules will appear here.
             </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-[var(--border)] text-[var(--muted-foreground)]">
+                  <tr className="border-b border-border text-muted-foreground">
                     <th className="py-2.5 font-semibold">Entity Type</th>
                     <th className="py-2.5 font-semibold">Version</th>
                     <th className="py-2.5 font-semibold">Author</th>
@@ -305,24 +305,24 @@ export default async function MasterContentHubPage() {
                     <th className="py-2.5 font-semibold">Entity ID</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[var(--border)]">
+                <tbody className="divide-y divide-border">
                   {recentRevisions.map((rev) => (
-                    <tr key={rev.id} className="hover:bg-[var(--surface-muted)] transition-colors">
+                    <tr key={rev.id} className="hover:bg-surface-muted transition-colors">
                       <td className="py-3 font-semibold">
                         <Badge variant="outline" size="sm">
                           {rev.entityType}
                         </Badge>
                       </td>
-                      <td className="py-3 font-mono font-bold text-[var(--primary)]">
+                      <td className="py-3 font-mono font-bold text-primary">
                         v{rev.version}
                       </td>
-                      <td className="py-3 text-[var(--foreground)]">
+                      <td className="py-3 text-foreground">
                         {rev.user?.displayName || rev.user?.email || "System"}
                       </td>
-                      <td className="py-3 text-[var(--muted-foreground)] font-mono">
+                      <td className="py-3 text-muted-foreground font-mono">
                         {rev.createdAt.toLocaleString("en-GB", { timeZone: "Africa/Nairobi" })} EAT
                       </td>
-                      <td className="py-3 font-mono text-[var(--muted-foreground)] truncate max-w-[120px]">
+                      <td className="py-3 font-mono text-muted-foreground truncate max-w-[120px]">
                         {rev.entityId}
                       </td>
                     </tr>
@@ -334,10 +334,10 @@ export default async function MasterContentHubPage() {
         </div>
 
         {/* Security & Zero Leakage Policy Note */}
-        <div className="p-4 rounded-xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-start gap-3 text-xs text-[var(--muted-foreground)]">
+        <div className="p-4 rounded-xl bg-surface-muted border border-border flex items-start gap-3 text-xs text-muted-foreground">
           <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <strong className="text-[var(--foreground)]">
+            <strong className="text-foreground">
               Zero Draft Leakage &amp; RBAC Boundary:
             </strong>
             <p>

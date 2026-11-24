@@ -33,7 +33,7 @@ export function ProductOutboundCta({
         href={outboundUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] shadow-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] ${
+        className={`inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm bg-primary text-white hover:bg-primary-hover ${
           size === "lg" ? "px-6 py-3.5 text-base gap-2.5" : "px-4 py-2 text-sm gap-2"
         } ${className}`}
       >

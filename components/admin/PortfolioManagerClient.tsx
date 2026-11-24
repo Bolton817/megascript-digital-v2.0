@@ -112,20 +112,20 @@ export function PortfolioManagerClient({ initialProjects }: PortfolioManagerClie
       )}
 
       {/* Summary bar */}
-      <div className="flex items-center justify-between px-2 text-xs text-[var(--muted-foreground)]">
+      <div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
         <div>
-          Total Projects: <strong className="text-[var(--foreground)]">{projects.length}</strong>
+          Total Projects: <strong className="text-foreground">{projects.length}</strong>
         </div>
         <div>
           Featured on Homepage:{" "}
-          <strong className="text-[var(--primary)]">{featuredCount} / 4 target</strong>
+          <strong className="text-primary">{featuredCount} / 4 target</strong>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[var(--surface-muted)] border-b border-[var(--border)] text-[var(--muted-foreground)]">
+            <thead className="bg-surface-muted border-b border-border text-muted-foreground">
               <tr>
                 <th className="py-3 px-4 font-semibold w-12 text-center">#</th>
                 <th className="py-3 px-4 font-semibold">Business Name</th>
@@ -135,20 +135,20 @@ export function PortfolioManagerClient({ initialProjects }: PortfolioManagerClie
                 <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {projects.map((project) => (
                 <tr
                   key={project.id}
-                  className="hover:bg-[var(--surface-muted)] transition-colors"
+                  className="hover:bg-surface-muted transition-colors"
                 >
-                  <td className="py-3 px-4 text-center font-mono font-bold text-[var(--muted-foreground)]">
+                  <td className="py-3 px-4 text-center font-mono font-bold text-muted-foreground">
                     {project.displayOrder}
                   </td>
                   <td className="py-3 px-4">
-                    <div className="font-bold text-[var(--foreground)]">
+                    <div className="font-bold text-foreground">
                       {project.businessName}
                     </div>
-                    <div className="text-[11px] text-[var(--muted-foreground)] truncate max-w-sm mt-0.5">
+                    <div className="text-[11px] text-muted-foreground truncate max-w-sm mt-0.5">
                       {project.businessDescription}
                     </div>
                   </td>
@@ -164,13 +164,13 @@ export function PortfolioManagerClient({ initialProjects }: PortfolioManagerClie
                       onClick={() => handleToggleFeatured(project.id, project.isFeatured)}
                       className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border text-[11px] font-medium transition-colors ${
                         project.isFeatured
-                          ? "bg-[var(--primary)]/10 text-[var(--primary)] border-[var(--primary)]/30 font-semibold"
-                          : "bg-[var(--background)] text-[var(--muted-foreground)] border-[var(--border)] hover:border-[var(--primary)]"
+                          ? "bg-primary/10 text-primary border-primary/30 font-semibold"
+                          : "bg-background text-muted-foreground border-border hover:border-primary"
                       }`}
                     >
                       <Star
                         className={`h-3 w-3 ${
-                          project.isFeatured ? "fill-[var(--primary)]" : ""
+                          project.isFeatured ? "fill-primary" : ""
                         }`}
                       />
                       <span>{project.isFeatured ? "Featured" : "Standard"}</span>

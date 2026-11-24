@@ -16,7 +16,7 @@ export default function MasterRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
+    <div className="min-h-screen bg-background text-foreground antialiased">
       {children}
     </div>
   );

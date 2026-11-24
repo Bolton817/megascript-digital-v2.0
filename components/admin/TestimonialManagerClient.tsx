@@ -57,10 +57,10 @@ export function TestimonialManagerClient({
   return (
     <div className="space-y-6">
       {/* Policy Banner (TDD Sheet 063 & Sheet 176) */}
-      <div className="p-5 rounded-2xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-start gap-4">
+      <div className="p-5 rounded-2xl bg-surface-muted border border-border flex items-start gap-4">
         <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-        <div className="space-y-1 text-xs text-[var(--muted-foreground)]">
-          <strong className="text-[var(--foreground)] font-semibold text-sm block">
+        <div className="space-y-1 text-xs text-muted-foreground">
+          <strong className="text-foreground font-semibold text-sm block">
             Zero Fabricated Reviews Policy (TDD Sheet 063 &amp; Sheet 176 Task 55)
           </strong>
           <p className="leading-relaxed">
@@ -97,11 +97,11 @@ export function TestimonialManagerClient({
       )}
 
       {/* Table Container */}
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+      <div className="rounded-2xl border border-border bg-surface shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--surface-muted)]/50 text-[var(--muted-foreground)] font-semibold">
+              <tr className="border-b border-border bg-surface-muted/50 text-muted-foreground font-semibold">
                 <th scope="col" className="py-3.5 px-4 sm:px-6">Client / Organization</th>
                 <th scope="col" className="py-3.5 px-4">Quote Excerpt</th>
                 <th scope="col" className="py-3.5 px-4">Approval Evidence</th>
@@ -110,21 +110,21 @@ export function TestimonialManagerClient({
                 <th scope="col" className="py-3.5 px-4 sm:px-6 text-right">Moderation Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {testimonials.length > 0 ? (
                 testimonials.map((testimonial) => {
                   return (
                     <tr
                       key={testimonial.id}
-                      className="hover:bg-[var(--surface-muted)]/30 transition-colors"
+                      className="hover:bg-surface-muted/30 transition-colors"
                     >
                       {/* Client / Organization */}
                       <td className="py-4 px-4 sm:px-6">
                         <div className="space-y-1">
-                          <div className="font-bold text-sm text-[var(--foreground)]">
+                          <div className="font-bold text-sm text-foreground">
                             {testimonial.clientName}
                           </div>
-                          <div className="flex items-center gap-1.5 text-[var(--muted-foreground)]">
+                          <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Building className="h-3 w-3 shrink-0" />
                             <span>
                               {testimonial.organization}
@@ -136,7 +136,7 @@ export function TestimonialManagerClient({
 
                       {/* Quote Excerpt */}
                       <td className="py-4 px-4 max-w-xs">
-                        <p className="text-[var(--foreground)] italic line-clamp-2 leading-relaxed">
+                        <p className="text-foreground italic line-clamp-2 leading-relaxed">
                           &ldquo;{testimonial.quote}&rdquo;
                         </p>
                       </td>
@@ -210,7 +210,7 @@ export function TestimonialManagerClient({
                 <tr>
                   <td
                     colSpan={6}
-                    className="py-12 text-center text-[var(--muted-foreground)] space-y-2"
+                    className="py-12 text-center text-muted-foreground space-y-2"
                   >
                     <MessageSquare className="h-8 w-8 mx-auto opacity-40" />
                     <p className="font-medium">No testimonials found in database.</p>

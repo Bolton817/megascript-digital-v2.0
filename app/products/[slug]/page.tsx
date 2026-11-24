@@ -141,14 +141,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       <ProductFaq faqs={product.faqs} productName={product.name} />
 
       {/* Bottom Conversion Section */}
-      <Section spacing="lg" variant="default" className="border-t border-[var(--border)]">
+      <Section spacing="lg" variant="default" className="border-t border-border">
         <Container size="lg">
-          <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface-muted)] p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-sm">
+          <div className="rounded-3xl border border-border bg-surface-muted p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-sm">
             <div className="space-y-3 max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 Ready to Experience {product.name}?
               </h2>
-              <p className="text-sm sm:text-base text-[var(--muted-foreground)] leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Explore the dedicated {product.name} cloud platform or connect with our engineering team for an operational walkthrough.
               </p>
             </div>
@@ -164,7 +164,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
               <Link
                 href="/products"
-                className="inline-flex items-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] gap-2 py-2 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-muted)] transition-colors"
+                className="inline-flex items-center text-sm font-semibold text-muted-foreground hover:text-foreground gap-2 py-2 px-4 rounded-xl border border-border bg-surface hover:bg-surface-muted transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                 <span>All Software Products</span>

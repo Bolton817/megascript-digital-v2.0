@@ -115,12 +115,12 @@ export default async function PortfolioDetailPage({ params }: PortfolioPageProps
       <PortfolioScopeBreakdown project={project} />
 
       {/* Back to All Projects Navigation */}
-      <Section spacing="sm" variant="default" className="border-t border-[var(--border)]">
+      <Section spacing="sm" variant="default" className="border-t border-border">
         <Container size="lg">
           <div className="flex items-center justify-between">
             <Link
               href="/portfolio"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] py-2.5 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-muted)] transition-colors"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-muted-foreground hover:text-foreground py-2.5 px-4 rounded-xl border border-border bg-surface hover:bg-surface-muted transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to All 11 Client Engagements</span>
@@ -128,7 +128,7 @@ export default async function PortfolioDetailPage({ params }: PortfolioPageProps
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white bg-[var(--primary)] hover:bg-[var(--primary-hover)] py-2.5 px-4 rounded-xl transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white bg-primary hover:bg-primary-hover py-2.5 px-4 rounded-xl transition-colors shadow-xs"
             >
               <span>Start Your Project</span>
             </Link>

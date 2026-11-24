@@ -48,7 +48,7 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
   return (
     <div className="space-y-8">
       {/* Filter Tabs & Search Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[var(--border)]">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-border">
         {/* Category Tabs */}
         <div
           role="tablist"
@@ -63,10 +63,10 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
                 role="tab"
                 aria-selected={isSelected}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   isSelected
-                    ? "bg-[var(--primary)] text-white shadow-xs"
-                    : "bg-[var(--surface-muted)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-border)]"
+                    ? "bg-primary text-white shadow-xs"
+                    : "bg-surface-muted text-muted-foreground hover:text-foreground hover:bg-surface-border"
                 }`}
               >
                 {cat.label}
@@ -77,7 +77,7 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
 
         {/* Keyword Search */}
         <div className="relative w-full lg:w-72">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[var(--muted-foreground)]">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
             <Search className="h-4 w-4" aria-hidden="true" />
           </div>
           <input
@@ -85,13 +85,13 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
             placeholder="Search by client or industry..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm rounded-xl border border-border bg-surface text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
       </div>
 
       {/* Results Header Counter */}
-      <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span className="font-medium">
           Showing {filteredProjects.length} of {initialProjects.length} client engagements
         </span>
@@ -99,7 +99,7 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
           <button
             type="button"
             onClick={() => setSelectedCategory("all")}
-            className="text-[var(--primary)] hover:underline font-semibold"
+            className="text-primary hover:underline font-semibold"
           >
             Clear Filter
           </button>
@@ -114,14 +114,14 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
           ))}
         </div>
       ) : (
-        <div className="p-12 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] space-y-3">
-          <div className="mx-auto w-12 h-12 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center text-[var(--muted-foreground)]">
+        <div className="p-12 text-center rounded-2xl border border-border bg-surface-muted space-y-3">
+          <div className="mx-auto w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center text-muted-foreground">
             <Layers className="h-6 w-6" />
           </div>
-          <h3 className="text-base font-bold text-[var(--foreground)]">
+          <h3 className="text-base font-bold text-foreground">
             No engagements match your filter criteria
           </h3>
-          <p className="text-xs text-[var(--muted-foreground)] max-w-sm mx-auto">
+          <p className="text-xs text-muted-foreground max-w-sm mx-auto">
             Try adjusting your search keywords or switching to &quot;All Engagements&quot; to view our complete client roster.
           </p>
           <button
@@ -130,7 +130,7 @@ export function PortfolioFilterGrid({ initialProjects }: PortfolioFilterGridProp
               setSelectedCategory("all");
               setSearchQuery("");
             }}
-            className="text-xs font-semibold text-[var(--primary)] hover:underline pt-2 inline-block"
+            className="text-xs font-semibold text-primary hover:underline pt-2 inline-block"
           >
             Reset all filters
           </button>

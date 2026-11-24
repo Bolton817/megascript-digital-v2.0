@@ -1,22 +1,32 @@
 import React from "react";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "default" | "subtle" | "muted" | "elevated" | "outline";
   interactive?: boolean;
 }
 
 export function Card({
+  variant = "default",
   interactive = false,
   className = "",
   children,
   ...props
 }: CardProps) {
+  const variantStyles = {
+    default: "bg-surface border border-surface-border/90 shadow-xs",
+    subtle: "bg-surface-subtle border border-surface-border/60 shadow-xs",
+    muted: "bg-surface-muted border border-surface-border/80 shadow-xs",
+    elevated: "bg-surface border border-surface-border/60 shadow-card",
+    outline: "bg-transparent border border-surface-border",
+  };
+
+  const interactiveStyles = interactive
+    ? "hover:-translate-y-0.5 hover:shadow-card hover:border-primary/40 cursor-pointer focus-within:ring-2 focus-within:ring-primary transition-all duration-200"
+    : "transition-colors duration-150";
+
   return (
     <div
-      className={`rounded-2xl border border-surface-border bg-surface p-6 shadow-sm transition-all ${
-        interactive
-          ? "hover:border-primary/50 hover:shadow-md cursor-pointer focus-within:ring-2 focus-within:ring-primary"
-          : ""
-      } ${className}`}
+      className={`rounded-2xl p-6 ${variantStyles[variant]} ${interactiveStyles} ${className}`}
       {...props}
     >
       {children}

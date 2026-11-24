@@ -36,10 +36,10 @@ export default function WowFactorsPage() {
           </div>
 
           {/* Truthful Showcase Disclosure Banner (TDD Sheet 060) */}
-          <div className="mt-12 p-6 rounded-2xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-start gap-4 text-xs text-[var(--muted-foreground)]">
+          <div className="mt-12 p-6 rounded-2xl bg-surface-muted border border-border flex items-start gap-4 text-xs text-muted-foreground">
             <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <strong className="text-[var(--foreground)] font-semibold">
+              <strong className="text-foreground font-semibold">
                 Truthful Demonstration &amp; Sandbox Integrity:
               </strong>
               <p className="leading-relaxed">
@@ -49,12 +49,12 @@ export default function WowFactorsPage() {
           </div>
 
           {/* Bottom Conversion Section */}
-          <div className="mt-16 rounded-3xl border border-[var(--border)] bg-[var(--surface-muted)] p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
+          <div className="mt-16 rounded-3xl border border-border bg-surface-muted p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
             <div className="space-y-3 max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 Have a Complex System in Mind?
               </h2>
-              <p className="text-sm sm:text-base text-[var(--muted-foreground)] leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Whether you need a custom client portal, automated billing pipelines, or specialized operational tools, our engineering team builds solutions tailored to your exact business rules.
               </p>
             </div>

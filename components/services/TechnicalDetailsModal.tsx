@@ -31,7 +31,7 @@ export function TechnicalDetailsModal({
         onClick={() => setIsOpen(true)}
         className="gap-2 text-xs sm:text-sm"
       >
-        <Terminal className="h-4 w-4 text-[var(--primary)]" aria-hidden="true" />
+        <Terminal className="h-4 w-4 text-primary" aria-hidden="true" />
         <span>{triggerLabel}</span>
       </Button>
 
@@ -45,14 +45,14 @@ export function TechnicalDetailsModal({
         <div className="space-y-6 pt-2">
           {modalData.sections.map((sec, idx) => (
             <div key={idx} className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-primary">
                 {sec.heading}
               </h3>
               <ul className="space-y-2.5">
                 {sec.items.map((item, itemIdx) => (
                   <li
                     key={itemIdx}
-                    className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed"
+                    className="flex items-start gap-2.5 text-xs sm:text-sm text-muted-foreground leading-relaxed"
                   >
                     <CheckCircle2
                       className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5"
@@ -65,10 +65,10 @@ export function TechnicalDetailsModal({
             </div>
           ))}
 
-          <div className="p-4 rounded-xl bg-[var(--surface-muted)] border border-[var(--border)] flex items-start gap-3 text-xs text-[var(--muted-foreground)] mt-6">
+          <div className="p-4 rounded-xl bg-surface-muted border border-border flex items-start gap-3 text-xs text-muted-foreground mt-6">
             <ShieldAlert className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <strong className="text-[var(--foreground)] font-semibold">
+              <strong className="text-foreground font-semibold">
                 Technical Governance &amp; Ownership:
               </strong>
               <p>

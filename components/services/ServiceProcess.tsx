@@ -18,13 +18,13 @@ export function ServiceProcess({ steps, serviceName }: ServiceProcessProps) {
     <Section spacing="lg" variant="subtle" id="process">
       <Container size="lg">
         <div className="max-w-3xl mb-12 sm:mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+          <span className="text-xs font-bold uppercase tracking-wider text-primary">
             Our Method
           </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] mt-2">
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground mt-2">
             How We Deliver Your {serviceName}
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[var(--muted-foreground)] leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
             A structured, collaborative development process designed to remove surprises, maintain timeline velocity, and deliver lasting business value.
           </p>
         </div>
@@ -33,16 +33,16 @@ export function ServiceProcess({ steps, serviceName }: ServiceProcessProps) {
           {steps.map((item) => (
             <div
               key={item.step}
-              className="relative p-6 sm:p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm space-y-4 flex flex-col justify-between"
+              className="relative p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-sm space-y-4 flex flex-col justify-between"
             >
               <div className="space-y-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--primary)] text-white font-black text-sm shadow-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white font-black text-sm shadow-sm">
                   {String(item.step).padStart(2, "0")}
                 </div>
-                <h3 className="text-lg font-bold text-[var(--foreground)] tracking-tight">
+                <h3 className="text-lg font-bold text-foreground tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   {item.description}
                 </p>
               </div>

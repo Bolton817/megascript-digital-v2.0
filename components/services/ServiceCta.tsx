@@ -20,15 +20,15 @@ export function ServiceCta({ cta }: ServiceCtaProps) {
   return (
     <Section spacing="lg" variant="default" id="contact-cta">
       <Container size="lg">
-        <div className="relative rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-muted)] via-[var(--surface)] to-[var(--surface-muted)] p-8 sm:p-14 overflow-hidden shadow-sm">
+        <div className="relative rounded-3xl border border-border bg-gradient-to-br from-surface-muted via-surface to-surface-muted p-8 sm:p-14 overflow-hidden shadow-sm">
           <div className="max-w-2xl space-y-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">
               Next Steps
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] leading-tight">
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground leading-tight">
               {cta.title}
             </h2>
-            <p className="text-sm sm:text-base text-[var(--muted-foreground)] leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               {cta.subtitle}
             </p>
 
@@ -53,7 +53,7 @@ export function ServiceCta({ cta }: ServiceCtaProps) {
               )}
             </div>
 
-            <div className="pt-6 border-t border-[var(--border)] flex flex-wrap items-center gap-6 text-xs text-[var(--muted-foreground)]">
+            <div className="pt-6 border-t border-border flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>100% Client Asset Ownership</span>

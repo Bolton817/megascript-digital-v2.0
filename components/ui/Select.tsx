@@ -53,7 +53,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             disabled={disabled}
             aria-invalid={!!error}
             aria-describedby={error ? errorId : helperText ? helperId : undefined}
-            className={`block w-full appearance-none rounded-lg border bg-surface px-3.5 py-2.5 pr-10 text-sm text-foreground shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`block w-full appearance-none rounded-xl border bg-surface px-3.5 py-2.5 pr-10 text-sm text-foreground shadow-xs transition-all hover:border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
               error
                 ? "border-destructive focus:border-destructive focus:ring-destructive/20"
                 : "border-surface-border"

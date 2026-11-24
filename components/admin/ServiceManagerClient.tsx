@@ -71,10 +71,10 @@ export function ServiceManagerClient({ initialServices }: ServiceManagerClientPr
         </div>
       )}
 
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[var(--surface-muted)] border-b border-[var(--border)] text-[var(--muted-foreground)]">
+            <thead className="bg-surface-muted border-b border-border text-muted-foreground">
               <tr>
                 <th className="py-3 px-4 font-semibold w-12 text-center">#</th>
                 <th className="py-3 px-4 font-semibold">Service Name</th>
@@ -84,20 +84,20 @@ export function ServiceManagerClient({ initialServices }: ServiceManagerClientPr
                 <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {services.map((service) => (
                 <tr
                   key={service.id}
-                  className="hover:bg-[var(--surface-muted)] transition-colors"
+                  className="hover:bg-surface-muted transition-colors"
                 >
-                  <td className="py-3 px-4 text-center font-mono font-bold text-[var(--muted-foreground)]">
+                  <td className="py-3 px-4 text-center font-mono font-bold text-muted-foreground">
                     {service.displayOrder}
                   </td>
                   <td className="py-3 px-4">
-                    <div className="font-bold text-[var(--foreground)]">
+                    <div className="font-bold text-foreground">
                       {service.name}
                     </div>
-                    <div className="text-[11px] text-[var(--muted-foreground)] truncate max-w-md mt-0.5">
+                    <div className="text-[11px] text-muted-foreground truncate max-w-md mt-0.5">
                       {service.shortDescription}
                     </div>
                   </td>
@@ -109,7 +109,7 @@ export function ServiceManagerClient({ initialServices }: ServiceManagerClientPr
                       {service.category}
                     </Badge>
                   </td>
-                  <td className="py-3 px-4 font-mono text-[var(--muted-foreground)]">
+                  <td className="py-3 px-4 font-mono text-muted-foreground">
                     /services/{service.slug}
                   </td>
                   <td className="py-3 px-4">
@@ -129,7 +129,7 @@ export function ServiceManagerClient({ initialServices }: ServiceManagerClientPr
                         href={`/api/preview?path=/services/${service.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] text-[var(--muted-foreground)] hover:text-[var(--primary)] px-2 py-1 rounded-lg border border-[var(--border)] bg-[var(--background)] transition-colors"
+                        className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary px-2 py-1 rounded-lg border border-border bg-background transition-colors"
                       >
                         <Eye className="h-3 w-3" />
                         <span>Preview</span>

@@ -159,12 +159,16 @@ export default function ComponentGalleryPage() {
                 <p className="text-xs font-mono font-bold">Surface</p>
                 <p className="text-xs text-muted-foreground">Base Container</p>
               </div>
-              <div className="rounded-xl border border-surface-border bg-surface-subtle p-4 text-foreground shadow-sm">
+              <div className="rounded-xl border border-surface-border bg-surface-subtle p-4 text-foreground shadow-xs">
                 <p className="text-xs font-mono font-bold">Surface Subtle</p>
                 <p className="text-xs text-muted-foreground">Page Secondary</p>
               </div>
-              <div className="rounded-xl border border-surface-border bg-surface-elevated p-4 text-foreground shadow-sm">
-                <p className="text-xs font-mono font-bold">Surface Border</p>
+              <div className="rounded-xl border border-surface-border bg-surface-muted p-4 text-foreground shadow-xs">
+                <p className="text-xs font-mono font-bold">Surface Muted</p>
+                <p className="text-xs text-muted-foreground">Tangible Contrast</p>
+              </div>
+              <div className="rounded-xl border border-surface-border bg-surface-elevated p-4 text-foreground shadow-xs">
+                <p className="text-xs font-mono font-bold">Surface Elevated</p>
                 <p className="text-xs text-muted-foreground">High Contrast</p>
               </div>
             </div>
@@ -215,6 +219,7 @@ export default function ComponentGalleryPage() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
                 <Button variant="primary">Primary Action</Button>
+                <Button variant="accent">Accent Action (Orange)</Button>
                 <Button variant="secondary">Secondary Action</Button>
                 <Button variant="outline">Outline Action</Button>
                 <Button variant="ghost">Ghost Button</Button>
@@ -273,8 +278,10 @@ export default function ComponentGalleryPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant="neutral">Neutral Draft</Badge>
               <Badge variant="primary">Published</Badge>
+              <Badge variant="primary" dot>Production Active</Badge>
               <Badge variant="accent">High Priority</Badge>
-              <Badge variant="success">Connected</Badge>
+              <Badge variant="accent" dot>High Priority Live</Badge>
+              <Badge variant="success" dot>Connected</Badge>
               <Badge variant="warning">Needs Configuration</Badge>
               <Badge variant="destructive">Sync Error</Badge>
               <Badge variant="primary" size="sm">Small Tag</Badge>

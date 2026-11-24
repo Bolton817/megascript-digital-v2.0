@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "destructive" | "link";
+  variant?: "primary" | "secondary" | "accent" | "outline" | "ghost" | "destructive" | "link";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   loadingText?: string;
@@ -27,9 +27,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Base styles: keyboard accessible, flex alignment, smooth transitions
+    // Base styles: keyboard accessible, flex alignment, smooth transitions, tactile feedback
     const baseStyles =
-      "inline-flex items-center justify-center font-semibold rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none";
+      "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.98]";
 
     // Size variants
     const sizeStyles = {
@@ -41,16 +41,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Color & Surface variants
     const variantStyles = {
       primary:
-        "bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm active:translate-y-px",
+        "bg-primary text-primary-foreground hover:bg-primary-hover shadow-xs hover:shadow-subtle shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] border border-primary-hover/30",
       secondary:
-        "bg-surface-subtle text-foreground hover:bg-surface-border/50 border border-surface-border active:translate-y-px",
+        "bg-surface-subtle text-foreground hover:bg-surface-muted border border-surface-border shadow-xs hover:border-border",
+      accent:
+        "bg-accent text-accent-foreground hover:bg-accent-hover shadow-xs hover:shadow-subtle shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] border border-accent-hover/30",
       outline:
-        "bg-transparent text-foreground hover:bg-surface-subtle border border-surface-border active:translate-y-px",
+        "bg-transparent text-foreground hover:bg-surface-subtle border border-surface-border hover:border-border shadow-xs",
       ghost:
-        "bg-transparent text-foreground hover:bg-surface-subtle active:translate-y-px",
+        "bg-transparent text-foreground hover:bg-surface-subtle active:bg-surface-muted active:scale-[0.98]",
       destructive:
-        "bg-destructive text-white hover:bg-destructive/90 shadow-sm active:translate-y-px",
-      link: "text-primary underline-offset-4 hover:underline p-0 h-auto font-medium",
+        "bg-destructive text-white hover:bg-destructive/90 shadow-xs active:scale-[0.98]",
+      link: "text-primary underline-offset-4 hover:underline p-0 h-auto font-medium active:scale-100",
     };
 
     return (

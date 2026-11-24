@@ -12,35 +12,35 @@ export default async function MasterServicesPage() {
   const services = await getAllServices();
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] p-6 sm:p-12">
+    <div className="min-h-screen bg-background text-foreground p-6 sm:p-12">
       <SessionInactivityGuard />
 
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Navigation Breadcrumb */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[var(--border)] gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-border gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Link
                 href="/master/content"
-                className="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] hover:text-[var(--primary)] transition-colors flex items-center gap-1"
+                className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
               >
                 <ArrowLeft className="h-3 w-3" />
                 <span>Content Hub</span>
               </Link>
-              <span className="text-xs text-[var(--muted-foreground)]">/</span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">
+              <span className="text-xs text-muted-foreground">/</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                 Services Catalog
               </span>
             </div>
             <div className="flex items-center gap-2 pt-1">
-              <div className="p-2 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)]">
+              <div className="p-2 rounded-xl bg-primary/10 text-primary">
                 <Briefcase className="h-5 w-5" />
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                 Manage Services Catalog
               </h1>
             </div>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Core &amp; Complementary service pages, publication status toggles, and instant cache revalidation.
             </p>
           </div>

@@ -105,22 +105,22 @@ export function SessionInactivityGuard({
       aria-describedby="inactivity-dialog-desc"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
     >
-      <div className="w-full max-w-md bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-6 shadow-2xl">
+      <div className="w-full max-w-md bg-surface text-foreground border border-border rounded-2xl p-6 shadow-2xl">
         <div className="flex items-start gap-4">
           <div className="p-3 rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20 shrink-0">
             <AlertTriangle className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <h2 id="inactivity-dialog-title" className="text-lg font-bold text-[var(--foreground)]">
+            <h2 id="inactivity-dialog-title" className="text-lg font-bold text-foreground">
               Session Inactivity Warning
             </h2>
-            <p id="inactivity-dialog-desc" className="mt-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
+            <p id="inactivity-dialog-desc" className="mt-2 text-sm text-muted-foreground leading-relaxed">
               For security compliance, inactive administrator sessions are automatically expired after 15 minutes.
             </p>
-            <div className="mt-4 flex items-center gap-2 p-3 rounded-xl bg-[var(--surface-muted)] border border-[var(--border)] text-sm font-medium">
+            <div className="mt-4 flex items-center gap-2 p-3 rounded-xl bg-surface-muted border border-border text-sm font-medium">
               <Clock className="w-4 h-4 text-amber-500 animate-pulse" />
               <span>
-                Expiring in <strong className="text-[var(--foreground)]">{secondsRemaining}s</strong>
+                Expiring in <strong className="text-foreground">{secondsRemaining}s</strong>
               </span>
             </div>
           </div>

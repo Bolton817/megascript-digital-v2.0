@@ -161,28 +161,28 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
       {/* Outbound URL Editor Modal */}
       {editingProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+          <div className="bg-surface border border-border rounded-2xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-xl">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
               <div className="space-y-1">
-                <h3 className="text-lg font-bold text-[var(--foreground)]">
+                <h3 className="text-lg font-bold text-foreground">
                   Configure Outbound Destination
                 </h3>
-                <p className="text-xs text-[var(--muted-foreground)]">
-                  Product: <strong className="text-[var(--foreground)]">{editingProduct.name}</strong> ({editingProduct.slug})
+                <p className="text-xs text-muted-foreground">
+                  Product: <strong className="text-foreground">{editingProduct.name}</strong> ({editingProduct.slug})
                 </p>
               </div>
               <button
                 type="button"
                 onClick={closeUrlEditor}
-                className="p-1 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+                className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-muted"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="p-3 rounded-xl bg-[var(--surface-muted)] border border-[var(--border)] text-xs text-[var(--muted-foreground)] leading-relaxed space-y-1">
-                <strong className="text-[var(--foreground)] block">Zero Guessed URL Rule (TDD Sheet 175):</strong>
+              <div className="p-3 rounded-xl bg-surface-muted border border-border text-xs text-muted-foreground leading-relaxed space-y-1">
+                <strong className="text-foreground block">Zero Guessed URL Rule (TDD Sheet 175):</strong>
                 <p>
                   When no valid URL is configured, the public CTA safely falls back to demo inquiry and displays a &quot;Platform Launching Soon&quot; badge. Configure a live URL only when the dedicated platform is operational.
                 </p>
@@ -191,12 +191,12 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
               <div className="space-y-2">
                 <label
                   htmlFor="outboundUrlInput"
-                  className="block text-xs font-bold text-[var(--foreground)]"
+                  className="block text-xs font-bold text-foreground"
                 >
                   Dedicated Platform URL
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[var(--muted-foreground)]">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
                     <LinkIcon className="h-4 w-4" />
                   </div>
                   <input
@@ -208,7 +208,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                       setUrlInput(e.target.value);
                       setUrlError(null);
                     }}
-                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 {urlError && (
@@ -219,7 +219,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-[var(--border)]">
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               <Button
                 type="button"
                 variant="outline"
@@ -260,10 +260,10 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
       )}
 
       {/* Product Catalog Table */}
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[var(--surface-muted)] border-b border-[var(--border)] text-[var(--muted-foreground)]">
+            <thead className="bg-surface-muted border-b border-border text-muted-foreground">
               <tr>
                 <th className="py-3 px-4 font-semibold w-12 text-center">#</th>
                 <th className="py-3 px-4 font-semibold">Product Name</th>
@@ -273,7 +273,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                 <th className="py-3 px-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {products.map((product) => {
                 const hasUrl =
                   typeof product.outboundUrl === "string" &&
@@ -282,20 +282,20 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                 return (
                   <tr
                     key={product.id}
-                    className="hover:bg-[var(--surface-muted)] transition-colors"
+                    className="hover:bg-surface-muted transition-colors"
                   >
-                    <td className="py-3.5 px-4 text-center font-mono font-bold text-[var(--muted-foreground)]">
+                    <td className="py-3.5 px-4 text-center font-mono font-bold text-muted-foreground">
                       {product.displayOrder}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-[var(--foreground)]">
+                      <div className="font-bold text-foreground">
                         {product.name}
                       </div>
-                      <div className="text-[11px] text-[var(--muted-foreground)] truncate max-w-xs mt-0.5">
+                      <div className="text-[11px] text-muted-foreground truncate max-w-xs mt-0.5">
                         {product.tagline}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[var(--muted-foreground)]">
+                    <td className="py-3.5 px-4 font-mono text-muted-foreground">
                       /products/{product.slug}
                     </td>
                     <td className="py-3.5 px-4">
@@ -305,7 +305,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                             href={product.outboundUrl!}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 font-mono text-[11px] text-[var(--primary)] hover:underline truncate max-w-[180px]"
+                            className="inline-flex items-center gap-1 font-mono text-[11px] text-primary hover:underline truncate max-w-[180px]"
                           >
                             <span>{product.outboundUrl}</span>
                             <ExternalLink className="h-3 w-3 shrink-0" />
@@ -313,7 +313,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                           <button
                             type="button"
                             onClick={() => openUrlEditor(product)}
-                            className="p-1 rounded text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+                            className="p-1 rounded text-muted-foreground hover:text-foreground"
                             title="Edit URL"
                           >
                             <Edit2 className="h-3 w-3" />
@@ -332,7 +332,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                           <button
                             type="button"
                             onClick={() => openUrlEditor(product)}
-                            className="text-[11px] text-[var(--primary)] hover:underline font-semibold"
+                            className="text-[11px] text-primary hover:underline font-semibold"
                           >
                             Configure
                           </button>
@@ -356,7 +356,7 @@ export function ProductManagerClient({ initialProducts }: ProductManagerClientPr
                           href={`/api/preview?path=/products/${product.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] text-[var(--muted-foreground)] hover:text-[var(--primary)] px-2 py-1 rounded-lg border border-[var(--border)] bg-[var(--background)] transition-colors"
+                          className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary px-2 py-1 rounded-lg border border-border bg-background transition-colors"
                         >
                           <Eye className="h-3 w-3" />
                           <span>Preview</span>

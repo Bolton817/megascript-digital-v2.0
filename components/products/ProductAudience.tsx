@@ -22,15 +22,15 @@ export function ProductAudience({
       <Container size="lg">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Audience Summary Box */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] p-6 sm:p-8 space-y-4">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+          <div className="rounded-2xl border border-border bg-surface-muted p-6 sm:p-8 space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
               <Users className="h-4 w-4" aria-hidden="true" />
               <span>Target Audience</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-[var(--foreground)]">
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground">
               Who is {productName} Designed For?
             </h3>
-            <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
               {audience}
             </p>
           </div>
@@ -41,7 +41,7 @@ export function ProductAudience({
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                 Operational Advantages
               </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-[var(--foreground)]">
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                 Key Value Delivered
               </h3>
             </div>
@@ -50,15 +50,15 @@ export function ProductAudience({
               {benefits.map((benefit, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2.5 shadow-sm"
+                  className="p-5 rounded-2xl border border-border bg-surface space-y-2.5 shadow-sm"
                 >
-                  <div className="p-2 w-fit rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
+                  <div className="p-2 w-fit rounded-lg bg-primary/10 text-primary">
                     <Sparkles className="h-4 w-4" aria-hidden="true" />
                   </div>
-                  <h4 className="text-sm font-bold text-[var(--foreground)]">
+                  <h4 className="text-sm font-bold text-foreground">
                     {benefit.title}
                   </h4>
-                  <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
                     {benefit.description}
                   </p>
                 </div>

@@ -14,23 +14,19 @@ export function FinalCtaSection() {
   return (
     <Section spacing="lg" variant="default" id="contact-cta">
       <Container size="lg">
-        <div className="relative overflow-hidden rounded-3xl bg-surface border border-surface-border p-8 sm:p-12 lg:p-16 shadow-lg">
-          {/* Subtle brand color corner accent glow */}
-          <div
-            className="absolute top-0 right-0 -mr-24 -mt-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute bottom-0 left-0 -ml-24 -mb-24 h-96 w-96 rounded-full bg-accent/5 blur-3xl pointer-events-none"
-            aria-hidden="true"
-          />
+        <div className="relative overflow-hidden rounded-3xl bg-surface border border-surface-border p-8 sm:p-12 lg:p-16 shadow-layered">
+          {/* Subtle brand color corner accent glow (isolated in overflow-clipped layer) */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+          </div>
 
           <div className="relative z-10 max-w-3xl space-y-6">
             <span className="text-xs font-bold uppercase tracking-wider text-primary">
               Ready to Move Forward?
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight leading-[1.15]">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-foreground font-display tracking-tight leading-[1.15]">
               Let&apos;s build something useful for your business.
             </h2>
 
@@ -58,12 +54,12 @@ export function FinalCtaSection() {
             </div>
 
             <div className="pt-8 border-t border-surface-border flex flex-col sm:flex-row sm:items-center gap-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" aria-hidden="true" />
+              <div className="flex items-center gap-2 flex-wrap">
+                <Mail className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
                 <span>Direct Inbox:</span>
                 <a
                   href="mailto:info@megascriptdigital.co.ke"
-                  className="font-semibold text-foreground hover:text-primary transition-colors"
+                  className="font-semibold text-foreground hover:text-primary transition-colors break-all sm:break-normal"
                 >
                   info@megascriptdigital.co.ke
                 </a>
@@ -72,7 +68,7 @@ export function FinalCtaSection() {
               <span className="hidden sm:inline text-surface-border">&bull;</span>
 
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
+                <Phone className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
                 <span>Nairobi, Kenya</span>
                 <span className="text-foreground/80 font-medium">(EAT / UTC+3)</span>
               </div>

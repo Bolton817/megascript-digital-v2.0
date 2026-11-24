@@ -35,14 +35,14 @@ export default function AboutPage() {
       <AboutValues />
 
       {/* Conversion & Navigation CTA */}
-      <Section spacing="lg" variant="default" className="border-t border-[var(--border)]">
+      <Section spacing="lg" variant="default" className="border-t border-border">
         <Container size="lg">
-          <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface-muted)] p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
+          <div className="rounded-3xl border border-border bg-surface-muted p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
             <div className="space-y-3 max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 Ready to Build With Clarity?
               </h2>
-              <p className="text-sm sm:text-base text-[var(--muted-foreground)] leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Explore our verified client portfolio, inspect our core development offerings, or start an initial project conversation with our engineering team.
               </p>
             </div>

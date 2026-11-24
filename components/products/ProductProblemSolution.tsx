@@ -18,10 +18,10 @@ export function ProductProblemSolution({
     <Section spacing="lg" variant="default" id="overview">
       <Container size="lg">
         <div className="max-w-3xl mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+          <span className="text-xs font-bold uppercase tracking-wider text-primary">
             Problem &amp; Purpose
           </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--foreground)] mt-2">
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground mt-2">
             Why We Engineered {productName}
           </h2>
         </div>
@@ -33,7 +33,7 @@ export function ProductProblemSolution({
               <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span>The Operational Challenge</span>
             </div>
-            <p className="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">
+            <p className="text-sm sm:text-base text-foreground leading-relaxed">
               {problem}
             </p>
           </div>
@@ -44,7 +44,7 @@ export function ProductProblemSolution({
               <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span>The {productName} Solution</span>
             </div>
-            <p className="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">
+            <p className="text-sm sm:text-base text-foreground leading-relaxed">
               {solution}
             </p>
           </div>

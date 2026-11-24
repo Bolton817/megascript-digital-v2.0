@@ -10,6 +10,7 @@
   /* Surfaces */
   --surface: 255 255 255;
   --surface-subtle: 248 250 252; /* slate-50 */
+  --surface-muted: 241 245 249; /* slate-100 */
   --surface-elevated: 255 255 255;
   --surface-border: 226 232 240; /* slate-200 */
 
@@ -48,6 +49,7 @@
   /* Surfaces */
   --surface: 30 41 59; /* slate-800 */
   --surface-subtle: 15 23 42; /* slate-900 */
+  --surface-muted: 30 41 59; /* slate-800 */
   --surface-elevated: 51 65 85; /* slate-700 */
   --surface-border: 51 65 85; /* slate-700 */
 

@@ -39,11 +39,11 @@ export function PublicHeader() {
       </a>
 
       {/* Floating Island Navigation Container */}
-      <header className="sticky top-3 sm:top-5 z-40 w-full px-3 sm:px-6 pointer-events-none">
+      <header className="sticky top-2 sm:top-5 z-40 w-full px-2.5 sm:px-6 pointer-events-none">
         <div className="max-w-7xl mx-auto pointer-events-auto">
           <nav
             aria-label="Main Navigation"
-            className="flex items-center justify-between rounded-full border border-surface-border bg-surface/95 backdrop-blur-md px-4 sm:px-6 py-2.5 shadow-md transition-colors"
+            className="flex items-center justify-between rounded-full border border-surface-border bg-surface/95 backdrop-blur-md px-3 sm:px-6 py-2 sm:py-2.5 shadow-subtle transition-colors"
           >
             {/* Extreme Left: Brand Identity & Logo */}
             <div className="flex items-center">
@@ -51,13 +51,13 @@ export function PublicHeader() {
                 href="/"
                 onClick={closeMenu}
                 aria-label="MegaScript Digital Home"
-                className="group flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg py-1"
+                className="group flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg py-1"
               >
                 {/* Brand Mark SVG Symbol */}
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground font-black text-sm shadow-sm transition-transform group-hover:scale-105">
+                <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground font-black text-xs sm:text-sm shadow-xs transition-transform group-hover:scale-105">
                   M
                 </div>
-                <span className="text-sm sm:text-base font-bold tracking-tight text-foreground">
+                <span className="text-xs sm:text-base font-bold tracking-tight text-foreground font-display">
                   MegaScript <span className="text-primary font-normal">Digital</span>
                 </span>
               </Link>
