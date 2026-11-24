@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   MORE_SERVICES_MENU,
   PRODUCTS_MENU,
@@ -12,7 +13,12 @@ import { MobileNavigation } from "./MobileNavigation";
 import { Button } from "@/components/ui/Button";
 
 export function PublicHeader() {
+  const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+
+  if (pathname?.startsWith("/master")) {
+    return null;
+  }
 
   const toggleMenu = (menuId: string) => {
     setActiveMenu((prev) => (prev === menuId ? null : menuId));

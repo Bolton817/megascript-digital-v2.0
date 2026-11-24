@@ -44,3 +44,6 @@ Thumbs.db
 
 # TypeScript cache
 *.tsbuildinfo
+
+# PDF Reference Documents
+*.pdf

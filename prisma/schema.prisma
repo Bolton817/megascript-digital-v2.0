@@ -28,9 +28,12 @@ enum RoleName {
 
 model User {
   id                 String       @id @default(cuid())
+  name               String       @default("Admin")
   email              String       @unique
   normalizedEmail    String       @unique
   displayName        String
+  emailVerified      Boolean      @default(true)
+  image              String?
   status             UserStatus   @default(ACTIVE)
   isProtected        Boolean      @default(false) // megascriptdigital@gmail.com is protected
   lastLoginAt        DateTime?
