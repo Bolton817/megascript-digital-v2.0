@@ -10,6 +10,8 @@ import {
   updateProduct,
   updateProductStatus,
 } from "@/server/services/cms/products";
+import { updateTestimonial } from "@/server/services/cms/testimonials";
+import { updateBlogPostStatus } from "@/server/services/cms/blog";
 import { rollbackContentRevision } from "@/server/services/cms/revision";
 import { PublishStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -132,4 +134,45 @@ export async function updateProductOutboundUrlAction(
   revalidatePath(`/products/${updated.slug}`);
   return { success: true, product: updated };
 }
+
+/**
+ * Server action: Toggle testimonial approval status.
+ * Enforces `testimonials.manage` permission.
+ */
+export async function toggleTestimonialApprovalAction(
+  testimonialId: string,
+  isApproved: boolean
+) {
+  const { user } = await requirePermission("testimonials.manage", {
+    isQualifyingActivity: true,
+  });
+
+  const updated = await updateTestimonial(user.id, testimonialId, {
+    isApproved,
+    status: isApproved ? PublishStatus.PUBLISHED : PublishStatus.DRAFT,
+  });
+  revalidatePath("/master/content/testimonials");
+  revalidatePath("/");
+  return { success: true, testimonial: updated };
+}
+
+/**
+ * Server action: Toggle blog post publication status.
+ * Enforces `content.publish` permission.
+ */
+export async function toggleBlogPostStatusAction(
+  postId: string,
+  newStatus: PublishStatus
+) {
+  const { user } = await requirePermission("content.publish", {
+    isQualifyingActivity: true,
+  });
+
+  const updated = await updateBlogPostStatus(user.id, postId, newStatus);
+  revalidatePath("/master/content/blog");
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${updated.slug}`);
+  return { success: true, post: updated };
+}
+
 

@@ -23,48 +23,48 @@ export function FeaturedPortfolioSection() {
 
   const projects: FeaturedProject[] = [
     {
-      slug: "nairobi-fitness-wars",
-      name: "Nairobi Fitness Wars",
-      industry: "Athletics & Event Management",
+      slug: "lucky-house-safaris",
+      name: "Lucky House Safaris",
+      industry: "Tours & Safaris",
       businessDescription:
-        "Premier competitive fitness championship hosting regional athletic trials across East Africa.",
+        "A tour and safari company organizing guided travel experiences and itineraries across East Africa.",
       deliveredScope:
-        "Architected athlete registration portals, M-Pesa automated ticket verification, and real-time event leaderboards.",
-      liveUrl: "https://nairobitestfitnesswars.co.ke",
-      monogram: "NFW",
+        "Responsive safari tour showcase and direct inquiry pipeline tailored to help international travelers explore packages clearly.",
+      liveUrl: "https://luckyhousetc.co.ke/",
+      monogram: "LHS",
     },
     {
-      slug: "primeline-safaris",
-      name: "Primeline Safaris",
-      industry: "Luxury Tourism & Hospitality",
+      slug: "luminary-mtaji-partners",
+      name: "Luminary Mtaji Partners",
+      industry: "Finance & Advisory",
       businessDescription:
-        "Bespoke destination management company delivering private wildlife expeditions and lodge experiences in Kenya and Tanzania.",
+        "A finance and advisory company providing structured financial solutions to businesses and clients.",
       deliveredScope:
-        "Engineered multi-currency itinerary showcases, interactive safari maps, and an international inquiry qualification pipeline.",
-      liveUrl: "https://primelinesafaris.com",
-      monogram: "PLS",
+        "Corporate digital presence and brand presentation built for institutional credibility, regulatory clarity, and direct client inquiries.",
+      liveUrl: "https://luminarymtajipartners.co.ke/",
+      monogram: "LMP",
     },
     {
-      slug: "veloce-auto-concierge",
-      name: "Veloce Auto Concierge",
-      industry: "Automotive & Luxury Services",
+      slug: "skrach-art",
+      name: "Skrach Art",
+      industry: "Art Organisation",
       businessDescription:
-        "High-end luxury and exotic vehicle acquisition consultancy serving private collectors and corporate executives.",
+        "A community-focused art organization supporting creative expression, artist mentorship, and cultural development.",
       deliveredScope:
-        "Built an encrypted inventory catalog, private vehicle request routing, and VIP client inquiry workflows.",
-      liveUrl: "https://veloceauto.co.ke",
-      monogram: "VAC",
+        "Official website setup designed to communicate programs, showcase community work, and streamline outreach contact pathways.",
+      liveUrl: "https://skrachart.co.ke/",
+      monogram: "SKA",
     },
     {
-      slug: "dr-a-patel-dental",
-      name: "Dr. A. Patel Dental Surgery",
-      industry: "Specialized Healthcare",
+      slug: "abwa-world",
+      name: "ABWA World",
+      industry: "Non-Profit Organisation",
       businessDescription:
-        "Advanced restorative and cosmetic dentistry practice located in Upper Hill, Nairobi.",
+        "Action for Better World Association (ABWA), an international non-profit organization focused on community outreach.",
       deliveredScope:
-        "Constructed patient appointment triage, clinical procedure guides, and high-trust medical local SEO.",
-      liveUrl: "https://drapateldental.co.ke",
-      monogram: "APD",
+        "Public web platform structured to present community initiatives clearly, support public outreach, and simplify ongoing updates.",
+      liveUrl: "https://abwaworld.org/",
+      monogram: "ABW",
     },
   ];
 

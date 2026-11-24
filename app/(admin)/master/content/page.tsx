@@ -215,9 +215,12 @@ export default async function MasterContentHubPage() {
               <span className="text-xs text-[var(--muted-foreground)] font-medium">
                 {testimonialsCount} Total Records
               </span>
-              <Badge variant="neutral" size="sm">
-                Evidence Guarded
-              </Badge>
+              <Link href="/master/content/testimonials">
+                <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                  <span>Manage</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
+              </Link>
             </div>
           </div>
 

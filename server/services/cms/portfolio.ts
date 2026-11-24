@@ -65,6 +65,15 @@ export async function getPublishedPortfolioProjectBySlug(slug: string) {
 }
 
 /**
+ * Admin / Draft query: fetches single portfolio project by slug regardless of status.
+ */
+export async function getPortfolioProjectBySlug(slug: string) {
+  return await db.portfolioProject.findUnique({
+    where: { slug },
+  });
+}
+
+/**
  * Admin query: fetches all portfolio projects regardless of publication status.
  */
 export async function getAllPortfolioProjects() {

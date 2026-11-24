@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { logAuditEvent } from "@/server/services/audit";
 
 export interface CreateRevisionParams {
-  entityType: "PAGE" | "SERVICE" | "PRODUCT" | "PORTFOLIO" | "TESTIMONIAL";
+  entityType: "PAGE" | "SERVICE" | "PRODUCT" | "PORTFOLIO" | "TESTIMONIAL" | "BLOG_POST";
   entityId: string;
   data: Prisma.InputJsonValue;
   createdBy: string;
