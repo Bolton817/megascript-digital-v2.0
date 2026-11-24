@@ -26,8 +26,13 @@ export default function MasterOverviewPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/master/content">
+            <Link href="/master/leads">
               <Button variant="primary" size="sm">
+                CRM Leads
+              </Button>
+            </Link>
+            <Link href="/master/content">
+              <Button variant="outline" size="sm">
                 Content Hub
               </Button>
             </Link>
@@ -87,6 +92,26 @@ export default function MasterOverviewPage() {
               <strong className="text-foreground">Immutable Super Administrator:</strong> The account <code className="font-mono text-primary">megascriptdigital@gmail.com</code> is protected against deletion, deactivation, suspension, and demotion.
             </div>
           </div>
+        </div>
+
+        {/* Stage 12 CRM & Lead Management Card */}
+        <div className="rounded-2xl border border-primary/20 bg-primary-subtle/30 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+              Stage 12 CRM Operations
+            </span>
+            <h2 className="text-lg font-bold text-foreground">
+              Lead Capture &amp; Client Enquiries
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
+              Manage incoming website enquiries, review full client messages, track lifecycle status, assign internal team owners, and maintain an audit trail of internal notes.
+            </p>
+          </div>
+          <Link href="/master/leads">
+            <Button variant="primary" size="md" className="shrink-0">
+              Open CRM Console &rarr;
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

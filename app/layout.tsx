@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { AppearanceCustomizer } from "@/components/layout/AppearanceCustomizer";
+import { CommunicationHub } from "@/components/layout/CommunicationHub";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -93,6 +94,7 @@ export default function RootLayout({
           </div>
           <PublicFooter />
           <AppearanceCustomizer />
+          <CommunicationHub />
         </ThemeProvider>
       </body>
     </html>
