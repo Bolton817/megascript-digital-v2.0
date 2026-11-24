@@ -2,21 +2,8 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-6 sm:p-12 md:p-24 bg-surface-subtle">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-surface-border bg-gradient-to-b from-surface pb-6 pt-8 backdrop-blur-2xl static w-auto rounded-xl border p-4">
-          <span className="font-semibold text-primary">MegaScript Digital</span>
-          <span className="mx-2 text-muted">/</span>
-          <span className="text-muted-foreground">Foundation Baseline</span>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-surface via-surface static h-auto w-auto bg-none">
-          <span className="inline-flex items-center rounded-full bg-primary-subtle px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
-            Stage 01 Active
-          </span>
-        </div>
-      </div>
-
-      <div className="my-16 flex flex-col items-center text-center max-w-3xl">
+    <main className="flex flex-col items-center justify-between p-6 sm:p-12 md:p-20 bg-surface-subtle">
+      <div className="my-12 sm:my-16 flex flex-col items-center text-center max-w-3xl">
         <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider uppercase rounded-full bg-surface text-primary border border-surface-border">
           Web, Software &amp; Digital Systems
         </span>

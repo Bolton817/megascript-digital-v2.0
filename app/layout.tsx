@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { PublicHeader } from "@/components/layout/PublicHeader";
+import { PublicFooter } from "@/components/layout/PublicFooter";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -40,8 +42,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary">
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary">
+        <ThemeProvider>
+          <PublicHeader />
+          <div id="main-content" className="flex-1">
+            {children}
+          </div>
+          <PublicFooter />
+        </ThemeProvider>
       </body>
     </html>
   );
