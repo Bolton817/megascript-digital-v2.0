@@ -12,7 +12,7 @@ export function ServicesPreviewSection() {
       title: "Website Development & Technical SEO",
       description:
         "Custom, high-speed corporate websites optimized for technical search indexation, accessibility, and high conversion rates across all viewports.",
-      href: "/services/website-development-and-seo",
+      href: "/services/website-development-seo",
       category: "Core Engineering",
     },
     {
@@ -20,7 +20,7 @@ export function ServicesPreviewSection() {
       title: "Custom Web Application Development",
       description:
         "Scalable operational software, business portals, and internal automated systems built on robust databases and modern API architectures.",
-      href: "/services/web-application-development",
+      href: "/services/web-app-development",
       category: "Core Engineering",
     },
     {
@@ -28,7 +28,7 @@ export function ServicesPreviewSection() {
       title: "Mobile Application Development",
       description:
         "High-performance native and cross-platform iOS & Android mobile apps engineered for speed, offline resilience, and localized payment flows.",
-      href: "/services/mobile-application-development",
+      href: "/services/mobile-app-development",
       category: "Core Engineering",
     },
   ];
