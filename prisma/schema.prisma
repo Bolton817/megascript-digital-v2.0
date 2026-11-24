@@ -1,0 +1,755 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// Auth & Governance Models (TDD Sheet 117, 118 & Better Auth schema)
+// -----------------------------------------------------------------------------
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum RoleName {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  MARKETING_MANAGER
+  ANALYST
+}
+
+model User {
+  id                 String       @id @default(cuid())
+  email              String       @unique
+  normalizedEmail    String       @unique
+  displayName        String
+  status             UserStatus   @default(ACTIVE)
+  isProtected        Boolean      @default(false) // megascriptdigital@gmail.com is protected
+  lastLoginAt        DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  sessions           Session[]
+  accounts           Account[]
+  userRoles          UserRole[]
+  auditLogs          AuditLog[]   @relation("ActorAuditLogs")
+  leadNotes          LeadNote[]
+  assignedLeads      Lead[]       @relation("AssignedLeads")
+  contentRevisions   ContentRevision[]
+  promptVersions     AIPromptVersion[]
+
+  @@index([status])
+  @@index([normalizedEmail])
+}
+
+model Session {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token          String    @unique
+  expiresAt      DateTime
+  lastActivityAt DateTime  @default(now())
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([lastActivityAt])
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+model Role {
+  id              String             @id @default(cuid())
+  name            RoleName           @unique
+  description     String
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+  allowlisted     AllowlistedEmail[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model Permission {
+  id              String           @id @default(cuid())
+  key             String           @unique
+  description     String
+  rolePermissions RolePermission[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model UserRole {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId    String
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+}
+
+model RolePermission {
+  id           String     @id @default(cuid())
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+}
+
+model AllowlistedEmail {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  normalizedEmail String   @unique
+  roleId          String
+  role            Role     @relation(fields: [roleId], references: [id])
+  addedBy         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([normalizedEmail])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation("ActorAuditLogs", fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  targetType String
+  targetId   String?
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([targetType])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// Site Settings & CMS Models (TDD Sheet 110, 117, 119, 120, 127)
+// -----------------------------------------------------------------------------
+
+model SiteSettings {
+  id              String   @id @default("singleton")
+  brandName       String   @default("MegaScript Digital")
+  publicEmail     String   @default("info@megascriptdigital.co.ke")
+  phone           String?
+  whatsapp        String?
+  location        String?
+  hours           String?
+  pricingMinKsh   Int      @default(35000)
+  pricingMaxKsh   Int      @default(125000)
+  socialUrls      Json?    // { facebook, instagram, x, threads, youtube, tiktok, linkedin }
+  productUrls     Json?    // { fortress, leaseflow, uzadigital, fmscheduler }
+  maintenanceMode Boolean  @default(false)
+  updatedBy       String?
+  updatedAt       DateTime @updatedAt
+}
+
+enum PublishStatus {
+  DRAFT
+  IN_REVIEW
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+model Page {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  title         String
+  summary       String?
+  contentBlocks Json?
+  status        PublishStatus @default(DRAFT)
+  seoTitle      String?
+  seoDesc       String?
+  canonical     String?
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+model ContentRevision {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  version    Int
+  data       Json
+  createdBy  String
+  user       User     @relation(fields: [createdBy], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+}
+
+enum ServiceCategory {
+  CORE
+  COMPLEMENTARY
+}
+
+model Service {
+  id               String          @id @default(cuid())
+  slug             String          @unique
+  name             String
+  category         ServiceCategory
+  shortDescription String
+  longDescription  String?
+  detailedSections Json?
+  isFeatured       Boolean         @default(false)
+  displayOrder     Int             @default(0)
+  status           PublishStatus   @default(PUBLISHED)
+  seoTitle         String?
+  seoDesc          String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([status])
+}
+
+model Product {
+  id                String        @id @default(cuid())
+  slug              String        @unique
+  name              String
+  tagline           String
+  overview          String
+  audience          String
+  benefits          Json?
+  validatedFeatures Json?
+  outboundUrl       String?
+  ctaLabel          String        @default("Visit Product Website")
+  isFeatured        Boolean       @default(false)
+  displayOrder      Int           @default(0)
+  status            PublishStatus @default(PUBLISHED)
+  seoTitle          String?
+  seoDesc           String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+model PortfolioProject {
+  id                  String        @id @default(cuid())
+  slug                String        @unique
+  businessName        String
+  industry            String
+  logoAssetUrl        String?
+  businessDescription String
+  deliveredWork       String
+  externalUrl         String?
+  isFeatured          Boolean       @default(false)
+  displayOrder        Int           @default(0)
+  status              PublishStatus @default(PUBLISHED)
+  publishedAt         DateTime?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([industry])
+  @@index([isFeatured])
+  @@index([status])
+}
+
+model Testimonial {
+  id               String        @id @default(cuid())
+  quote            String
+  clientName       String
+  organization     String
+  role             String?
+  logoUrl          String?
+  approvalEvidence String?
+  isApproved       Boolean       @default(false)
+  status           PublishStatus @default(DRAFT)
+  displayOrder     Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([isApproved])
+  @@index([status])
+}
+
+enum DemoType {
+  LIVE_DEMO
+  CLIENT_FEATURE
+  ILLUSTRATIVE_PROTOTYPE
+  VISUAL_CONCEPT
+}
+
+model WowFactor {
+  id                String        @id @default(cuid())
+  slug              String        @unique
+  title             String
+  summary           String
+  detail            String
+  demonstrationType DemoType
+  demoUrl           String?
+  actionText        String        @default("Request a Custom Solution")
+  actionHref        String        @default("/contact")
+  isFeatured        Boolean       @default(false)
+  displayOrder      Int           @default(0)
+  status            PublishStatus @default(PUBLISHED)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+model BlogPost {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  excerpt     String
+  body        String
+  coverImage  String?
+  authorName  String        @default("MegaScript Digital Team")
+  categoryId  String?
+  category    BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags        BlogTag[]
+  status      PublishStatus @default(DRAFT)
+  seoTitle    String?
+  seoDesc     String?
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+model BlogCategory {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([slug])
+}
+
+model BlogTag {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([slug])
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  sizeBytes Int
+  url       String
+  altText   String?
+  ownerId   String?
+  createdAt DateTime @default(now())
+
+  @@index([filename])
+}
+
+// -----------------------------------------------------------------------------
+// Lead CRM & Communications (TDD Sheet 066, 121, 123)
+// -----------------------------------------------------------------------------
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  WON
+  LOST
+  SPAM
+  CLOSED
+}
+
+model Lead {
+  id              String      @id @default(cuid())
+  referenceCode   String      @unique
+  name            String
+  email           String
+  normalizedEmail String
+  phone           String?
+  topic           String
+  message         String
+  status          LeadStatus  @default(NEW)
+  sourceChannel   String      @default("contact-form")
+  landingPage     String?
+  assignedUserId  String?
+  assignedUser    User?       @relation("AssignedLeads", fields: [assignedUserId], references: [id], onDelete: SetNull)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  events          LeadEvent[]
+  notes           LeadNote[]
+  utmAttribution  UTMAttribution?
+  chatHandoffs    ChatConversation[]
+
+  @@index([normalizedEmail])
+  @@index([status])
+  @@index([createdAt])
+  @@index([assignedUserId])
+}
+
+model LeadEvent {
+  id          String   @id @default(cuid())
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  eventType   String
+  description String
+  actorId     String?
+  createdAt   DateTime @default(now())
+
+  @@index([leadId])
+  @@index([createdAt])
+}
+
+model LeadNote {
+  id         String   @id @default(cuid())
+  leadId     String
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id])
+  note       String
+  isInternal Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  @@index([leadId])
+}
+
+model UTMAttribution {
+  id          String   @id @default(cuid())
+  leadId      String   @unique
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmTerm     String?
+  utmContent  String?
+  referrer    String?
+  landingPath String?
+  createdAt   DateTime @default(now())
+}
+
+enum SubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+model NewsletterSubscriber {
+  id                   String           @id @default(cuid())
+  email                String           @unique
+  normalizedEmail      String           @unique
+  name                 String?
+  status               SubscriberStatus @default(PENDING)
+  consentSource        String           @default("footer")
+  consentTimestamp     DateTime         @default(now())
+  unsubscribeTimestamp DateTime?
+  updatedAt            DateTime         @updatedAt
+
+  @@index([normalizedEmail])
+  @@index([status])
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  CANCELLED
+}
+
+model NewsletterCampaign {
+  id          String         @id @default(cuid())
+  title       String
+  subject     String
+  preheader   String?
+  body        String
+  status      CampaignStatus @default(DRAFT)
+  scheduledAt DateTime?
+  sentAt      DateTime?
+  providerId  String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  deliveries  EmailDelivery[]
+
+  @@index([status])
+}
+
+model EmailDelivery {
+  id             String              @id @default(cuid())
+  recipientEmail String
+  campaignId     String?
+  campaign       NewsletterCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  templateId     String
+  messageType    String              // "TRANSACTIONAL" | "CAMPAIGN"
+  providerId     String?
+  status         String              // "SENT" | "DELIVERED" | "BOUNCED" | "FAILED"
+  sentAt         DateTime            @default(now())
+
+  @@index([recipientEmail])
+  @@index([status])
+}
+
+// -----------------------------------------------------------------------------
+// Tony AI Assistant Models (TDD Sheet 122)
+// -----------------------------------------------------------------------------
+
+enum AIProvider {
+  GEMINI
+  DEEPSEEK
+}
+
+model AIProviderConfig {
+  id               String     @id @default(cuid())
+  provider         AIProvider
+  activeModel      String
+  encryptedApiKey  String?
+  temperature      Float      @default(0.7)
+  maxTokens        Int        @default(1024)
+  isDefault        Boolean    @default(false)
+  updatedAt        DateTime   @updatedAt
+}
+
+model AIPromptVersion {
+  id            String   @id @default(cuid())
+  version       String   @unique // e.g. "1.0.0"
+  promptContent String
+  isCurrent     Boolean  @default(false)
+  authorId      String?
+  author        User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  createdAt     DateTime @default(now())
+
+  @@index([isCurrent])
+}
+
+enum ConversationStatus {
+  ACTIVE
+  CLOSED
+  HANDOFF_REQUESTED
+}
+
+model ChatConversation {
+  id               String             @id @default(cuid())
+  visitorTokenHash String
+  language         String             @default("en") // "en" | "sw"
+  status           ConversationStatus @default(ACTIVE)
+  leadId           String?
+  lead             Lead?              @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  startedAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  closedAt         DateTime?
+
+  messages         ChatMessage[]
+
+  @@index([visitorTokenHash])
+  @@index([status])
+  @@index([startedAt])
+}
+
+model ChatMessage {
+  id              String           @id @default(cuid())
+  conversationId  String
+  conversation    ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role            String           // "user" | "assistant" | "system"
+  content         String
+  model           String?
+  promptVersionId String?
+  latencyMs       Int?
+  tokensUsed      Int?
+  errorCode       String?
+  createdAt       DateTime         @default(now())
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+model KnowledgeItem {
+  id          String        @id @default(cuid())
+  title       String
+  content     String
+  contentType String        // "SERVICE" | "PRODUCT" | "PORTFOLIO" | "FAQ" | "POLICY"
+  route       String?
+  language    String        @default("en")
+  status      PublishStatus @default(PUBLISHED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([contentType])
+  @@index([language])
+  @@index([status])
+}
+
+model AIUsageRecord {
+  id           String   @id @default(cuid())
+  provider     String
+  model        String
+  tokensPrompt Int      @default(0)
+  tokensOutput Int      @default(0)
+  costUsd      Float    @default(0.0)
+  createdAt    DateTime @default(now())
+
+  @@index([provider])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// Analytics, Cookie Consent & Privacy (TDD Sheet 124, 139, 140, 142)
+// -----------------------------------------------------------------------------
+
+model AnalyticsEvent {
+  id            String   @id @default(cuid())
+  eventName     String
+  route         String
+  component     String?
+  sourceChannel String?
+  consentGiven  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([eventName])
+  @@index([route])
+  @@index([createdAt])
+}
+
+enum ConnectionStatus {
+  NOT_CONNECTED
+  NEEDS_CONFIGURATION
+  CONNECTED
+  PERMISSION_EXPIRED
+  ERROR
+  DISABLED
+}
+
+model IntegrationConnection {
+  id                 String           @id @default(cuid())
+  provider           String           @unique // "BREVO" | "GA4" | "SEARCH_CONSOLE" | "META"
+  status             ConnectionStatus @default(NOT_CONNECTED)
+  accountAssetLabel  String?
+  scopes             String?
+  encryptedSecretRef String?
+  lastSyncAt         DateTime?
+  lastErrorCategory  String?
+  updatedAt          DateTime         @updatedAt
+
+  syncLogs           IntegrationSyncLog[]
+}
+
+model IntegrationSyncLog {
+  id           String                @id @default(cuid())
+  connectionId String
+  connection   IntegrationConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  status       String                // "SUCCESS" | "FAILED"
+  recordsCount Int                   @default(0)
+  errorMessage String?
+  createdAt    DateTime              @default(now())
+
+  @@index([connectionId])
+  @@index([createdAt])
+}
+
+model CookieConsentRecord {
+  id               String   @id @default(cuid())
+  visitorTokenHash String   @unique
+  necessary        Boolean  @default(true)
+  analytics        Boolean  @default(false)
+  marketing        Boolean  @default(false)
+  consentVersion   String   @default("1.0")
+  consentTimestamp DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([visitorTokenHash])
+}
+
+enum PrivacyRequestType {
+  ACCESS
+  CORRECTION
+  OBJECTION
+  DELETION
+  GENERAL_INQUIRY
+}
+
+enum PrivacyRequestStatus {
+  PENDING
+  VERIFYING
+  PROCESSING
+  RESOLVED
+  DECLINED
+}
+
+model PrivacyRequest {
+  id             String               @id @default(cuid())
+  referenceCode  String               @unique
+  requestType    PrivacyRequestType
+  requesterEmail String
+  requesterName  String
+  requestDetails String
+  status         PrivacyRequestStatus @default(PENDING)
+  outcomeDetails String?
+  assignedTo     String?
+  dueAt          DateTime
+  resolvedAt     DateTime?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  @@index([requesterEmail])
+  @@index([status])
+  @@index([referenceCode])
+}
