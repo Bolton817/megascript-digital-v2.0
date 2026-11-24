@@ -6,6 +6,10 @@ import {
   updatePortfolioStatus,
   updatePortfolioFeatured,
 } from "@/server/services/cms/portfolio";
+import {
+  updateProduct,
+  updateProductStatus,
+} from "@/server/services/cms/products";
 import { rollbackContentRevision } from "@/server/services/cms/revision";
 import { PublishStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -79,3 +83,53 @@ export async function rollbackRevisionAction(revisionId: string) {
   revalidatePath("/master/content");
   return result;
 }
+
+/**
+ * Server action: Toggle product publication status between PUBLISHED and DRAFT.
+ * Enforces `products.manage` permission.
+ */
+export async function toggleProductStatusAction(
+  productId: string,
+  newStatus: PublishStatus
+) {
+  const { user } = await requirePermission("products.manage", {
+    isQualifyingActivity: true,
+  });
+
+  const updated = await updateProductStatus(user.id, productId, newStatus);
+  revalidatePath("/master/content/products");
+  revalidatePath("/products");
+  revalidatePath(`/products/${updated.slug}`);
+  return { success: true, product: updated };
+}
+
+/**
+ * Server action: Update product outbound URL or clear it.
+ * Enforces `products.manage` permission.
+ */
+export async function updateProductOutboundUrlAction(
+  productId: string,
+  outboundUrl: string | null
+) {
+  const { user } = await requirePermission("products.manage", {
+    isQualifyingActivity: true,
+  });
+
+  let cleanUrl = outboundUrl;
+  if (cleanUrl && cleanUrl.trim().length > 0) {
+    const trimmed = cleanUrl.trim();
+    if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+      throw new Error("Outbound URL must begin with http:// or https://");
+    }
+    cleanUrl = trimmed;
+  } else {
+    cleanUrl = null;
+  }
+
+  const updated = await updateProduct(user.id, productId, { outboundUrl: cleanUrl });
+  revalidatePath("/master/content/products");
+  revalidatePath("/products");
+  revalidatePath(`/products/${updated.slug}`);
+  return { success: true, product: updated };
+}
+

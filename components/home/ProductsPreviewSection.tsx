@@ -10,42 +10,42 @@ export function ProductsPreviewSection() {
     {
       name: "Fortress",
       slug: "fortress",
-      tagline: "Real-Time Access & Incident Monitoring",
-      targetUser: "Commercial Security & Facility Directors",
+      tagline: "AI Website Builder for Fast Launches",
+      targetUser: "Small-Business Owners, Founders & Solo Providers",
       description:
-        "Comprehensive operational security console with live incident telemetry, automated guard checkpoint verification, and rapid alert dispatch.",
+        "Guided conversational setup that generates structured multi-section homepage drafts, readable copy, and responsive layouts in minutes.",
       icon: <ShieldCheck className="h-6 w-6 text-primary" aria-hidden="true" />,
-      badge: "Security & Operations",
+      badge: "AI Builder",
     },
     {
       name: "LeaseFlow",
       slug: "leaseflow",
-      tagline: "Automated Commercial Property Management",
-      targetUser: "Property Managers & Real Estate Portfolios",
+      tagline: "Structured Rental & Tenant Management",
+      targetUser: "Property Managers, Landlords & Estate Teams",
       description:
-        "End-to-end leasing management platform handling automated rent tracking, tenant onboarding, maintenance ticketing, and financial statements.",
+        "Centralized rental platform for managing unit directories, tenant lease agreements, scheduled rent tracking, and maintenance requests.",
       icon: <Key className="h-6 w-6 text-primary" aria-hidden="true" />,
-      badge: "Real Estate SaaS",
+      badge: "Rental Management",
     },
     {
       name: "UzaDigital",
       slug: "uzadigital",
-      tagline: "High-Velocity Retail Commerce Engine",
-      targetUser: "Multi-Location Retailers & Wholesalers",
+      tagline: "Practical In-Store Point-of-Sale",
+      targetUser: "Retail Shops, Boutiques & Local Merchants",
       description:
-        "Cloud retail e-commerce platform featuring integrated M-Pesa automated reconciliation, instant inventory syncing, and delivery tracking.",
+        "Clean checkout interface with fast item lookups, receipt generation, cash/M-Pesa transaction logging, and daily sales summaries.",
       icon: <ShoppingCart className="h-6 w-6 text-primary" aria-hidden="true" />,
-      badge: "E-Commerce",
+      badge: "Point of Sale",
     },
     {
       name: "FM Scheduler",
       slug: "fm-scheduler",
-      tagline: "Facility Maintenance & Workforce Dispatch",
-      targetUser: "Facility Teams & Field Service Operators",
+      tagline: "Social Media & Content Calendar",
+      targetUser: "Marketing Managers, Agencies & Content Creators",
       description:
-        "Intelligent resource and maintenance dispatch scheduler optimizing preventive maintenance cycles, technician routes, and asset tracking.",
+        "Visual scheduling calendar for planning multi-platform social posts, caption drafting, asset organization, and publishing workflows.",
       icon: <CalendarClock className="h-6 w-6 text-primary" aria-hidden="true" />,
-      badge: "Field Operations",
+      badge: "Content Scheduling",
     },
   ];
 
@@ -114,6 +114,16 @@ export function ProductsPreviewSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-surface-border bg-surface hover:border-primary/40 text-sm font-semibold text-foreground hover:text-primary transition-all duration-200 shadow-xs"
+          >
+            <span>View All Software Products &amp; Platforms</span>
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </Container>
     </Section>

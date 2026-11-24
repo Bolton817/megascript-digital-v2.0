@@ -184,9 +184,12 @@ export default async function MasterContentHubPage() {
               <span className="text-xs text-[var(--muted-foreground)] font-medium">
                 {productsCount} SaaS Products
               </span>
-              <Badge variant="neutral" size="sm">
-                Managed
-              </Badge>
+              <Link href="/master/content/products">
+                <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                  <span>Manage</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -222,7 +225,7 @@ export default async function MasterContentHubPage() {
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm flex flex-col justify-between">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                <div className="p-3 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400">
                   <FileText className="h-6 w-6" />
                 </div>
                 <Badge variant="outline" size="sm">

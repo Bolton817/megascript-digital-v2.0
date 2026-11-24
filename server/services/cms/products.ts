@@ -87,6 +87,15 @@ export async function getProductById(id: string) {
 }
 
 /**
+ * Admin / Draft query: get product by slug regardless of publish status.
+ */
+export async function getProductBySlug(slug: string) {
+  return await db.product.findUnique({
+    where: { slug },
+  });
+}
+
+/**
  * Create a new product showcase record with revision and audit trail.
  */
 export async function createProduct(actorId: string, input: CreateProductInput) {

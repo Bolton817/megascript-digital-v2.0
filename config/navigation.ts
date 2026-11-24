@@ -93,6 +93,11 @@ export const PRODUCTS_MENU: MegaMenuCategory = {
       badge: "Scheduling",
     },
   ],
+  footerLink: {
+    text: "Looking for all independent solutions?",
+    href: "/products",
+    actionText: "View software products catalog",
+  },
 };
 
 export const COMPANY_MENU: MegaMenuCategory = {
