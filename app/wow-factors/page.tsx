@@ -36,7 +36,7 @@ export default function WowFactorsPage() {
           </div>
 
           {/* Truthful Showcase Disclosure Banner (TDD Sheet 060) */}
-          <div className="mt-12 p-6 rounded-2xl bg-surface-muted border border-border flex items-start gap-4 text-xs text-muted-foreground">
+          <div className="mt-12 p-6 rounded-3xl bg-surface-muted/70 border border-border flex items-start gap-4 text-xs text-muted-foreground shadow-card">
             <ShieldCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <strong className="text-foreground font-semibold">
@@ -49,9 +49,9 @@ export default function WowFactorsPage() {
           </div>
 
           {/* Bottom Conversion Section */}
-          <div className="mt-16 rounded-3xl border border-border bg-surface-muted p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
+          <div className="mt-16 rounded-3xl border border-border bg-surface-muted/70 p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-card">
             <div className="space-y-3 max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+              <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 Have a Complex System in Mind?
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">

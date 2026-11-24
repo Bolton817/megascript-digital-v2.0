@@ -15,6 +15,7 @@ import {
   ArrowRight,
   ShieldCheck,
   Server,
+  Layers,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -43,13 +44,14 @@ export default async function ProductsCatalogPage() {
   return (
     <main id="main-content" className="min-h-screen pt-28 pb-16 sm:pt-36 sm:pb-24">
       {/* Header */}
-      <section className="pb-12 sm:pb-16 border-b border-border">
+      <section className="pb-12 sm:pb-16 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
         <Container size="lg">
           <div className="max-w-3xl space-y-4">
-            <Badge variant="outline" className="text-xs uppercase tracking-wider font-bold">
-              Software Solutions
-            </Badge>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium">
+              <Layers className="h-3.5 w-3.5" />
+              <span>Proprietary Cloud Platforms</span>
+            </div>
+            <h1 className="font-display text-3xl sm:text-5xl font-black tracking-tight text-foreground">
               Independent Software Products
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
@@ -69,20 +71,20 @@ export default async function ProductsCatalogPage() {
               return (
                 <div
                   key={product.slug}
-                  className="flex flex-col justify-between p-6 sm:p-10 rounded-3xl border border-border bg-surface shadow-sm hover:border-primary/40 hover:shadow-md transition-all duration-200"
+                  className="flex flex-col justify-between p-6 sm:p-10 rounded-3xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-layered transition-all duration-300 group"
                 >
-                  <div className="space-y-5">
+                  <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <div className="p-3 rounded-2xl bg-surface-muted border border-border">
+                      <div className="p-3.5 rounded-2xl bg-surface-muted border border-border group-hover:scale-105 transition-transform duration-200">
                         {iconMap[product.slug]}
                       </div>
-                      <Badge variant="outline" size="sm" className="font-semibold text-xs">
+                      <Badge variant="outline" size="sm" className="font-mono text-xs font-semibold">
                         {product.badge}
                       </Badge>
                     </div>
 
-                    <div className="space-y-2">
-                      <h2 className="text-2xl font-bold text-foreground tracking-tight">
+                    <div className="space-y-2.5">
+                      <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
                         {product.name}
                       </h2>
                       <p className="text-sm font-semibold text-primary">
@@ -93,9 +95,9 @@ export default async function ProductsCatalogPage() {
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-surface-muted border border-border text-xs text-muted-foreground space-y-1">
-                      <strong className="text-foreground block">
-                        Designed For:
+                    <div className="p-4 rounded-2xl bg-surface-muted border border-border text-xs text-muted-foreground space-y-1">
+                      <strong className="text-foreground block font-mono text-[11px] uppercase tracking-wider">
+                        Engineered For:
                       </strong>
                       <p>{product.audience}</p>
                     </div>
@@ -106,7 +108,7 @@ export default async function ProductsCatalogPage() {
                       href={`/products/${product.slug}`}
                       className="inline-flex items-center text-xs sm:text-sm font-semibold text-foreground hover:text-primary gap-1.5 transition-colors"
                     >
-                      <span>Explore Product Overview</span>
+                      <span>Explore Product Architecture</span>
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
 
@@ -124,7 +126,7 @@ export default async function ProductsCatalogPage() {
           </div>
 
           {/* Independence Disclaimer Banner */}
-          <div className="mt-12 p-6 rounded-2xl bg-surface-muted border border-border flex items-start gap-4 text-xs text-muted-foreground">
+          <div className="mt-12 p-6 rounded-3xl bg-surface-muted border border-border flex items-start gap-4 text-xs text-muted-foreground shadow-sm">
             <Server className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <strong className="text-foreground font-semibold">

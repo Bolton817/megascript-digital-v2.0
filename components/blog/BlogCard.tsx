@@ -10,14 +10,14 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <article className="flex flex-col justify-between p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-xs hover:border-primary/40 hover:shadow-md transition-all duration-200">
+    <article className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-layered transition-all duration-300 group">
       <div className="space-y-4">
         {/* Category & Reading Time */}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Badge variant="outline" size="sm" className="font-semibold text-xs">
+          <Badge variant="outline" size="sm" className="font-mono text-xs font-semibold">
             {post.category}
           </Badge>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground font-mono">
             <span className="flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
               <span>{post.readingTime}</span>
@@ -30,8 +30,8 @@ export function BlogCard({ post }: BlogCardProps) {
         </div>
 
         {/* Title & Excerpt */}
-        <div className="space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight hover:text-primary transition-colors">
+        <div className="space-y-2.5">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
             <Link href={`/blog/${post.slug}`}>{post.title}</Link>
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-3">
@@ -44,7 +44,7 @@ export function BlogCard({ post }: BlogCardProps) {
           {post.tags.map((tag, idx) => (
             <span
               key={idx}
-              className="px-2 py-0.5 rounded-md bg-surface-muted text-[10px] font-medium text-muted-foreground border border-border"
+              className="px-2.5 py-0.5 rounded-lg bg-surface-muted text-[10px] font-mono font-medium text-muted-foreground border border-border"
             >
               #{tag}
             </span>

@@ -11,10 +11,13 @@ import {
 import { DesktopMegaMenu } from "./DesktopMegaMenu";
 import { MobileNavigation } from "./MobileNavigation";
 import { Button } from "@/components/ui/Button";
+import { useTheme } from "@/components/providers/ThemeProvider";
+import { Sun, Moon } from "lucide-react";
 
 export function PublicHeader() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const { theme, toggleTheme } = useTheme();
 
   if (pathname?.startsWith("/master")) {
     return null;
@@ -95,8 +98,22 @@ export function PublicHeader() {
               />
             </div>
 
-            {/* Right Action: Contact Button & Mobile Trigger */}
-            <div className="flex items-center gap-2">
+            {/* Right Action: Theme toggle, Contact Button & Mobile Trigger */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
+                title={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
+                className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/75 hover:text-foreground hover:bg-surface-subtle transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {theme === "light" ? (
+                  <Moon className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Sun className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                )}
+              </button>
+
               <Link href="/contact" onClick={closeMenu} className="hidden sm:inline-block">
                 <Button variant="primary" size="sm" className="rounded-full shadow-sm">
                   Contact Us

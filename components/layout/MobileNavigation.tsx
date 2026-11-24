@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronDown, Mail } from "lucide-react";
+import { Menu, X, ChevronDown, Mail, Sun, Moon } from "lucide-react";
 import { MEGA_MENUS } from "@/config/navigation";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useTheme } from "@/components/providers/ThemeProvider";
 
 export function MobileNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const { theme, toggleTheme } = useTheme();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +72,7 @@ export function MobileNavigation() {
           aria-label="Navigation Menu"
           className="fixed inset-0 z-50 flex flex-col bg-background/98 backdrop-blur-xl animate-in fade-in-0 duration-200"
         >
-          {/* Top Bar with Brand & Close Button */}
+          {/* Top Bar with Brand, Theme Toggle & Close Button */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-surface-border">
             <Link
               href="/"
@@ -79,14 +81,28 @@ export function MobileNavigation() {
             >
               MegaScript Digital
             </Link>
-            <button
-              type="button"
-              onClick={closeMenu}
-              aria-label="Close navigation menu"
-              className="rounded-lg p-2 text-muted hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            >
-              <X className="h-6 w-6" aria-hidden="true" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
+                className="rounded-lg p-2 text-muted-foreground hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {theme === "light" ? (
+                  <Moon className="h-5 w-5" aria-hidden="true" />
+                ) : (
+                  <Sun className="h-5 w-5 text-amber-400" aria-hidden="true" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={closeMenu}
+                aria-label="Close navigation menu"
+                className="rounded-lg p-2 text-muted-foreground hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <X className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
           </div>
 
           {/* Scrollable Navigation Tree */}

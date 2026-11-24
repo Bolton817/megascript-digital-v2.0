@@ -7,6 +7,7 @@ import {
   Cpu,
   CheckCircle2,
   Headphones,
+  Compass,
 } from "lucide-react";
 
 export function AboutApproach() {
@@ -52,10 +53,11 @@ export function AboutApproach() {
     <Section spacing="lg" variant="subtle" id="approach">
       <Container size="lg">
         <div className="max-w-3xl mb-12 sm:mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">
-            Operating Methodology
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground mt-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium mb-3">
+            <Compass className="h-3.5 w-3.5" />
+            <span>Operating Methodology</span>
+          </div>
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
             How We Build Systems
           </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -63,24 +65,24 @@ export function AboutApproach() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-xs space-y-4 flex flex-col justify-between"
+              className="p-6 sm:p-8 rounded-3xl border border-border bg-surface shadow-card hover:shadow-layered transition-all duration-300 space-y-5 flex flex-col justify-between group"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="p-2.5 rounded-xl bg-surface-muted border border-border">
+                  <div className="p-3 rounded-2xl bg-surface-muted border border-border group-hover:scale-105 transition-transform duration-200">
                     {step.icon}
                   </div>
                   <span className="font-mono text-xs font-bold text-muted-foreground">
-                    STEP {step.number}
+                    PHASE {step.number}
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-foreground tracking-tight">
+                  <h3 className="font-display text-lg font-bold text-foreground tracking-tight">
                     {step.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">

@@ -1,102 +1,133 @@
 import React from "react";
-import { Clock, CheckCircle2 } from "lucide-react";
+import { Clock, CheckCircle2, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 
 export function HowToGetStartedSection() {
   const steps = [
     {
       number: "01",
-      title: "Enquiry & Project Goals",
+      title: "Enquiry",
       description:
-        "Submit your enquiry outlining your business objectives, target audience, preferred timeline, and any existing digital bottlenecks.",
+        "Submit your initial enquiry outlining your business objectives, target audience, preferred timeline, and any current digital challenges.",
     },
     {
       number: "02",
-      title: "Discovery & Scope Definition",
+      title: "Discovery",
       description:
-        "We discuss technical specifications, system architecture, and provide a clear, itemized proposal with transparent budgets and deliverables.",
+        "We discuss technical requirements, evaluate your current assets, and clarify whether your project fits standard website scope or custom engineering.",
     },
     {
       number: "03",
-      title: "Content & Asset Collection",
+      title: "Proposal & Scope",
       description:
-        "You supply your logo, high-resolution imagery, approved text, and third-party account details guided by our simple onboarding checklist.",
+        "You receive an itemized, transparent proposal detailing deliverables, milestone schedules, commercial terms, and scope boundaries.",
     },
     {
       number: "04",
-      title: "Accessible Design & Prototyping",
+      title: "Content & Access Collection",
       description:
-        "We design mobile-first, responsive layouts adhering to WCAG AA accessibility standards for your review and directional sign-off.",
+        "We collect your brand logos, approved copy, high-resolution imagery, and DNS/domain access guided by our straightforward onboarding checklist.",
     },
     {
       number: "05",
-      title: "Engineering & Rigorous QA",
+      title: "Design",
       description:
-        "We develop the platform with clean semantic code, automated testing, Core Web Vitals optimizations, and end-to-end security audits.",
+        "We design mobile-first layouts focused on plain-language readability, visual hierarchy, user trust, and WCAG AA contrast compliance.",
     },
     {
       number: "06",
-      title: "Production Handover & Training",
+      title: "Development",
       description:
-        "We launch your platform, verify DNS/TLS certificates, deliver staff training, and hand over complete administrative credentials and code access.",
+        "We engineer the platform using modern frameworks, semantic HTML5, pre-rendered routes, Core Web Vitals optimizations, and end-to-end security audits.",
+    },
+    {
+      number: "07",
+      title: "Review & Testing",
+      description:
+        "We conduct rigorous cross-viewport verification across 320px to 1440px+, review staged pages with your team, and refine copy before public release.",
+    },
+    {
+      number: "08",
+      title: "Launch & Handover",
+      description:
+        "We deploy to production, verify DNS/TLS certificates, deliver staff training, and hand over complete repository and administrative access.",
     },
   ];
 
   return (
     <Section spacing="lg" variant="subtle" id="how-to-get-started">
       <Container size="lg">
-        <div className="max-w-3xl mb-12 sm:mb-16">
-          <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
-            Predictable Process
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-            How to Get Started
-          </h2>
-          <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
-            A clear, predictable roadmap from initial conversation to operational handover.
-          </p>
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+          <div className="max-w-2xl">
+            <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
+              Predictable Roadmap
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
+              How to Get Started
+            </h2>
+            <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
+              An eight-step engineering roadmap from initial conversation to production launch and complete client handover.
+            </p>
+          </div>
+
+          <Link href="/contact" className="self-start md:self-auto">
+            <Button variant="primary" size="sm" rightIcon={<ArrowRight className="h-4 w-4" />}>
+              Start with Step 01
+            </Button>
+          </Link>
         </div>
 
-        {/* 6-Step Timeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* 8-Step Timeline Grid (4 cols on desktop, 2 on tablet, 1 on mobile) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step) => (
             <div
               key={step.number}
-              className="p-6 sm:p-8 rounded-2xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 transition-all duration-200"
+              className="relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-200"
             >
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl font-black text-primary font-mono">
-                  {step.number}
-                </span>
-                <CheckCircle2 className="h-5 w-5 text-primary/40" aria-hidden="true" />
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-black text-primary font-mono tracking-tight">
+                    {step.number}
+                  </span>
+                  <CheckCircle2 className="h-4 w-4 text-primary/30" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
+                  {step.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-              <h3 className="text-lg font-bold text-foreground tracking-tight mb-2">
-                {step.title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {step.description}
-              </p>
             </div>
           ))}
         </div>
 
-        {/* Duration & Expectation Callout (TDD Sheet 043) */}
-        <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-surface border border-primary/20 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        {/* Duration & Delivery Qualifications (TDD Sheet 043) */}
+        <div className="mt-12 p-7 sm:p-8 rounded-3xl bg-surface border border-primary/20 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-subtle text-primary border border-primary/20">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
               <Clock className="h-6 w-6" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-base font-bold text-foreground">
-                Typical Standard Project Duration: 2 to 6 Weeks
+              <h4 className="text-base font-bold text-foreground font-display">
+                Indicative Standard Website Timeline: Approximately 2 to 6 Weeks
               </h4>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
-                Delivery timelines depend on scope complexity, feedback turnaround speed, and content readiness. We provide a guaranteed milestone schedule upon scope confirmation.
+                Delivery estimates apply specifically to standard multi-page websites. Actual turnaround depends on scope complexity, timely feedback, and content readiness. Web applications and mobile apps are scheduled according to architectural specifications.
               </p>
             </div>
           </div>
+
+          <Link href="/contact" className="w-full sm:w-auto shrink-0">
+            <Button variant="secondary" size="sm" className="w-full sm:w-auto">
+              Request Project Timeline
+            </Button>
+          </Link>
         </div>
       </Container>
     </Section>

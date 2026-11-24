@@ -48,7 +48,7 @@ export default async function PortfolioCatalogPage() {
           <PortfolioFilterGrid initialProjects={projectsList} />
 
           {/* Compliance & Client Integrity Note */}
-          <div className="mt-16 p-6 rounded-2xl bg-surface-muted border border-border flex items-start gap-4 text-xs text-muted-foreground">
+          <div className="mt-16 p-6 rounded-3xl bg-surface-muted/70 border border-border flex items-start gap-4 text-xs text-muted-foreground shadow-card">
             <ShieldAlert className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <strong className="text-foreground font-semibold">

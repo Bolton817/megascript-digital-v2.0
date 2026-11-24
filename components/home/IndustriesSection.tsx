@@ -1,94 +1,171 @@
 import React from "react";
 import {
-  ShoppingBag,
-  Compass,
-  Building2,
-  Stethoscope,
-  GraduationCap,
-  Briefcase,
+  Store,
+  Building,
   HeartHandshake,
   Palette,
+  Cpu,
+  ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
 
 export function IndustriesSection() {
-  const industries = [
+  const audiences = [
     {
-      icon: <ShoppingBag className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Retail & E-Commerce",
-      description: "Direct-to-consumer catalogs, inventory tracking, and automated M-Pesa & card checkouts.",
+      id: "sme",
+      icon: <Store className="h-6 w-6 text-primary" />,
+      title: "Small & Medium Businesses",
+      tagline: "Commercial Credibility & Lead Capture",
+      description:
+        "Growing companies that need a credible, high-speed digital presence to clearly explain their services, capture qualified customer enquiries, and compete with established competitors.",
+      deliverables: [
+        "Fast, responsive multi-page corporate websites",
+        "Direct WhatsApp and phone lead pathways",
+        "100% direct domain and codebase ownership",
+        "Predictable 2–6 week project delivery",
+      ],
     },
     {
-      icon: <Compass className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Tourism & Hospitality",
-      description: "Safari itinerary builders, lodge showcases, and international booking enquiry systems.",
+      id: "corporate",
+      icon: <Building className="h-6 w-6 text-primary" />,
+      title: "Established Companies & Regional Brands",
+      tagline: "Operational Dashboards & Systems Modernization",
+      description:
+        "Enterprises seeking to modernize legacy interfaces, automate repetitive paper workflows, and deploy secure internal tools that scale with their teams.",
+      deliverables: [
+        "Custom browser-based web applications",
+        "Role-based staff and client portals (RBAC)",
+        "PostgreSQL relational data architectures",
+        "Immutable audit trails and security controls",
+      ],
     },
     {
-      icon: <Building2 className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Real Estate & Property",
-      description: "Verified property listings, tenant portals, and automated maintenance request workflows.",
+      id: "institutions",
+      icon: <HeartHandshake className="h-6 w-6 text-primary" />,
+      title: "Institutions & Non-Profit Organisations",
+      tagline: "Stakeholder Transparency & Program Outreach",
+      description:
+        "Mission-driven organizations requiring clear program presentation, accessible public reporting, and streamlined outreach to donors and community partners.",
+      deliverables: [
+        "Public program platforms and initiative hubs",
+        "Transparent stakeholder and impact reporting",
+        "WCAG AA accessible contrast and typography",
+        "Intuitive team publishing workflows",
+      ],
     },
     {
-      icon: <Stethoscope className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Healthcare & Clinics",
-      description: "Patient appointment booking, specialist credentials, and high-trust medical practice sites.",
+      id: "agencies",
+      icon: <Palette className="h-6 w-6 text-primary" />,
+      title: "Agencies & Creative Professionals",
+      tagline: "Technical Engineering & Execution Partner",
+      description:
+        "Design studios, marketing consultants, and creative professionals who need a dependable software engineering partner to execute complex client projects flawlessly.",
+      deliverables: [
+        "Clean, type-safe Next.js implementation",
+        "Core Web Vitals performance guarantees",
+        "Custom interactive layouts and micro-motion",
+        "White-glove technical handover",
+      ],
     },
     {
-      icon: <GraduationCap className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Education & Academies",
-      description: "Curriculum catalogs, student enrolment pipelines, and institutional resource portals.",
-    },
-    {
-      icon: <Briefcase className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Financial & Advisory",
-      description: "Corporate positioning, institutional authority, and compliant business enquiry capture.",
-    },
-    {
-      icon: <HeartHandshake className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "NGOs & Non-Profits",
-      description: "Transparent donor reporting, field impact storytelling, and community initiative hubs.",
-    },
-    {
-      icon: <Palette className="h-5 w-5 text-primary" aria-hidden="true" />,
-      title: "Events & Creative",
-      description: "Visual portfolio showcases, ticket reservation flows, and high-impact media production.",
+      id: "custom",
+      icon: <Cpu className="h-6 w-6 text-accent" />,
+      title: "Organisations Requiring Custom Digital Systems",
+      tagline: "Bespoke Business Logic & Localized Workflows",
+      description:
+        "Businesses outgrowing generic SaaS templates or scattered spreadsheets who require tailored software tailored to local East African operating realities.",
+      deliverables: [
+        "Localized M-Pesa Daraja payment workflows",
+        "Rental management and tenant ledgers (LeaseFlow)",
+        "Counter point-of-sale systems (UzaDigital)",
+        "Dedicated creator schedules (FM Scheduler)",
+      ],
     },
   ];
 
   return (
-    <Section spacing="lg" variant="default" id="industries">
+    <Section spacing="lg" variant="default" id="who-we-work-with">
       <Container size="lg">
+        {/* Section Header */}
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
-            Sector Expertise
+            Partner Profiles
           </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
             Who We Work With
           </h2>
           <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Tailored engineering for ambitious East African businesses, growing regional brands, and mission-driven institutions.
+            We partner with businesses, regional enterprises, and institutions that value clear communication, software reliability, and long-term asset ownership.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {industries.map((ind) => (
-            <div
-              key={ind.title}
-              className="p-5 sm:p-6 rounded-2xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:bg-surface-subtle transition-all duration-200"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-subtle border border-primary/20 mb-4">
-                {ind.icon}
+        {/* 5-Audience Structured Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {audiences.map((aud, index) => {
+            const isFeaturedCustom = aud.id === "custom";
+            return (
+              <div
+                key={aud.id}
+                className={`flex flex-col justify-between p-7 rounded-3xl border transition-all duration-200 ${
+                  isFeaturedCustom
+                    ? "md:col-span-2 lg:col-span-2 bg-gradient-to-br from-surface to-surface-muted/60 border-primary/30 shadow-card"
+                    : "bg-surface border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card"
+                }`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
+                      {aud.icon}
+                    </div>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      0{index + 1}_SECTOR
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground tracking-tight font-display">
+                      {aud.title}
+                    </h3>
+                    <p className="text-xs font-semibold text-primary mt-0.5">
+                      {aud.tagline}
+                    </p>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    {aud.description}
+                  </p>
+
+                  <div className="pt-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-foreground block mb-2">
+                      Typical Delivered Focus:
+                    </span>
+                    <ul className={`grid gap-2 text-xs text-foreground/85 ${isFeaturedCustom ? "sm:grid-cols-2" : "grid-cols-1"}`}>
+                      {aud.deliverables.map((del) => (
+                        <li key={del} className="flex items-center gap-2">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                          <span>{del}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="pt-6 mt-6 border-t border-surface-border">
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center text-xs sm:text-sm font-semibold text-primary hover:text-primary-hover gap-1.5 transition-colors group"
+                  >
+                    <span>Discuss Your Requirements</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-foreground tracking-tight">
-                {ind.title}
-              </h3>
-              <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                {ind.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </Section>

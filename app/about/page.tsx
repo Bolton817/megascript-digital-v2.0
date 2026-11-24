@@ -37,9 +37,9 @@ export default function AboutPage() {
       {/* Conversion & Navigation CTA */}
       <Section spacing="lg" variant="default" className="border-t border-border">
         <Container size="lg">
-          <div className="rounded-3xl border border-border bg-surface-muted p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-xs">
+          <div className="rounded-3xl border border-border bg-surface-muted/70 p-8 sm:p-14 text-center space-y-6 max-w-4xl mx-auto shadow-card">
             <div className="space-y-3 max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+              <h2 className="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
                 Ready to Build With Clarity?
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">

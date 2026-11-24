@@ -80,7 +80,7 @@ export function FeaturedPortfolioSection() {
             <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
               Demonstrated Proof
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
               Featured Client Engagements
             </h2>
             <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
@@ -114,7 +114,7 @@ export function FeaturedPortfolioSection() {
                     toggleOverlay(project.slug);
                   }
                 }}
-                className="group relative min-h-[300px] sm:min-h-[320px] rounded-3xl bg-surface border border-surface-border p-8 flex flex-col justify-between overflow-hidden shadow-xs hover:border-primary/50 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="group relative min-h-[300px] sm:min-h-[320px] rounded-3xl bg-surface border border-surface-border p-8 flex flex-col justify-between overflow-hidden shadow-xs hover:border-primary/50 hover:shadow-card transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 {/* Default State: Clean Typographic Brand Mark & Industry */}
                 <div className="space-y-4">
@@ -129,10 +129,10 @@ export function FeaturedPortfolioSection() {
 
                   <div className="pt-8">
                     {/* Branded Logo Monogram */}
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-subtle text-primary font-black text-2xl tracking-wider border border-primary/20 shadow-xs mb-4">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-subtle text-primary font-black font-mono text-2xl tracking-wider border border-primary/20 shadow-xs mb-4">
                       {project.monogram}
                     </div>
-                    <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
+                    <h3 className="text-2xl font-extrabold text-foreground tracking-tight font-display">
                       {project.name}
                     </h3>
                   </div>

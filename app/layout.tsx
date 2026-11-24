@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
+import { AppearanceCustomizer } from "@/components/layout/AppearanceCustomizer";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -64,6 +65,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var t = localStorage.getItem('megascript_theme');
+                if (t === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else if (t === 'light') {
+                  document.documentElement.classList.remove('dark');
+                }
+                var m = localStorage.getItem('megascript_motion');
+                if (m) document.documentElement.setAttribute('data-motion', m);
+                var s = localStorage.getItem('megascript_text_size');
+                if (s) document.documentElement.setAttribute('data-text-size', s);
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary`}>
         <ThemeProvider>
           <PublicHeader />
@@ -71,6 +92,7 @@ export default function RootLayout({
             {children}
           </div>
           <PublicFooter />
+          <AppearanceCustomizer />
         </ThemeProvider>
       </body>
     </html>

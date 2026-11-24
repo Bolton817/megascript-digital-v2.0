@@ -14,6 +14,7 @@ import {
   MapPin,
   TrendingUp,
   ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -43,13 +44,14 @@ export default function ServicesCatalogPage() {
   return (
     <main id="main-content" className="min-h-screen pt-28 pb-16 sm:pt-36 sm:pb-24">
       {/* Header */}
-      <section className="pb-12 sm:pb-16 border-b border-border">
+      <section className="pb-12 sm:pb-16 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
         <Container size="lg">
           <div className="max-w-3xl space-y-4">
-            <Badge variant="outline" className="text-xs uppercase tracking-wider font-bold">
-              Full Service Capabilities
-            </Badge>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Full Engineering &amp; Creative Capabilities</span>
+            </div>
+            <h1 className="font-display text-3xl sm:text-5xl font-black tracking-tight text-foreground">
               Services &amp; Digital Engineering
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
@@ -62,11 +64,11 @@ export default function ServicesCatalogPage() {
       {/* Core Engineering Services */}
       <Section spacing="lg" variant="default" id="core-services">
         <Container size="lg">
-          <div className="max-w-3xl mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-primary">
-              Foundation
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-primary">
+              System Foundations
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground mt-1">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground mt-1">
               Core Engineering Services
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground mt-2">
@@ -78,13 +80,13 @@ export default function ServicesCatalogPage() {
             {coreServices.map((service) => (
               <div
                 key={service.slug}
-                className="flex flex-col justify-between p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-sm hover:border-primary/40 hover:shadow-md transition-all duration-200"
+                className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-layered transition-all duration-300 group"
               >
                 <div className="space-y-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 group-hover:scale-105 transition-transform duration-200">
                     {iconMap[service.slug]}
                   </div>
-                  <h3 className="text-xl font-bold text-foreground tracking-tight">
+                  <h3 className="font-display text-xl font-bold text-foreground tracking-tight">
                     {service.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -110,11 +112,11 @@ export default function ServicesCatalogPage() {
       {/* Complementary Growth Services */}
       <Section spacing="lg" variant="subtle" id="complementary-services">
         <Container size="lg">
-          <div className="max-w-3xl mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              Visibility &amp; Brand
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+              Visibility &amp; Creative Brand
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground mt-1">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground mt-1">
               Complementary Growth Services
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground mt-2">
@@ -126,13 +128,13 @@ export default function ServicesCatalogPage() {
             {complementaryServices.map((service) => (
               <div
                 key={service.slug}
-                className="flex flex-col justify-between p-5 sm:p-6 rounded-2xl border border-border bg-surface shadow-sm hover:border-amber-500/40 transition-all duration-200"
+                className="flex flex-col justify-between p-6 rounded-3xl border border-border bg-surface shadow-card hover:border-amber-500/40 hover:shadow-layered transition-all duration-300 group"
               >
                 <div className="space-y-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10 border border-amber-500/20">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 group-hover:scale-105 transition-transform duration-200">
                     {iconMap[service.slug]}
                   </div>
-                  <h3 className="text-base font-bold text-foreground tracking-tight">
+                  <h3 className="font-display text-base font-bold text-foreground tracking-tight">
                     {service.name}
                   </h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">

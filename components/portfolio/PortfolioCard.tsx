@@ -10,28 +10,28 @@ interface PortfolioCardProps {
 
 export function PortfolioCard({ project }: PortfolioCardProps) {
   return (
-    <div className="flex flex-col justify-between p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-xs hover:border-primary/40 hover:shadow-md transition-all duration-200">
+    <div className="flex flex-col justify-between p-6 sm:p-8 rounded-3xl border border-border bg-surface shadow-card hover:border-primary/40 hover:shadow-layered transition-all duration-300 group">
       <div className="space-y-5">
         {/* Top Header: Monogram Avatar & Sector Badge */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center font-black font-mono text-sm tracking-wider">
+            <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center font-black font-mono text-sm tracking-wider group-hover:scale-105 transition-transform duration-200">
               {project.monogram}
             </div>
             {project.isFeatured && (
-              <Badge variant="primary" size="sm" className="text-[10px] uppercase font-bold">
+              <Badge variant="primary" size="sm" className="text-[10px] uppercase font-mono font-bold">
                 Featured
               </Badge>
             )}
           </div>
-          <Badge variant="outline" size="sm" className="text-xs font-medium text-muted-foreground">
+          <Badge variant="outline" size="sm" className="text-xs font-mono font-medium text-muted-foreground">
             {project.industry}
           </Badge>
         </div>
 
         {/* Client Title & Description */}
         <div className="space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
             {project.businessName}
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -40,8 +40,8 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
         </div>
 
         {/* Delivered Scope Box */}
-        <div className="p-4 rounded-xl bg-surface-muted border border-border space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-foreground block">
+        <div className="p-4 rounded-2xl bg-surface-muted/70 border border-border space-y-1.5">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-foreground block">
             Delivered Scope:
           </span>
           <p className="text-xs text-muted-foreground leading-relaxed">
@@ -65,7 +65,7 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
             href={project.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-xs font-medium text-muted-foreground hover:text-foreground gap-1 px-2.5 py-1 rounded-lg border border-border bg-surface hover:bg-surface-muted transition-colors"
+            className="inline-flex items-center text-xs font-medium text-muted-foreground hover:text-foreground gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-surface hover:bg-surface-muted transition-colors"
           >
             <span>Live Site</span>
             <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
