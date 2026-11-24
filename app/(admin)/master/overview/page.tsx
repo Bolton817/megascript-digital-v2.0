@@ -25,11 +25,18 @@ export default function MasterOverviewPage() {
             </div>
           </div>
 
-          <Link href="/master/login">
-            <Button variant="outline" size="sm">
-              Sign Out
-            </Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/master/content">
+              <Button variant="primary" size="sm">
+                Content Hub
+              </Button>
+            </Link>
+            <Link href="/master/login">
+              <Button variant="outline" size="sm">
+                Sign Out
+              </Button>
+            </Link>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
