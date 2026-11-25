@@ -88,6 +88,8 @@ export async function hasAnyPermission(userId: string, permissionKeys: string[])
   return permissionKeys.some((k) => info.permissions.has(k));
 }
 
+import { redirect } from "next/navigation";
+
 export class UnauthorizedError extends Error {
   constructor(message = "Unauthorized: Active authenticated session required") {
     super(message);
@@ -126,6 +128,25 @@ export async function requireAuth(options: { isQualifyingActivity?: boolean } = 
 }
 
 /**
+ * Server page guard: Validates that the caller has an active session, redirecting to login if missing.
+ */
+export async function requireAuthOrRedirect(
+  redirectTo = "/master/login",
+  options: { isQualifyingActivity?: boolean } = {}
+) {
+  const result = await getSessionFromRequestCookies(options);
+
+  if (!result.valid || !result.user || !result.session) {
+    redirect(redirectTo);
+  }
+
+  return {
+    session: result.session,
+    user: result.user,
+  };
+}
+
+/**
  * Server guard: Validates session and checks that the user possesses the required permission key.
  * Logs an audit event if the request is forbidden.
  */
@@ -147,6 +168,39 @@ export async function requirePermission(permissionKey: string, options: { isQual
     });
 
     throw new ForbiddenError(permissionKey);
+  }
+
+  return {
+    session,
+    user,
+  };
+}
+
+/**
+ * Server page guard: Validates session and permission, redirecting to login or forbidden page if missing.
+ */
+export async function requirePermissionOrRedirect(
+  permissionKey: string,
+  redirectTo = "/master/login",
+  options: { isQualifyingActivity?: boolean } = {}
+) {
+  const { session, user } = await requireAuthOrRedirect(redirectTo, options);
+
+  const allowed = await hasPermission(user.id, permissionKey);
+
+  if (!allowed) {
+    await logAuditEvent({
+      actorId: user.id,
+      action: "UNAUTHORIZED_ACCESS_ATTEMPT",
+      targetType: "RBAC_PERMISSION",
+      targetId: permissionKey,
+      metadata: {
+        userEmail: user.email,
+        missingPermission: permissionKey,
+      },
+    });
+
+    redirect(redirectTo);
   }
 
   return {
