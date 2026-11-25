@@ -87,26 +87,52 @@ export async function createLead(input: ContactEnquiryInput) {
       },
     });
 
-    // 3. Create UTM Attribution if any UTM or referrer data was passed
-    if (
+    // 3. Create UTM Attribution if any UTM, first-touch, last-touch or referrer data was passed
+    const hasAttribution = Boolean(
       input.utmSource ||
       input.utmMedium ||
       input.utmCampaign ||
       input.utmTerm ||
       input.utmContent ||
       input.referrer ||
-      input.landingPage
-    ) {
+      input.landingPage ||
+      input.firstTouchSource ||
+      input.lastTouchSource
+    );
+
+    if (hasAttribution) {
+      const now = new Date();
       await tx.uTMAttribution.create({
         data: {
           leadId: lead.id,
-          utmSource: input.utmSource || null,
-          utmMedium: input.utmMedium || null,
-          utmCampaign: input.utmCampaign || null,
-          utmTerm: input.utmTerm || null,
-          utmContent: input.utmContent || null,
-          referrer: input.referrer || null,
-          landingPath: input.landingPage || null,
+          // Primary / Consolidated attribution
+          utmSource: input.utmSource || input.lastTouchSource || input.firstTouchSource || null,
+          utmMedium: input.utmMedium || input.lastTouchMedium || input.firstTouchMedium || null,
+          utmCampaign: input.utmCampaign || input.lastTouchCampaign || input.firstTouchCampaign || null,
+          utmTerm: input.utmTerm || input.lastTouchTerm || input.firstTouchTerm || null,
+          utmContent: input.utmContent || input.lastTouchContent || input.firstTouchContent || null,
+          referrer: input.referrer || input.lastTouchReferrer || input.firstTouchReferrer || null,
+          landingPath: input.landingPage || input.lastTouchLanding || input.firstTouchLanding || null,
+
+          // First-touch attribution (Sheet 073)
+          firstTouchSource: input.firstTouchSource || input.utmSource || null,
+          firstTouchMedium: input.firstTouchMedium || input.utmMedium || null,
+          firstTouchCampaign: input.firstTouchCampaign || input.utmCampaign || null,
+          firstTouchTerm: input.firstTouchTerm || input.utmTerm || null,
+          firstTouchContent: input.firstTouchContent || input.utmContent || null,
+          firstTouchReferrer: input.firstTouchReferrer || input.referrer || null,
+          firstTouchLanding: input.firstTouchLanding || input.landingPage || null,
+          firstTouchTimestamp: input.firstTouchTimestamp ? new Date(input.firstTouchTimestamp) : now,
+
+          // Last-touch attribution (Sheet 073)
+          lastTouchSource: input.lastTouchSource || input.utmSource || null,
+          lastTouchMedium: input.lastTouchMedium || input.utmMedium || null,
+          lastTouchCampaign: input.lastTouchCampaign || input.utmCampaign || null,
+          lastTouchTerm: input.lastTouchTerm || input.utmTerm || null,
+          lastTouchContent: input.lastTouchContent || input.utmContent || null,
+          lastTouchReferrer: input.lastTouchReferrer || input.referrer || null,
+          lastTouchLanding: input.lastTouchLanding || input.landingPage || null,
+          lastTouchTimestamp: input.lastTouchTimestamp ? new Date(input.lastTouchTimestamp) : now,
         },
       });
     }

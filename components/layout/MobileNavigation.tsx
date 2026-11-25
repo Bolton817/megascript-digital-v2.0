@@ -7,8 +7,13 @@ import { MEGA_MENUS } from "@/config/navigation";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useTheme } from "@/components/providers/ThemeProvider";
+import { SearchBarTrigger } from "@/components/search/SearchBarTrigger";
 
-export function MobileNavigation() {
+interface MobileNavigationProps {
+  onOpenSearch?: () => void;
+}
+
+export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
@@ -110,6 +115,19 @@ export function MobileNavigation() {
             ref={drawerRef}
             className="flex-1 overflow-y-auto px-6 py-6 space-y-4 text-left"
           >
+            {/* Quick Mobile Search Trigger */}
+            {onOpenSearch && (
+              <div className="pb-2 border-b border-surface-border/50">
+                <SearchBarTrigger
+                  variant="mobile"
+                  onOpen={() => {
+                    closeMenu();
+                    onOpenSearch();
+                  }}
+                />
+              </div>
+            )}
+
             {/* Direct Home Link */}
             <Link
               href="/"

@@ -13,6 +13,7 @@ import {
   Send,
   RefreshCw,
 } from "lucide-react";
+import { getStoredAttribution } from "@/lib/analytics/utm";
 
 interface FormValues {
   name: string;
@@ -138,6 +139,8 @@ function ContactFormInner({ className = "" }: { className?: string }) {
     }
 
     try {
+      const { firstTouch, lastTouch } = getStoredAttribution();
+
       const payload = {
         name: values.name,
         email: values.email,
@@ -148,7 +151,35 @@ function ContactFormInner({ className = "" }: { className?: string }) {
         honeypot: values.honeypot,
         timestamp,
         idempotencyKey,
-        ...utmData,
+
+        // Primary UTMs (fallback to stored if not currently in URL)
+        utmSource: utmData.utmSource || lastTouch?.source || firstTouch?.source,
+        utmMedium: utmData.utmMedium || lastTouch?.medium || firstTouch?.medium,
+        utmCampaign: utmData.utmCampaign || lastTouch?.campaign || firstTouch?.campaign,
+        utmTerm: utmData.utmTerm || lastTouch?.term || firstTouch?.term,
+        utmContent: utmData.utmContent || lastTouch?.content || firstTouch?.content,
+        referrer: utmData.referrer || lastTouch?.referrer || firstTouch?.referrer,
+        landingPage: firstTouch?.landingPath || utmData.landingPage || (typeof window !== "undefined" ? window.location.pathname : undefined),
+
+        // First-touch attribution (Sheet 073)
+        firstTouchSource: firstTouch?.source || utmData.utmSource,
+        firstTouchMedium: firstTouch?.medium || utmData.utmMedium,
+        firstTouchCampaign: firstTouch?.campaign || utmData.utmCampaign,
+        firstTouchTerm: firstTouch?.term || utmData.utmTerm,
+        firstTouchContent: firstTouch?.content || utmData.utmContent,
+        firstTouchReferrer: firstTouch?.referrer || utmData.referrer,
+        firstTouchLanding: firstTouch?.landingPath || utmData.landingPage,
+        firstTouchTimestamp: firstTouch?.timestamp,
+
+        // Last-touch attribution (Sheet 073)
+        lastTouchSource: lastTouch?.source || utmData.utmSource,
+        lastTouchMedium: lastTouch?.medium || utmData.utmMedium,
+        lastTouchCampaign: lastTouch?.campaign || utmData.utmCampaign,
+        lastTouchTerm: lastTouch?.term || utmData.utmTerm,
+        lastTouchContent: lastTouch?.content || utmData.utmContent,
+        lastTouchReferrer: lastTouch?.referrer || utmData.referrer,
+        lastTouchLanding: lastTouch?.landingPath || utmData.landingPage,
+        lastTouchTimestamp: lastTouch?.timestamp,
       };
 
       const res = await fetch("/api/contact", {

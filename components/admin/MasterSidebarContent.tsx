@@ -20,6 +20,7 @@ import {
   LogOut,
   ChevronRight,
   Cpu,
+  BarChart3,
 } from "lucide-react";
 import { authClient } from "@/features/auth/client";
 
@@ -41,10 +42,15 @@ const navGroups: NavGroup[] = [
     groupName: "Executive",
     items: [
       {
-        label: "Overview & Analytics",
+        label: "Operations Overview",
         href: "/master/overview",
         icon: LayoutDashboard,
         exact: true,
+      },
+      {
+        label: "Traffic & Lead Analytics",
+        href: "/master/analytics",
+        icon: BarChart3,
       },
     ],
   },

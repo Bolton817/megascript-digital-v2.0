@@ -13,10 +13,13 @@ import { MobileNavigation } from "./MobileNavigation";
 import { Button } from "@/components/ui/Button";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { Sun, Moon } from "lucide-react";
+import { SearchBarTrigger } from "@/components/search/SearchBarTrigger";
+import { SearchDialog } from "@/components/search/SearchDialog";
 
 export function PublicHeader() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   if (pathname?.startsWith("/master")) {
@@ -98,8 +101,10 @@ export function PublicHeader() {
               />
             </div>
 
-            {/* Right Action: Theme toggle, Contact Button & Mobile Trigger */}
+            {/* Right Action: Search Trigger, Theme toggle, Contact Button & Mobile Trigger */}
             <div className="flex items-center gap-1.5 sm:gap-2">
+              <SearchBarTrigger onOpen={() => setIsSearchOpen(true)} />
+
               <button
                 type="button"
                 onClick={toggleTheme}
@@ -121,11 +126,14 @@ export function PublicHeader() {
               </Link>
 
               {/* Mobile Menu Drawer */}
-              <MobileNavigation />
+              <MobileNavigation onOpenSearch={() => setIsSearchOpen(true)} />
             </div>
           </nav>
         </div>
       </header>
+
+      {/* Global Accessible Search Command Palette */}
+      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }

@@ -66,7 +66,7 @@ export const contactEnquirySchema = z.object({
   // Idempotency token to guard against accidental double submissions
   idempotencyKey: z.string().optional(),
 
-  // Source attribution fields
+  // Source attribution fields (Sheet 073 & 121)
   utmSource: z.string().max(100).optional(),
   utmMedium: z.string().max(100).optional(),
   utmCampaign: z.string().max(100).optional(),
@@ -74,6 +74,26 @@ export const contactEnquirySchema = z.object({
   utmContent: z.string().max(100).optional(),
   referrer: z.string().max(500).optional(),
   landingPage: z.string().max(500).optional(),
+
+  // First-touch attribution
+  firstTouchSource: z.string().max(100).optional(),
+  firstTouchMedium: z.string().max(100).optional(),
+  firstTouchCampaign: z.string().max(100).optional(),
+  firstTouchTerm: z.string().max(100).optional(),
+  firstTouchContent: z.string().max(100).optional(),
+  firstTouchReferrer: z.string().max(500).optional(),
+  firstTouchLanding: z.string().max(500).optional(),
+  firstTouchTimestamp: z.string().optional(),
+
+  // Last-touch attribution
+  lastTouchSource: z.string().max(100).optional(),
+  lastTouchMedium: z.string().max(100).optional(),
+  lastTouchCampaign: z.string().max(100).optional(),
+  lastTouchTerm: z.string().max(100).optional(),
+  lastTouchContent: z.string().max(100).optional(),
+  lastTouchReferrer: z.string().max(500).optional(),
+  lastTouchLanding: z.string().max(500).optional(),
+  lastTouchTimestamp: z.string().optional(),
 });
 
 export type ContactEnquiryInput = z.infer<typeof contactEnquirySchema>;

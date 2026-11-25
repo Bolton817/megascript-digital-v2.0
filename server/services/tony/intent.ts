@@ -239,6 +239,24 @@ export async function captureLeadFromChat(params: {
       },
     });
 
+    // 4. Create UTM Attribution for chat lead (Sheet 073 & 121)
+    await tx.uTMAttribution.create({
+      data: {
+        leadId: lead.id,
+        utmSource: "tony-chat",
+        utmMedium: "chat",
+        landingPath: route || "/chat",
+        firstTouchSource: "tony-chat",
+        firstTouchMedium: "chat",
+        firstTouchLanding: route || "/chat",
+        firstTouchTimestamp: new Date(),
+        lastTouchSource: "tony-chat",
+        lastTouchMedium: "chat",
+        lastTouchLanding: route || "/chat",
+        lastTouchTimestamp: new Date(),
+      },
+    });
+
     return lead;
   });
 

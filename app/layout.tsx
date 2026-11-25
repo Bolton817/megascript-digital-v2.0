@@ -6,6 +6,7 @@ import { PublicFooter } from "@/components/layout/PublicFooter";
 import { AppearanceCustomizer } from "@/components/layout/AppearanceCustomizer";
 import { CommunicationHub } from "@/components/layout/CommunicationHub";
 import { TonyWidget } from "@/components/tony/TonyWidget";
+import { UTMTracker } from "@/components/analytics/UTMTracker";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -90,6 +91,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary`}>
         <ThemeProvider>
           <PublicHeader />
+          <UTMTracker />
           <div id="main-content" className="flex-1">
             {children}
           </div>

@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { ExternalLink, Sparkles, ArrowRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/tracker";
 
 interface ProductOutboundCtaProps {
   productSlug: string;
@@ -27,12 +30,24 @@ export function ProductOutboundCta({
     outboundUrl.trim().length > 0 &&
     (outboundUrl.startsWith("http://") || outboundUrl.startsWith("https://"));
 
+  const handleOutboundClick = () => {
+    trackEvent("product_outbound_click", {
+      component: "ProductOutboundCta",
+      metadata: {
+        productSlug,
+        productName,
+        destination: outboundUrl,
+      },
+    });
+  };
+
   if (hasValidOutboundUrl) {
     return (
       <a
         href={outboundUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleOutboundClick}
         className={`inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm bg-primary text-white hover:bg-primary-hover ${
           size === "lg" ? "px-6 py-3.5 text-base gap-2.5" : "px-4 py-2 text-sm gap-2"
         } ${className}`}

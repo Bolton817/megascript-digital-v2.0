@@ -478,17 +478,40 @@ model LeadNote {
 }
 
 model UTMAttribution {
-  id          String   @id @default(cuid())
-  leadId      String   @unique
-  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  utmSource   String?
-  utmMedium   String?
-  utmCampaign String?
-  utmTerm     String?
-  utmContent  String?
-  referrer    String?
-  landingPath String?
-  createdAt   DateTime @default(now())
+  id                   String    @id @default(cuid())
+  leadId               String    @unique
+  lead                 Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  // Primary / Consolidated
+  utmSource            String?
+  utmMedium            String?
+  utmCampaign          String?
+  utmTerm              String?
+  utmContent           String?
+  referrer             String?
+  landingPath          String?
+
+  // First-Touch Attribution (Sheet 073)
+  firstTouchSource     String?
+  firstTouchMedium     String?
+  firstTouchCampaign   String?
+  firstTouchTerm       String?
+  firstTouchContent    String?
+  firstTouchReferrer   String?
+  firstTouchLanding    String?
+  firstTouchTimestamp  DateTime?
+
+  // Last-Touch Attribution (Sheet 073)
+  lastTouchSource      String?
+  lastTouchMedium      String?
+  lastTouchCampaign    String?
+  lastTouchTerm        String?
+  lastTouchContent     String?
+  lastTouchReferrer    String?
+  lastTouchLanding     String?
+  lastTouchTimestamp   DateTime?
+
+  createdAt            DateTime  @default(now())
 }
 
 enum SubscriberStatus {
@@ -675,12 +698,25 @@ model AnalyticsEvent {
   route         String
   component     String?
   sourceChannel String?
+  sessionId     String?
+  metadata      Json?
   consentGiven  Boolean  @default(false)
   createdAt     DateTime @default(now())
 
   @@index([eventName])
   @@index([route])
   @@index([createdAt])
+  @@index([sessionId])
+}
+
+model SearchQueryLog {
+  id          String   @id @default(cuid())
+  query       String
+  resultCount Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([query])
 }
 
 enum ConnectionStatus {
