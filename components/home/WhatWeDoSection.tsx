@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Globe,
@@ -12,10 +12,15 @@ import {
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
+import { CapabilityFlowConnector } from "@/components/visuals/CapabilityFlowConnector";
 import { useScrollAnimation } from "@/lib/motion/useScrollAnimation";
 import { motionPresets } from "@/lib/motion/presets";
+import { useAdaptiveRendering } from "@/lib/motion/useAdaptiveRendering";
 
 export function WhatWeDoSection() {
+  const { isFull } = useAdaptiveRendering();
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
   const sectionRef = useScrollAnimation((ctx) => {
     const cards = ctx.selector?.(".capability-card");
     const header = ctx.selector?.(".section-header");
@@ -33,7 +38,7 @@ export function WhatWeDoSection() {
       <div ref={sectionRef}>
         <Container size="lg">
           {/* Section Header */}
-          <div className="section-header max-w-3xl mb-12 sm:mb-16">
+          <div className="section-header max-w-3xl mb-10 sm:mb-12">
             <Badge
               variant="outline"
               className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5"
@@ -48,10 +53,21 @@ export function WhatWeDoSection() {
             </p>
           </div>
 
+          {/* Interconnected SVG Flow Bus (Desktop Only) */}
+          <CapabilityFlowConnector />
+
           {/* Varied 3-Capability Composition (Asymmetrical Layout) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch pt-2">
             {/* Card 1: Enterprise Website Development & SEO (Spans 7 cols on desktop) */}
-            <div className="capability-card lg:col-span-7 flex flex-col justify-between p-7 sm:p-9 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-200">
+            <div
+              onMouseEnter={() => setHoveredCard(1)}
+              onMouseLeave={() => setHoveredCard(null)}
+              className={`capability-card lg:col-span-7 flex flex-col justify-between p-7 sm:p-9 rounded-3xl bg-surface border border-surface-border shadow-xs transition-all duration-300 ${
+                isFull && hoveredCard === 1
+                  ? "border-primary/50 shadow-card -translate-y-1"
+                  : "hover:border-primary/40 hover:shadow-card"
+              }`}
+            >
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/25">
@@ -133,7 +149,15 @@ export function WhatWeDoSection() {
             {/* Cards 2 & 3: Web Apps & Mobile Apps (Spans 5 cols on desktop, stacked) */}
             <div className="lg:col-span-5 flex flex-col gap-6 sm:gap-8 justify-between">
               {/* Card 2: Custom Web Application Development */}
-              <div className="capability-card flex-1 flex flex-col justify-between p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-200">
+              <div
+                onMouseEnter={() => setHoveredCard(2)}
+                onMouseLeave={() => setHoveredCard(null)}
+                className={`capability-card flex-1 flex flex-col justify-between p-7 rounded-3xl bg-surface border border-surface-border shadow-xs transition-all duration-300 ${
+                  isFull && hoveredCard === 2
+                    ? "border-primary/50 shadow-card -translate-y-1"
+                    : "hover:border-primary/40 hover:shadow-card"
+                }`}
+              >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-subtle text-primary border border-primary/20">
@@ -178,7 +202,15 @@ export function WhatWeDoSection() {
               </div>
 
               {/* Card 3: Mobile Application Development */}
-              <div className="capability-card flex-1 flex flex-col justify-between p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-200">
+              <div
+                onMouseEnter={() => setHoveredCard(3)}
+                onMouseLeave={() => setHoveredCard(null)}
+                className={`capability-card flex-1 flex flex-col justify-between p-7 rounded-3xl bg-surface border border-surface-border shadow-xs transition-all duration-300 ${
+                  isFull && hoveredCard === 3
+                    ? "border-primary/50 shadow-card -translate-y-1"
+                    : "hover:border-primary/40 hover:shadow-card"
+                }`}
+              >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-subtle text-primary border border-primary/20">

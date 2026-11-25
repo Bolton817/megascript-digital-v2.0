@@ -90,7 +90,7 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
 
         {/* Dynamic Presentation: Live Testimonials Carousel OR Graceful Empty State */}
         {hasTestimonials && current ? (
-          <div className="relative rounded-3xl border border-surface-border bg-surface p-8 sm:p-14 shadow-card">
+          <div className="relative rounded-3xl border border-surface-border bg-surface p-8 sm:p-14 shadow-card transition-all duration-300">
             <div className="max-w-3xl mx-auto space-y-8">
               <Quote className="h-10 w-10 text-primary/30" aria-hidden="true" />
               
@@ -146,7 +146,7 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
         ) : (
           /* Graceful, Truthful Client Partnership Integrity Section */
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs space-y-4">
+            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-300 space-y-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
                 <Building2 className="h-6 w-6" />
               </div>
@@ -158,7 +158,7 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
               </p>
             </div>
 
-            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs space-y-4">
+            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-300 space-y-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
                 <CheckCircle2 className="h-6 w-6" />
               </div>
@@ -170,7 +170,7 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
               </p>
             </div>
 
-            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs space-y-4">
+            <div className="p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-300 space-y-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
                 <ShieldCheck className="h-6 w-6" />
               </div>

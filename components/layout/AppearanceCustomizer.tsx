@@ -10,6 +10,8 @@ import {
   RotateCcw,
   X,
   Sparkles,
+  Zap,
+  Gauge,
 } from "lucide-react";
 import { useTheme } from "@/components/providers/ThemeProvider";
 
@@ -19,6 +21,8 @@ export function AppearanceCustomizer() {
     setTheme,
     motion,
     setMotion,
+    visualQuality,
+    setVisualQuality,
     textSize,
     setTextSize,
     resetToDefaults,
@@ -67,13 +71,13 @@ export function AppearanceCustomizer() {
         aria-haspopup="dialog"
         aria-controls="appearance-customizer-panel"
         aria-label="Website appearance, motion, and accessibility settings"
-        title="Customization Settings (Theme, Font Size, Motion)"
+        title="Customization Settings (Theme, Font Size, Motion, Rendering)"
         className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-surface-border bg-surface/95 text-foreground shadow-card backdrop-blur-md transition-all duration-200 hover:scale-105 hover:border-primary/50 hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         <SlidersHorizontal className="h-5 w-5 text-primary transition-transform duration-200 group-hover:rotate-45" />
         <span className="sr-only">Appearance &amp; Accessibility Settings</span>
 
-        {(theme === "dark" || motion === "paused" || textSize !== "default") && (
+        {(theme === "dark" || motion === "paused" || visualQuality === "lightweight" || textSize !== "default") && (
           <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-accent ring-2 ring-surface" />
         )}
       </button>
@@ -145,7 +149,7 @@ export function AppearanceCustomizer() {
               </div>
             </div>
 
-            {/* 2. Motion / Animations */}
+            {/* 2. Motion / Animations (Master Pause) */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
@@ -185,7 +189,49 @@ export function AppearanceCustomizer() {
               </div>
             </div>
 
-            {/* 3. Font Size Customization */}
+            {/* 3. Rendering Quality (Adaptive vs Lightweight) */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
+                  Visual Rendering
+                </label>
+                <span className="text-[10px] text-muted-foreground">
+                  Adaptive 3D / SVG
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label="Visual quality selection">
+                <button
+                  type="button"
+                  onClick={() => setVisualQuality("auto")}
+                  aria-pressed={visualQuality === "auto"}
+                  className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold border transition-all ${
+                    visualQuality === "auto"
+                      ? "bg-primary-subtle text-primary border-primary/40 shadow-xs"
+                      : "bg-surface-subtle text-muted-foreground border-surface-border hover:bg-surface-muted hover:text-foreground"
+                  }`}
+                  title="Automatically adjusts between full 3D and lightweight SVG based on device performance"
+                >
+                  <Gauge className="h-3.5 w-3.5" />
+                  <span>Auto</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVisualQuality("lightweight")}
+                  aria-pressed={visualQuality === "lightweight"}
+                  className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold border transition-all ${
+                    visualQuality === "lightweight"
+                      ? "bg-primary-subtle text-primary border-primary/40 shadow-xs"
+                      : "bg-surface-subtle text-muted-foreground border-surface-border hover:bg-surface-muted hover:text-foreground"
+                  }`}
+                  title="Forces optimized high-contrast SVG and CSS vector visuals"
+                >
+                  <Zap className="h-3.5 w-3.5" />
+                  <span>Lightweight</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 4. Font Size Customization */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground block">
@@ -238,7 +284,7 @@ export function AppearanceCustomizer() {
               </div>
             </div>
 
-            {/* 4. Reset Action */}
+            {/* 5. Reset Action */}
             <div className="pt-2 border-t border-surface-border">
               <button
                 type="button"

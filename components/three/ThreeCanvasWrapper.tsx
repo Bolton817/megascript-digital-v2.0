@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useMotionPreference } from "@/lib/motion/useMotionPreference";
+import { useAdaptiveRendering } from "@/lib/motion/useAdaptiveRendering";
+import { isWebGLSupported } from "@/lib/motion/adaptive";
 
 interface ThreeCanvasWrapperProps {
   children: (props: { isVisible: boolean }) => React.ReactNode;
@@ -11,16 +12,7 @@ interface ThreeCanvasWrapperProps {
 }
 
 export function isWebGLAvailable(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const canvas = document.createElement("canvas");
-    return Boolean(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
-    );
-  } catch {
-    return false;
-  }
+  return isWebGLSupported();
 }
 
 export function ThreeCanvasWrapper({
@@ -29,16 +21,14 @@ export function ThreeCanvasWrapper({
   className = "",
   minHeight = "320px",
 }: ThreeCanvasWrapperProps) {
-  const shouldAnimate = useMotionPreference();
-  const [hasWebGL, setHasWebGL] = useState<boolean | null>(null);
+  const { isFull } = useAdaptiveRendering();
   const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setHasWebGL(isWebGLAvailable());
-  }, []);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (!containerRef.current || typeof IntersectionObserver === "undefined") return;
 
     const observer = new IntersectionObserver(
@@ -53,7 +43,11 @@ export function ThreeCanvasWrapper({
     return () => observer.disconnect();
   }, []);
 
-  if (hasWebGL === false || !shouldAnimate) {
+  const shouldAnimate = useAdaptiveRendering().isStatic === false;
+  const hasWebGL = isWebGLSupported();
+
+  // When WebGL is unavailable, motion is paused, before client mount, or Adaptive Mode is not full, immediately render fallback
+  if (!mounted || hasWebGL === false || !shouldAnimate || !isFull) {
     return (
       <div className={className} style={{ minHeight }}>
         {fallback}
@@ -63,7 +57,7 @@ export function ThreeCanvasWrapper({
 
   return (
     <div ref={containerRef} className={className} style={{ minHeight }}>
-      {hasWebGL ? children({ isVisible }) : fallback}
+      {children({ isVisible })}
     </div>
   );
 }

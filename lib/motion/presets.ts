@@ -54,6 +54,14 @@ export interface ScrollProgressOptions {
   onUpdate: (progress: number) => void;
 }
 
+export interface SvgPathDrawOptions {
+  trigger?: gsap.DOMTarget;
+  start?: string;
+  end?: string;
+  scrub?: boolean | number;
+  duration?: number;
+}
+
 export const motionPresets = {
   // 1. Reveal Preset: Clean upward fade entrance on scroll
   reveal(target: gsap.DOMTarget, options: RevealOptions = {}): gsap.core.Tween {
@@ -233,5 +241,68 @@ export const motionPresets = {
       end: "bottom bottom",
       onUpdate: (self) => onUpdate(self.progress),
     });
+  },
+
+  // 8. SVG Path Draw Preset (Stage 21.1 Signature Motion): Progressive stroke drawing
+  svgPathDraw(pathElement: SVGPathElement | SVGGeometryElement, options: SvgPathDrawOptions = {}): gsap.core.Tween {
+    registerGsapPlugins();
+    const {
+      trigger = pathElement,
+      start = "top 80%",
+      end = "bottom 20%",
+      scrub = 0.5,
+    } = options;
+
+    const length = pathElement.getTotalLength ? pathElement.getTotalLength() : 500;
+    gsap.set(pathElement, {
+      strokeDasharray: length,
+      strokeDashoffset: length,
+    });
+
+    return gsap.to(pathElement, {
+      strokeDashoffset: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: trigger as any,
+        start,
+        end,
+        scrub,
+      },
+    });
+  },
+
+  // 9. Magnetic CTA Interaction (Stage 21.1): Subtle cursor attraction for buttons
+  magnetic(element: HTMLElement, strength = 0.35) {
+    if (typeof window === "undefined" || !element) return () => {};
+
+    function handleMouseMove(e: MouseEvent) {
+      const rect = element.getBoundingClientRect();
+      const relX = e.clientX - (rect.left + rect.width / 2);
+      const relY = e.clientY - (rect.top + rect.height / 2);
+
+      gsap.to(element, {
+        x: relX * strength,
+        y: relY * strength,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+
+    function handleMouseLeave() {
+      gsap.to(element, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.4)",
+      });
+    }
+
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    };
   },
 };

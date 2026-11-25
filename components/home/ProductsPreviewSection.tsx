@@ -1,12 +1,28 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Key, ShoppingCart, CalendarClock, Server, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ShieldCheck, Key, ShoppingCart, CalendarClock, Server } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { useScrollAnimation } from "@/lib/motion/useScrollAnimation";
+import { motionPresets } from "@/lib/motion/presets";
 
 export function ProductsPreviewSection() {
+  const sectionRef = useScrollAnimation((ctx) => {
+    const cards = ctx.selector?.(".product-card");
+    const header = ctx.selector?.(".section-header");
+
+    if (header) {
+      motionPresets.reveal(header, { y: 20 });
+    }
+    if (cards && cards.length > 0) {
+      motionPresets.stagger(cards, { delay: 0.1, y: 24, stagger: 0.08 });
+    }
+  });
+
   const products = [
     {
       name: "Fortress",
@@ -56,96 +72,93 @@ export function ProductsPreviewSection() {
 
   return (
     <Section spacing="lg" variant="default" id="products">
-      <Container size="lg">
-        {/* Header with Title and Link */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
-          <div className="max-w-2xl">
-            <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
-              Proprietary Systems
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
-              Independent Software Solutions
-            </h2>
-            <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Specialized, standalone software platforms engineered to automate everyday business workflows and eliminate operational friction.
-            </p>
+      <div ref={sectionRef}>
+        <Container size="lg">
+          {/* Header with Title and Link */}
+          <div className="section-header flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+            <div className="max-w-2xl">
+              <Badge variant="outline" className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
+                Proprietary Systems
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
+                Independent Software Solutions
+              </h2>
+              <p className="mt-3 text-base sm:text-lg text-muted-foreground leading-relaxed">
+                Specialized, standalone software platforms engineered to automate everyday business workflows and eliminate operational friction.
+              </p>
+            </div>
+
+            <Link href="/products" className="self-start md:self-auto">
+              <Button variant="outline" size="sm" rightIcon={<ArrowRight className="h-4 w-4" />}>
+                View All 4 Products
+              </Button>
+            </Link>
           </div>
 
-          <Link href="/products" className="self-start md:self-auto">
-            <Button variant="outline" size="sm" rightIcon={<ArrowRight className="h-4 w-4" />}>
-              View All 4 Products
-            </Button>
-          </Link>
-        </div>
-
-        {/* 2x2 Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {products.map((product) => (
-            <div
-              key={product.slug}
-              className="flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-200"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
-                    {product.icon}
+          {/* 2x2 Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {products.map((product) => (
+              <div
+                key={product.slug}
+                className="product-card flex flex-col justify-between p-7 sm:p-8 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 hover:shadow-card transition-all duration-300"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
+                      {product.icon}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-xs font-medium text-muted-foreground">
+                        {product.badge}
+                      </Badge>
+                      <span className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
+                        <Server className="h-3 w-3" />
+                        Standalone
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-xs font-medium text-muted-foreground">
-                      {product.badge}
-                    </Badge>
-                    <span className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
-                      <Server className="h-3 w-3" />
-                      Standalone
+
+                  <div>
+                    <h3 className="text-2xl font-bold text-foreground font-display">
+                      {product.name}
+                    </h3>
+                    <p className="text-xs font-semibold text-primary mt-0.5">
+                      {product.tagline}
+                    </p>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    {product.description}
+                  </p>
+
+                  <div className="pt-2">
+                    <span className="text-[11px] font-mono text-muted-foreground block mb-1.5 uppercase font-bold">
+                      Built for: {product.targetUser}
                     </span>
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-[11px] text-foreground/80 font-mono">
+                      {product.highlights.map((h) => (
+                        <li key={h} className="p-2 rounded-lg bg-surface-subtle border border-surface-border text-center">
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold text-foreground tracking-tight font-display">
-                    {product.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-semibold text-primary mt-0.5">
-                    {product.tagline}
-                  </p>
+                <div className="pt-5 mt-6 border-t border-surface-border flex items-center justify-between">
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="inline-flex items-center text-xs sm:text-sm font-semibold text-primary hover:text-primary-hover gap-1.5 group"
+                  >
+                    <span>Inspect System Architecture</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 </div>
-
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  {product.description}
-                </p>
-
-                <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border text-xs text-muted-foreground space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-foreground block">
-                    Target Audience:
-                  </span>
-                  <p className="font-medium text-foreground/80 leading-normal">
-                    {product.targetUser}
-                  </p>
-                </div>
-
-                <ul className="space-y-1.5 text-xs text-foreground/80 pt-1">
-                  {product.highlights.map((h) => (
-                    <li key={h} className="flex items-center gap-2">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
-
-              <div className="pt-6 mt-6 border-t border-surface-border">
-                <Link
-                  href={`/products/${product.slug}`}
-                  className="inline-flex items-center text-xs sm:text-sm font-semibold text-primary hover:text-primary-hover gap-1.5 transition-colors group"
-                >
-                  <span>Explore {product.name} Overview</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Container>
+            ))}
+          </div>
+        </Container>
+      </div>
     </Section>
   );
 }

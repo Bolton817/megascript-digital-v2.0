@@ -1,317 +1,201 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Database,
-  Workflow,
-  MailCheck,
-  FileCheck2,
+  FileText,
   Lock,
   Bot,
-  Layers,
-  Sparkles,
+  Database,
+  CloudOff,
+  GitBranch,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Badge } from "@/components/ui/Badge";
+import { DifferentiatorSchematicSvg } from "@/components/visuals/DifferentiatorSchematicSvg";
 import { useScrollAnimation } from "@/lib/motion/useScrollAnimation";
-import { gsap, ScrollTrigger } from "@/lib/motion/init";
+import { useMotionPreference } from "@/lib/motion/useMotionPreference";
 
 export function DifferentiatorsSection() {
-  const sectionRef = useScrollAnimation(() => {
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const shouldAnimate = useMotionPreference();
+
+  const sectionRef = useScrollAnimation((ctx) => {
+    if (!shouldAnimate) return;
+
     const mm = gsap.matchMedia();
 
-    // Desktop: Pinned story sequence
+    // Desktop: Pin Left Narrative Sidebar & Track Active Card Index
     mm.add("(min-width: 1024px)", () => {
       ScrollTrigger.create({
         trigger: ".differentiators-wrapper",
         pin: ".differentiators-pinned-sidebar",
-        start: "top 14%",
-        end: "bottom 90%",
+        start: "top 12%",
+        end: "bottom 85%",
         anticipatePin: 1,
       });
 
-      gsap.fromTo(
-        ".differentiator-card",
-        { opacity: 0, y: 32 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.12,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".differentiators-cards-grid",
-            start: "top 75%",
-          },
-        }
-      );
+      // Individual trigger callbacks to update active schematic
+      const cards = gsap.utils.toArray<HTMLElement>(".differentiator-card");
+      cards.forEach((card, index) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 60%",
+          end: "bottom 60%",
+          onEnter: () => setActiveCardIndex(index),
+          onEnterBack: () => setActiveCardIndex(index),
+        });
+      });
     });
 
-    // Mobile Alternative (Task 106): Clean native vertical stacking, zero pinning
+    // Mobile: Natural vertical layout without scroll pinning
     mm.add("(max-width: 1023px)", () => {
-      gsap.fromTo(
-        ".differentiator-card",
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          duration: 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".differentiators-cards-grid",
-            start: "top 85%",
-          },
-        }
-      );
+      // Intentionally zero pinning on mobile to avoid scroll hijacking
     });
   });
+
+  const differentiators = [
+    {
+      icon: <FileText className="h-6 w-6 text-primary" aria-hidden="true" />,
+      title: "Carefully Designed Multi-Page Solutions",
+      scope: "Standard on All Sites",
+      description:
+        "We reject one-page template shortcuts. Every engagement receives deliberate information architecture, semantic HTML5 landmarks, responsive layouts, and native technical SEO.",
+      details: [
+        { label: "Architecture", value: "Multi-Route" },
+        { label: "Taxonomy", value: "Hierarchical sitemaps &bull; Accessible navigation &bull; Structured metadata" },
+      ],
+    },
+    {
+      icon: <Lock className="h-6 w-6 text-primary" aria-hidden="true" />,
+      title: "100% Client Ownership from Day 1",
+      scope: "Standard on All Sites",
+      description:
+        "You maintain direct administrative custody of your domain names, DNS, Git repositories, and hosting accounts. We never hold assets hostage or lock you into proprietary platforms.",
+      details: [
+        { label: "Vendor Lock-in", value: "0% (Zero)" },
+        { label: "Custody", value: "Full code handover &bull; Independent accounts &bull; Operational walkthroughs" },
+      ],
+    },
+    {
+      icon: <Bot className="h-6 w-6 text-accent" aria-hidden="true" />,
+      title: "AI-Powered Assistance (Tony AI)",
+      scope: "Available Custom Scope",
+      description:
+        "Grounded bilingual conversational assistants tailored strictly to your verified business facts. Supports visitors in English and Kiswahili without fabricating details or hallucinating.",
+      details: [
+        { label: "Scope Guard", value: "Strictly Grounded" },
+        { label: "Features", value: "English & Kiswahili &bull; Context boundaries &bull; Lead qualification handoffs" },
+      ],
+    },
+    {
+      icon: <Database className="h-6 w-6 text-accent" aria-hidden="true" />,
+      title: "Operations CRM & Relational Databases",
+      scope: "Available Custom Scope",
+      description:
+        "Role-based internal consoles for managing customer leads, reviewing immutable audit logs, scheduling appointments, and managing relational PostgreSQL data models.",
+      details: [
+        { label: "Access Control", value: "Role-Based RBAC" },
+        { label: "Security", value: "PostgreSQL database &bull; Inactivity timeouts &bull; Internal note logs" },
+      ],
+    },
+    {
+      icon: <CloudOff className="h-6 w-6 text-accent" aria-hidden="true" />,
+      title: "Offline-Resilient Business Portals",
+      scope: "Available Custom Scope",
+      description:
+        "Local indexed caching, service-worker network resilience, and queued background synchronization designed specifically for East African intermittent internet realities.",
+      details: [
+        { label: "Connectivity", value: "Local-First Cache" },
+        { label: "Capability", value: "Background sync queues &bull; Offline draft forms &bull; Low-bandwidth mode" },
+      ],
+    },
+    {
+      icon: <GitBranch className="h-6 w-6 text-accent" aria-hidden="true" />,
+      title: "Predictable Engineering Sprints",
+      scope: "Available Custom Scope",
+      description:
+        "Standard multi-page websites delivered in approximately 2 to 6 weeks. Bespoke web apps and mobile solutions delivered in phased, predictable milestone sprints.",
+      details: [
+        { label: "Website Timeline", value: "2 to 6 Weeks" },
+        { label: "Sprint Model", value: "Weekly recorded demos &bull; Pre-launch security audits &bull; Milestone sign-offs" },
+      ],
+    },
+  ];
 
   return (
     <Section spacing="lg" variant="subtle" id="differentiators">
       <div ref={sectionRef}>
         <Container size="lg">
-          <div className="differentiators-wrapper grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* Desktop Pinned Sidebar / Mobile Section Header */}
+          <div className="differentiators-wrapper grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            {/* Desktop Left Pinned Narrative Sidebar */}
             <div className="differentiators-pinned-sidebar lg:col-span-4 space-y-6">
-              <div>
-                <Badge
-                  variant="outline"
-                  className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5"
-                >
-                  Engineering Principles
-                </Badge>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
-                  What Makes Us Different
-                </h2>
-                <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                  We provide absolute clarity between standard website foundations and specialized, custom-scoped engineering capabilities.
-                </p>
-              </div>
+              <Badge variant="outline" className="text-xs font-semibold uppercase tracking-wider text-primary border-primary/20 bg-primary/5">
+                Engineering Principles
+              </Badge>
 
-              {/* Scope Hierarchy Legend */}
-              <div className="p-4 rounded-2xl bg-surface border border-surface-border space-y-3 font-mono text-xs">
-                <div className="flex items-center gap-2 pb-2 border-b border-surface-border font-bold text-foreground">
-                  <Layers className="h-4 w-4 text-primary" />
-                  <span>DELIVERY_TAXONOMY</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-muted-foreground">Standard Baseline:</span>
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                      Cards 01–02
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-muted-foreground">Custom Engineered:</span>
-                    <span className="font-semibold text-accent">
-                      Cards 03–06
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-display">
+                What Makes Us Different
+              </h2>
+
+              <p className="text-base text-muted-foreground leading-relaxed">
+                We provide absolute clarity between standard website foundations and specialized, custom-scoped engineering capabilities.
+              </p>
+
+              {/* Dynamic Interactive SVG Schematic */}
+              <DifferentiatorSchematicSvg activeStep={activeCardIndex} />
             </div>
 
-            {/* Scrolling Bento Grid */}
-            <div className="differentiators-cards-grid lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Card 1: Multi-Page Digital Solutions (Standard) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-subtle text-primary border border-primary/20">
-                      <FileCheck2 className="h-5 w-5" />
+            {/* Right Scrollable Cards Column */}
+            <div className="lg:col-span-8 space-y-6">
+              {differentiators.map((diff, idx) => (
+                <div
+                  key={diff.title}
+                  className={`differentiator-card p-7 sm:p-8 rounded-3xl bg-surface border transition-all duration-300 shadow-xs ${
+                    activeCardIndex === idx
+                      ? "border-primary/50 shadow-card"
+                      : "border-surface-border hover:border-primary/30"
+                  }`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-border">
+                    <div className="flex items-center gap-3.5">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-subtle text-primary border border-primary/20">
+                        {diff.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-foreground font-display">
+                          {diff.title}
+                        </h3>
+                      </div>
                     </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                      Standard on All Sites
-                    </span>
+
+                    <Badge
+                      variant={diff.scope === "Standard on All Sites" ? "primary" : "outline"}
+                      className="self-start sm:self-auto text-[11px] font-mono"
+                    >
+                      {diff.scope}
+                    </Badge>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      Carefully Designed Multi-Page Solutions
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      We reject one-page template shortcuts. Every engagement receives deliberate information architecture, semantic HTML5 landmarks, responsive layouts, and native technical SEO.
-                    </p>
-                  </div>
+                  <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
+                    {diff.description}
+                  </p>
 
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Architecture:</span>
-                      <span className="text-primary font-bold">Multi-Route</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      Hierarchical sitemaps &bull; Accessible navigation &bull; Structured metadata
-                    </p>
+                  <div className="mt-5 p-4 rounded-2xl bg-surface-subtle border border-surface-border font-mono text-xs space-y-2">
+                    {diff.details.map((item) => (
+                      <div key={item.label} className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px]">
+                        <span className="text-muted-foreground font-semibold">{item.label}:</span>
+                        <span
+                          className="text-foreground"
+                          dangerouslySetInnerHTML={{ __html: item.value }}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-
-              {/* Card 2: 100% Client Ownership (Standard) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-primary/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-subtle text-primary border border-primary/20">
-                      <Lock className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                      Standard on All Sites
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      100% Client Ownership from Day 1
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      You maintain direct administrative custody of your domain names, DNS, Git repositories, and hosting accounts. We never hold assets hostage or lock you into proprietary platforms.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Vendor Lock-in:</span>
-                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">0% (Zero)</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      Full code handover &bull; Independent accounts &bull; Operational walkthroughs
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3: AI-Powered Assistance (Custom Scope) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-accent/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-subtle text-accent border border-accent/20">
-                      <Bot className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-accent/10 text-accent border border-accent/25">
-                      Available Custom Scope
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      AI-Powered Assistance (Tony AI)
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      Grounded bilingual conversational assistants tailored strictly to your verified business facts. Supports visitors in English and Kiswahili without fabricating details or hallucinating.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Scope Guard:</span>
-                      <span className="text-accent font-bold">Strictly Grounded</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      English &amp; Kiswahili &bull; Context boundaries &bull; Lead qualification handoffs
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 4: Operations CRM & Databases (Custom Scope) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-accent/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-subtle text-accent border border-accent/20">
-                      <Database className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-accent/10 text-accent border border-accent/25">
-                      Available Custom Scope
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      Operations CRM &amp; Relational Databases
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      Role-based internal consoles for managing customer leads, reviewing immutable audit logs, scheduling appointments, and managing relational PostgreSQL data models.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Access Control:</span>
-                      <span className="text-accent font-bold">Role-Based RBAC</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      PostgreSQL database &bull; Inactivity timeouts &bull; Internal note logs
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 5: Software Integrations & Automation (Custom Scope) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-accent/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-subtle text-accent border border-accent/20">
-                      <Workflow className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-accent/10 text-accent border border-accent/25">
-                      Available Custom Scope
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      Software Integrations &amp; Automation
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      Eliminate duplicate manual work by integrating external payment gateways like M-Pesa Daraja, inventory synchronizations, transactional SMS, and secure third-party webhooks.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Gateways:</span>
-                      <span className="text-accent font-bold">M-Pesa, Webhooks</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      Idempotent payloads &bull; Signature verification &bull; Real-time notifications
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 6: Newsletter & Email Marketing (Custom Scope) */}
-              <div className="differentiator-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-surface border border-surface-border shadow-xs hover:border-accent/40 transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-subtle text-accent border border-accent/20">
-                      <MailCheck className="h-5 w-5" />
-                    </div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-accent/10 text-accent border border-accent/25">
-                      Available Custom Scope
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground tracking-tight font-display">
-                      Newsletter &amp; Email Marketing Systems
-                    </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                      Verified subscriber consent collection, Brevo transactional automation, audience segmentation, and broadcast campaigns managed directly from your own domain.
-                    </p>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-surface-subtle border border-surface-border font-mono text-[11px] text-muted-foreground space-y-1">
-                    <div className="flex items-center justify-between text-foreground">
-                      <span>Compliance:</span>
-                      <span className="text-accent font-bold">Double Opt-in</span>
-                    </div>
-                    <p className="font-sans text-[11px] leading-tight text-muted-foreground">
-                      DKIM/SPF setup &bull; Segment management &bull; Zero external list renting
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
