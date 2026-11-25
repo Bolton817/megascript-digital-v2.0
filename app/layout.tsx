@@ -8,6 +8,8 @@ import { CommunicationHub } from "@/components/layout/CommunicationHub";
 import { TonyWidget } from "@/components/tony/TonyWidget";
 import { UTMTracker } from "@/components/analytics/UTMTracker";
 import { ConsentTagLoader } from "@/components/analytics/ConsentTagLoader";
+import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
+import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -48,6 +50,20 @@ export const metadata: Metadata = {
   },
   description:
     "MegaScript Digital builds clear, reliable websites, custom web applications, mobile apps, and digital systems for businesses, agencies, and organizations.",
+  alternates: {
+    canonical: "./",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
   },
@@ -56,6 +72,12 @@ export const metadata: Metadata = {
     locale: "en_KE",
     url: "https://megascriptdigital.co.ke",
     siteName: "MegaScript Digital",
+    title: "MegaScript Digital | Websites, Web Applications & Mobile Apps",
+    description:
+      "MegaScript Digital builds clear, reliable websites, custom web applications, mobile apps, and digital systems for businesses, agencies, and organizations.",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "MegaScript Digital | Websites, Web Applications & Mobile Apps",
     description:
       "MegaScript Digital builds clear, reliable websites, custom web applications, mobile apps, and digital systems for businesses, agencies, and organizations.",
@@ -70,6 +92,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <JsonLd />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -94,6 +117,7 @@ export default function RootLayout({
           <PublicHeader />
           <UTMTracker />
           <ConsentTagLoader />
+          <CookieConsentBanner />
           <div id="main-content" className="flex-1">
             {children}
           </div>

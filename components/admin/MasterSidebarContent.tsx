@@ -142,6 +142,16 @@ const navGroups: NavGroup[] = [
       },
     ],
   },
+  {
+    groupName: "Trust & Compliance",
+    items: [
+      {
+        label: "Privacy Requests",
+        href: "/master/privacy",
+        icon: ShieldCheck,
+      },
+    ],
+  },
 ];
 
 interface MasterSidebarContentProps {
