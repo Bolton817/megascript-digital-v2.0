@@ -562,14 +562,25 @@ enum AIProvider {
 }
 
 model AIProviderConfig {
-  id               String     @id @default(cuid())
-  provider         AIProvider
-  activeModel      String
-  encryptedApiKey  String?
-  temperature      Float      @default(0.7)
-  maxTokens        Int        @default(1024)
-  isDefault        Boolean    @default(false)
-  updatedAt        DateTime   @updatedAt
+  id                 String      @id @default(cuid())
+  provider           AIProvider
+  activeModel        String
+  encryptedApiKey    String?
+  temperature        Float       @default(0.7)
+  maxTokens          Int         @default(1024)
+  timeoutMs          Int         @default(15000)
+  dailyCeiling       Int         @default(1000)
+  isFallbackEnabled  Boolean     @default(false)
+  fallbackProvider   AIProvider?
+  isEnabled          Boolean     @default(true)
+  isDefault          Boolean     @default(false)
+  lastTestedAt       DateTime?
+  lastTestStatus     String?
+  lastTestLatencyMs  Int?
+  lastTestError      String?
+  updatedAt          DateTime    @updatedAt
+
+  @@unique([provider])
 }
 
 model AIPromptVersion {

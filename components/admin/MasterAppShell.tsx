@@ -41,6 +41,7 @@ export function MasterAppShell({ children }: MasterAppShellProps) {
     if (path.startsWith("/master/content")) return "Content Hub";
     if (path.startsWith("/master/leads")) return "CRM Leads & Inquiries";
     if (path.startsWith("/master/conversations")) return "Tony AI Conversations";
+    if (path.startsWith("/master/tony/providers")) return "AI Providers & Models";
     if (path.startsWith("/master/tony/prompts")) return "Tony Prompts & Safety";
     if (path.startsWith("/master/newsletter")) return "Newsletter Campaigns";
     if (path.startsWith("/master/overview")) return "Operations Overview";

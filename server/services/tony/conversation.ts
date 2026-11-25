@@ -1,9 +1,10 @@
 import { db } from "@/server/db";
 import { ConversationStatus, Prisma } from "@prisma/client";
 import { generateGroundedTonyReply, stripEmojis } from "./mock-provider";
-import { getOrSeedCanonicalPrompt } from "./prompt";
+import { getOrSeedCanonicalPrompt, assembleTonySystemPrompt } from "./prompt";
 import { retrieveGroundedContext } from "./retrieval";
 import { classifyVisitorIntent, captureLeadFromChat } from "./intent";
+import { generateProviderTonyReply } from "./providers";
 
 export interface ActiveConversationResult {
   id: string;
@@ -219,8 +220,25 @@ export async function postVisitorMessage(params: {
     limit: 4,
   });
 
-  // 6. Generate Grounded Assistant Response
-  const replyResult = generateGroundedTonyReply(cleanUserContent, {
+  // 6. Assemble Full System Instructions (Sheet 081)
+  const { systemPrompt } = await assembleTonySystemPrompt({
+    route,
+    language: activeLang,
+    knowledgeSnippets: contextPack.formattedContext,
+  });
+
+  // Format message history turns (up to last 6 messages)
+  const historyTurns: Array<{ role: "user" | "assistant" | "system"; content: string }> =
+    conversation.messages.slice(-6).map((m) => ({
+      role: (m.role === "assistant" ? "assistant" : "user") as "user" | "assistant",
+      content: m.content,
+    }));
+
+  // 7. Generate Provider Assistant Response (Sheets 090-093)
+  const replyResult = await generateProviderTonyReply({
+    systemPrompt,
+    history: historyTurns,
+    userMessage: cleanUserContent,
     language: activeLang,
     route,
     contextSnippets: contextPack.formattedContext,
@@ -230,13 +248,13 @@ export async function postVisitorMessage(params: {
     isDeclineOrSkip: intentResult.isDeclineOrSkip,
   });
 
-  // 7. Update conversation status if handoff was triggered
+  // 8. Update conversation status if handoff was triggered
   let updatedStatus = conversation.status;
   if (replyResult.isHandoffRequested && conversation.status !== ConversationStatus.HANDOFF_REQUESTED) {
     updatedStatus = ConversationStatus.HANDOFF_REQUESTED;
   }
 
-  // 8. Persist assistant message and update conversation
+  // 9. Persist assistant message and update conversation
   const [assistantMessage] = await db.$transaction([
     db.chatMessage.create({
       data: {
@@ -247,6 +265,7 @@ export async function postVisitorMessage(params: {
         promptVersionId: currentPrompt.id,
         latencyMs: replyResult.latencyMs,
         tokensUsed: replyResult.tokensUsed,
+        errorCode: replyResult.errorCode || null,
       },
     }),
     db.chatConversation.update({

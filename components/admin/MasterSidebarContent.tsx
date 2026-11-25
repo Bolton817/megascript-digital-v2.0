@@ -19,6 +19,7 @@ import {
   ExternalLink,
   LogOut,
   ChevronRight,
+  Cpu,
 } from "lucide-react";
 import { authClient } from "@/features/auth/client";
 
@@ -101,6 +102,11 @@ const navGroups: NavGroup[] = [
         href: "/master/tony/prompts",
         icon: Sparkles,
         badge: "v1.0",
+      },
+      {
+        label: "AI Providers & Models",
+        href: "/master/tony/providers",
+        icon: Cpu,
       },
     ],
   },
