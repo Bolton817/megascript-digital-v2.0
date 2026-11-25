@@ -1,8 +1,13 @@
+import { db } from "@/server/db";
+
 export interface SendEmailOptions {
   to: string;
   subject: string;
   textContent: string;
   htmlContent?: string;
+  templateId?: string;
+  messageType?: "TRANSACTIONAL" | "CAMPAIGN";
+  campaignId?: string | null;
 }
 
 // In-memory record for local dev testing when Brevo key is not configured
@@ -19,6 +24,8 @@ export const devEmailHistory: Array<{
   subject: string;
   textContent: string;
   sentAt: string;
+  templateId?: string;
+  messageType?: string;
 }> = [];
 
 export async function sendEmail({
@@ -26,6 +33,9 @@ export async function sendEmail({
   subject,
   textContent,
   htmlContent,
+  templateId = "generic",
+  messageType = "TRANSACTIONAL",
+  campaignId = null,
 }: SendEmailOptions): Promise<{ success: boolean; messageId?: string; error?: string }> {
   const brevoApiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.BREVO_SENDER_EMAIL || "info@megascriptdigital.co.ke";
@@ -34,7 +44,7 @@ export async function sendEmail({
   if (!brevoApiKey) {
     // Development / test fallback transport
     console.log(`\n========================================`);
-    console.log(`[DEV EMAIL DISPATCH]`);
+    console.log(`[DEV EMAIL DISPATCH] [${messageType}] [${templateId}]`);
     console.log(`To: ${to}`);
     console.log(`From: ${senderName} <${senderEmail}>`);
     console.log(`Subject: ${subject}`);
@@ -42,18 +52,38 @@ export async function sendEmail({
     console.log(textContent);
     console.log(`========================================\n`);
 
+    const devMessageId = `dev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const record = {
       to,
       subject,
       textContent,
       sentAt: new Date().toISOString(),
+      templateId,
+      messageType,
     };
     lastDevEmailDispatched = record;
     devEmailHistory.push(record);
 
+    // Persist delivery record in database
+    try {
+      await db.emailDelivery.create({
+        data: {
+          recipientEmail: to,
+          templateId,
+          messageType,
+          campaignId,
+          providerId: devMessageId,
+          status: "SENT",
+          sentAt: new Date(),
+        },
+      });
+    } catch (dbErr) {
+      console.warn("Non-fatal: could not persist EmailDelivery record in dev mode:", dbErr);
+    }
+
     return {
       success: true,
-      messageId: `dev-${Date.now()}`,
+      messageId: devMessageId,
     };
   }
 
@@ -80,13 +110,54 @@ export async function sendEmail({
     if (!response.ok) {
       const errorData = await response.text();
       console.error("Brevo API error:", errorData);
+      try {
+        await db.emailDelivery.create({
+          data: {
+            recipientEmail: to,
+            templateId,
+            messageType,
+            campaignId,
+            providerId: null,
+            status: "FAILED",
+            sentAt: new Date(),
+          },
+        });
+      } catch {}
       return { success: false, error: "Email delivery provider error" };
     }
 
     const result = (await response.json()) as { messageId?: string };
+
+    try {
+      await db.emailDelivery.create({
+        data: {
+          recipientEmail: to,
+          templateId,
+          messageType,
+          campaignId,
+          providerId: result.messageId || null,
+          status: "SENT",
+          sentAt: new Date(),
+        },
+      });
+    } catch {}
+
     return { success: true, messageId: result.messageId };
   } catch (err: any) {
     console.error("Brevo transport exception:", err.message);
+    try {
+      await db.emailDelivery.create({
+        data: {
+          recipientEmail: to,
+          templateId,
+          messageType,
+          campaignId,
+          providerId: null,
+          status: "FAILED",
+          sentAt: new Date(),
+        },
+      });
+    } catch {}
     return { success: false, error: "Failed to dispatch email" };
   }
 }
@@ -305,6 +376,232 @@ https://megascriptdigital.co.ke
     subject,
     textContent,
     htmlContent,
+    templateId: "lead-acknowledgement",
+    messageType: "TRANSACTIONAL",
   });
 }
+
+/**
+ * Dispatches a double opt-in confirmation email to a new newsletter subscriber.
+ * Task 64 & Sheet 070.
+ */
+export async function sendNewsletterConfirmationEmail({
+  email,
+  name,
+  confirmUrl,
+}: {
+  email: string;
+  name?: string | null;
+  confirmUrl: string;
+}) {
+  const subject = "Confirm your subscription | MegaScript Digital";
+  const recipientGreeting = name ? `Hello ${name},` : "Hello,";
+
+  const textContent = `${recipientGreeting}
+
+Thank you for your interest in MegaScript Digital.
+
+Please confirm your newsletter subscription by opening the secure link below:
+${confirmUrl}
+
+This confirmation link expires in 72 hours. Once confirmed, you will receive straightforward digital engineering guides, software architecture insights, and product updates.
+
+If you did not make this request, you can safely ignore this email—you will not be subscribed.
+
+Best regards,
+MegaScript Digital Team
+info@megascriptdigital.co.ke
+https://megascriptdigital.co.ke
+`;
+
+  const htmlContent = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 540px; margin: 0 auto; padding: 36px 24px; color: #0f172a; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+      <div style="margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+        <span style="font-size: 20px; font-weight: bold; color: #0f172a;">MegaScript <span style="color: #0284c7;">Digital</span></span>
+      </div>
+
+      <h1 style="font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 12px;">Confirm Your Subscription</h1>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+        ${recipientGreeting} thank you for subscribing. You're one step away from receiving practical technology guides, custom software strategies, and digital visibility insights.
+      </p>
+
+      <div style="text-align: center; margin-bottom: 28px;">
+        <a href="${confirmUrl}" style="display: inline-block; background-color: #0284c7; color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 14px 32px; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+          Confirm Subscription &rarr;
+        </a>
+      </div>
+
+      <p style="font-size: 13px; line-height: 1.5; color: #64748b; margin-bottom: 20px;">
+        Or copy and paste this link in your browser:<br />
+        <a href="${confirmUrl}" style="color: #0284c7; word-break: break-all; font-size: 12px;">${confirmUrl}</a>
+      </p>
+
+      <div style="background-color: #f8fafc; border-radius: 10px; padding: 14px; margin-bottom: 24px; font-size: 12px; color: #64748b; line-height: 1.5;">
+        <strong>Notice:</strong> This link expires in 72 hours. If you did not request this, you can ignore this email and you will not be added to our list.
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />
+      <p style="font-size: 11px; color: #94a3b8; margin: 0; text-align: center;">
+        &copy; ${new Date().getFullYear()} MegaScript Digital &bull; Nairobi, Kenya &bull; info@megascriptdigital.co.ke
+      </p>
+    </div>
+  `;
+
+  return sendEmail({
+    to: email,
+    subject,
+    textContent,
+    htmlContent,
+    templateId: "newsletter-confirmation",
+    messageType: "TRANSACTIONAL",
+  });
+}
+
+/**
+ * Dispatches a welcome / onboarding email once double opt-in confirmation completes.
+ * Task 64 & Sheet 070.
+ */
+export async function sendNewsletterWelcomeEmail({
+  email,
+  name,
+  unsubscribeUrl,
+}: {
+  email: string;
+  name?: string | null;
+  unsubscribeUrl: string;
+}) {
+  const subject = "Welcome to MegaScript Digital! Your subscription is active";
+  const recipientGreeting = name ? `Hello ${name},` : "Hello,";
+
+  const textContent = `${recipientGreeting}
+
+Welcome to the MegaScript Digital newsletter! Your subscription is now active.
+
+What you will receive:
+- Practical guides on building reliable websites, web applications, and mobile apps.
+- Honest architectural comparisons, performance tuning tips, and local visibility advice.
+- Product updates and release notes for our independent platforms (Fortress, LeaseFlow, UzaDigital, FM Scheduler).
+
+We respect your inbox: we publish approximately once or twice per month, with zero aggressive marketing pitches.
+
+If you ever wish to unsubscribe, you can do so with one click:
+${unsubscribeUrl}
+
+Best regards,
+MegaScript Digital Team
+Nairobi, Kenya
+https://megascriptdigital.co.ke
+`;
+
+  const htmlContent = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 540px; margin: 0 auto; padding: 36px 24px; color: #0f172a; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+      <div style="margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+        <span style="font-size: 20px; font-weight: bold; color: #0f172a;">MegaScript <span style="color: #0284c7;">Digital</span></span>
+      </div>
+
+      <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+        <span style="font-size: 12px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">Subscription Active</span>
+        <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0;">Welcome aboard!</h2>
+      </div>
+
+      <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
+        ${recipientGreeting} thank you for joining our community. Here is what you can look forward to:
+      </p>
+
+      <ul style="font-size: 14px; line-height: 1.6; color: #475569; padding-left: 20px; margin-bottom: 24px;">
+        <li style="margin-bottom: 8px;"><strong>Practical Software Architecture:</strong> Real-world engineering insights on building scalable web and mobile systems.</li>
+        <li style="margin-bottom: 8px;"><strong>Digital Visibility:</strong> Straightforward guides on search visibility, Google Business optimization, and user experience.</li>
+        <li><strong>Product Milestones:</strong> Early updates on independent solutions we build and maintain.</li>
+      </ul>
+
+      <p style="font-size: 13px; line-height: 1.5; color: #64748b; margin-bottom: 28px;">
+        We publish approximately once or twice a month. Zero spam, zero high-pressure sales pitches.
+      </p>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />
+      <div style="text-align: center; font-size: 11px; color: #94a3b8; line-height: 1.6;">
+        <p style="margin: 0 0 8px 0;">&copy; ${new Date().getFullYear()} MegaScript Digital &bull; Nairobi, Kenya</p>
+        <p style="margin: 0;">
+          No longer wish to receive these emails? <a href="${unsubscribeUrl}" style="color: #0284c7; text-decoration: underline;">Unsubscribe with one click</a>.
+        </p>
+      </div>
+    </div>
+  `;
+
+  return sendEmail({
+    to: email,
+    subject,
+    textContent,
+    htmlContent,
+    templateId: "newsletter-welcome",
+    messageType: "TRANSACTIONAL",
+  });
+}
+
+/**
+ * Dispatches a newsletter campaign email with mandatory unsubscribe footer.
+ * Task 65 & Sheet 071.
+ */
+export async function sendCampaignEmail({
+  to,
+  subject,
+  preheader,
+  bodyHtml,
+  bodyText,
+  unsubscribeUrl,
+  campaignId,
+}: {
+  to: string;
+  subject: string;
+  preheader?: string | null;
+  bodyHtml: string;
+  bodyText: string;
+  unsubscribeUrl: string;
+  campaignId: string;
+}) {
+  const textContent = `${preheader ? `${preheader}\n\n` : ""}${bodyText}
+
+--------------------------------------------------
+MegaScript Digital • Nairobi, Kenya
+To unsubscribe, visit: ${unsubscribeUrl}
+`;
+
+  const htmlContent = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 36px 24px; color: #0f172a; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;">
+      ${
+        preheader
+          ? `<div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">${preheader}</div>`
+          : ""
+      }
+      <div style="margin-bottom: 28px; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+        <span style="font-size: 20px; font-weight: bold; color: #0f172a;">MegaScript <span style="color: #0284c7;">Digital</span></span>
+      </div>
+
+      <div style="font-size: 15px; line-height: 1.7; color: #1e293b; margin-bottom: 32px;">
+        ${bodyHtml}
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />
+      <div style="text-align: center; font-size: 11px; color: #94a3b8; line-height: 1.6;">
+        <p style="margin: 0 0 6px 0;">&copy; ${new Date().getFullYear()} MegaScript Digital &bull; Nairobi, Kenya</p>
+        <p style="margin: 0;">
+          You received this because you subscribed to updates from MegaScript Digital.<br />
+          <a href="${unsubscribeUrl}" style="color: #0284c7; text-decoration: underline;">Unsubscribe from future campaigns</a>
+        </p>
+      </div>
+    </div>
+  `;
+
+  return sendEmail({
+    to,
+    subject,
+    textContent,
+    htmlContent,
+    templateId: "campaign-broadcast",
+    messageType: "CAMPAIGN",
+    campaignId,
+  });
+}
+
 

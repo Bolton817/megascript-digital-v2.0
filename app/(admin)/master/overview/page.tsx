@@ -31,6 +31,11 @@ export default function MasterOverviewPage() {
                 CRM Leads
               </Button>
             </Link>
+            <Link href="/master/newsletter">
+              <Button variant="outline" size="sm">
+                Newsletter
+              </Button>
+            </Link>
             <Link href="/master/content">
               <Button variant="outline" size="sm">
                 Content Hub
@@ -110,6 +115,26 @@ export default function MasterOverviewPage() {
           <Link href="/master/leads">
             <Button variant="primary" size="md" className="shrink-0">
               Open CRM Console &rarr;
+            </Button>
+          </Link>
+        </div>
+
+        {/* Stage 13 Newsletter & Transactional Email Card */}
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              Stage 13 Marketing &amp; Email
+            </span>
+            <h2 className="text-lg font-bold text-foreground">
+              Newsletter &amp; Broadcast Campaigns
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
+              Double opt-in subscribers, welcome onboarding sequence, Brevo transactional delivery tracking, campaign drafts, preview test sends, and webhook bounce handling.
+            </p>
+          </div>
+          <Link href="/master/newsletter">
+            <Button variant="primary" size="md" className="shrink-0">
+              Open Newsletter Hub &rarr;
             </Button>
           </Link>
         </div>

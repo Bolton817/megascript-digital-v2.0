@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mail, CheckCircle2 } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle } from "lucide-react";
 import {
   FOOTER_CORE_SERVICES,
   FOOTER_COMPLEMENTARY_SERVICES,
@@ -18,21 +18,45 @@ export function PublicFooter() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   if (pathname?.startsWith("/master")) {
     return null;
   }
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail) return;
 
     setIsSubmitting(true);
-    // Newsletter submission handler (connected to Brevo in Stage 13)
-    setTimeout(() => {
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: newsletterEmail.trim(),
+          consentSource: "footer",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMessage(data.error || "Failed to subscribe. Please try again.");
+      } else {
+        setIsSubscribed(true);
+        setSuccessMessage(
+          data.message ||
+            "Thank you for subscribing. Please check your inbox to confirm your subscription."
+        );
+      }
+    } catch {
+      setErrorMessage("Network error. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubscribed(true);
-    }, 800);
+    }
   };
 
   const currentYear = new Date().getFullYear();
@@ -158,11 +182,17 @@ export function PublicFooter() {
                 <div className="rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 p-3 text-xs text-emerald-800 dark:text-emerald-200 flex items-start gap-2">
                   <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" aria-hidden="true" />
                   <span>
-                    Thank you for subscribing. Please check your inbox to confirm your subscription.
+                    {successMessage || "Thank you for subscribing. Please check your inbox to confirm your subscription."}
                   </span>
                 </div>
               ) : (
                 <form onSubmit={handleNewsletterSubmit} className="space-y-2">
+                  {errorMessage && (
+                    <div className="rounded-lg border border-rose-200 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/60 p-2 text-xs text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
+                      <AlertCircle className="h-3.5 w-3.5 text-rose-500 shrink-0" aria-hidden="true" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
                   <div className="flex gap-2">
                     <input
                       type="email"
