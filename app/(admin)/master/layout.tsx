@@ -1,5 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
+import { MasterAppShell } from "@/components/admin/MasterAppShell";
 
 export const metadata: Metadata = {
   title: "MegaScript Digital | Master Operations Console",
@@ -16,8 +17,8 @@ export default function MasterRootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased">
+    <MasterAppShell>
       {children}
-    </div>
+    </MasterAppShell>
   );
 }
