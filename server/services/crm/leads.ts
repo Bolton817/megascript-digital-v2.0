@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
-import { LeadStatus, Prisma } from "@prisma/client";
+import { LeadStatus, Prisma, NotificationType, NotificationSeverity, RoleName } from "@prisma/client";
 import { ContactEnquiryInput } from "@/lib/validations/contact";
+import { createAdminNotification } from "@/server/services/notifications";
 
 /**
  * Generates a human-friendly unique reference code: MSD-YYYY-XXXX
@@ -140,6 +141,21 @@ export async function createLead(input: ContactEnquiryInput) {
     return lead;
   });
 
+  // Trigger admin notification (Task 97, Sheet 112)
+  try {
+    await createAdminNotification({
+      type: NotificationType.NEW_LEAD,
+      severity: NotificationSeverity.INFO,
+      title: `New Enquiry: ${result.name}`,
+      message: `Topic: ${result.topic} • Ref: ${result.referenceCode}`,
+      linkUrl: `/master/leads/${result.id}`,
+      targetRole: RoleName.ADMIN,
+      idempotencyKey: `lead_${result.id}`,
+    });
+  } catch (notifErr) {
+    console.error("Non-blocking notification error on lead creation:", notifErr);
+  }
+
   return {
     lead: result,
     isDuplicate: false,
@@ -187,6 +203,7 @@ export async function getLeads(filter: GetLeadsFilter = {}) {
         assignedUser: {
           select: { id: true, name: true, email: true },
         },
+        utmAttribution: true,
         _count: {
           select: { events: true, notes: true },
         },
@@ -379,3 +396,95 @@ export async function getLeadMetrics() {
     wonLeads,
   };
 }
+
+export interface FollowUpItem {
+  id: string;
+  referenceCode: string;
+  name: string;
+  email: string;
+  topic: string;
+  status: LeadStatus;
+  urgency: "HIGH" | "MEDIUM" | "NORMAL";
+  reason: string;
+  hoursWaiting: number;
+  assignedTo: string;
+  createdAt: Date;
+}
+
+/**
+ * Returns pending inquiries requiring operational action or follow-up.
+ */
+export async function getFollowUpQueue(limit: number = 10): Promise<{
+  items: FollowUpItem[];
+  totalNeedingFollowUp: number;
+}> {
+  const pendingLeads = await db.lead.findMany({
+    where: {
+      status: {
+        in: [LeadStatus.NEW, LeadStatus.CONTACTED, LeadStatus.QUALIFIED, LeadStatus.PROPOSAL_SENT],
+      },
+    },
+    include: {
+      assignedUser: { select: { displayName: true, name: true } },
+      events: { orderBy: { createdAt: "desc" }, take: 1 },
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const now = Date.now();
+  const queue: FollowUpItem[] = [];
+
+  for (const lead of pendingLeads) {
+    const hoursWaiting = Math.max(0, Math.floor((now - lead.createdAt.getTime()) / (1000 * 60 * 60)));
+    let urgency: FollowUpItem["urgency"] = "NORMAL";
+    let reason = "Enquiry received";
+
+    if (lead.status === LeadStatus.NEW) {
+      if (hoursWaiting >= 24) {
+        urgency = "HIGH";
+        reason = `Awaiting initial contact (${hoursWaiting}h overdue)`;
+      } else {
+        urgency = "MEDIUM";
+        reason = "New enquiry pending first touch";
+      }
+    } else if (lead.status === LeadStatus.PROPOSAL_SENT) {
+      if (hoursWaiting >= 72) {
+        urgency = "HIGH";
+        reason = "Proposal sent > 3 days ago; follow-up call recommended";
+      } else {
+        urgency = "NORMAL";
+        reason = "Proposal sent; awaiting client feedback";
+      }
+    } else if (lead.status === LeadStatus.QUALIFIED) {
+      urgency = "MEDIUM";
+      reason = "Qualified opportunity ready for proposal draft";
+    } else if (lead.status === LeadStatus.CONTACTED) {
+      urgency = hoursWaiting >= 48 ? "MEDIUM" : "NORMAL";
+      reason = "Initial contact made; schedule discovery meeting";
+    }
+
+    queue.push({
+      id: lead.id,
+      referenceCode: lead.referenceCode,
+      name: lead.name,
+      email: lead.email,
+      topic: lead.topic,
+      status: lead.status,
+      urgency,
+      reason,
+      hoursWaiting,
+      assignedTo: lead.assignedUser?.displayName || lead.assignedUser?.name || "Unassigned",
+      createdAt: lead.createdAt,
+    });
+  }
+
+  // Sort by urgency priority (HIGH first, then MEDIUM, then NORMAL)
+  const urgencyWeight = { HIGH: 3, MEDIUM: 2, NORMAL: 1 };
+  queue.sort((a, b) => urgencyWeight[b.urgency] - urgencyWeight[a.urgency] || b.hoursWaiting - a.hoursWaiting);
+
+  return {
+    items: queue.slice(0, limit),
+    totalNeedingFollowUp: queue.length,
+  };
+}
+

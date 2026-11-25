@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { MasterSidebarContent } from "./MasterSidebarContent";
 import { SessionInactivityGuard } from "./SessionInactivityGuard";
+import { AdminAlertCenter } from "./AdminAlertCenter";
 
 interface MasterAppShellProps {
   children: React.ReactNode;
@@ -132,6 +133,9 @@ export function MasterAppShell({ children }: MasterAppShellProps) {
 
           {/* Right Header Status Actions */}
           <div className="flex items-center gap-2.5 sm:gap-4">
+            {/* Alert Center (Task 97, Sheet 112) */}
+            <AdminAlertCenter />
+
             {/* Security Indicator */}
             <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] font-semibold">
               <ShieldCheck className="h-3.5 w-3.5" />

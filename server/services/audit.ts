@@ -19,9 +19,20 @@ export async function logAuditEvent({
   ipAddress,
 }: LogAuditOptions) {
   try {
+    let validActorId: string | null = null;
+    if (actorId) {
+      const userExists = await db.user.findUnique({
+        where: { id: actorId },
+        select: { id: true },
+      });
+      if (userExists) {
+        validActorId = userExists.id;
+      }
+    }
+
     return await db.auditLog.create({
       data: {
-        actorId: actorId || null,
+        actorId: validActorId,
         action,
         targetType,
         targetId: targetId || null,
