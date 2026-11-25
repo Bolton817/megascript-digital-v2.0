@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const { message, conversationId, language } = body;
+    const { message, conversationId, language, route } = body;
 
     if (!message || typeof message !== "string" || !message.trim()) {
       return NextResponse.json(
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
       visitorTokenHash,
       content: cleanMessage,
       language: language || "en",
+      route: route || undefined,
     });
 
     if (!result.success) {
@@ -67,6 +68,9 @@ export async function POST(req: NextRequest) {
       assistantMessage: result.assistantMessage,
       conversationStatus: result.conversationStatus,
       isHandoffRequested: result.isHandoffRequested,
+      intent: result.intent,
+      leadCaptured: result.leadCaptured,
+      leadReferenceCode: result.leadReferenceCode,
     });
 
     if (isNewToken || !req.cookies.has(VISITOR_TOKEN_COOKIE)) {

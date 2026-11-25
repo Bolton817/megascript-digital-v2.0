@@ -102,6 +102,11 @@ export default async function MasterConversationsPage({
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
+            <Link href="/master/tony/prompts">
+              <Button variant="outline" size="sm" className="border-primary/40 text-primary hover:bg-primary/10">
+                Prompt &amp; Policy
+              </Button>
+            </Link>
             <Link href="/master/leads">
               <Button variant="outline" size="sm">
                 CRM Leads

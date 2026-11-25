@@ -1,6 +1,9 @@
 import { db } from "@/server/db";
 import { ConversationStatus, Prisma } from "@prisma/client";
-import { generateMockTonyReply, stripEmojis } from "./mock-provider";
+import { generateGroundedTonyReply, stripEmojis } from "./mock-provider";
+import { getOrSeedCanonicalPrompt } from "./prompt";
+import { retrieveGroundedContext } from "./retrieval";
+import { classifyVisitorIntent, captureLeadFromChat } from "./intent";
 
 export interface ActiveConversationResult {
   id: string;
@@ -142,11 +145,18 @@ export async function postVisitorMessage(params: {
   visitorTokenHash: string;
   content: string;
   language?: string;
+  route?: string;
 }) {
-  const { conversationId, visitorTokenHash, content, language } = params;
+  const { conversationId, visitorTokenHash, content, language, route } = params;
 
   const conversation = await db.chatConversation.findUnique({
     where: { id: conversationId },
+    include: {
+      messages: {
+        orderBy: { createdAt: "desc" },
+        take: 6,
+      },
+    },
   });
 
   if (!conversation) {
@@ -176,17 +186,57 @@ export async function postVisitorMessage(params: {
     },
   });
 
-  // 2. Generate deterministic mock assistant response
-  const activeLang = language || conversation.language || "en";
-  const replyResult = generateMockTonyReply(cleanUserContent, activeLang);
+  // 2. Fetch or seed canonical active prompt version
+  const currentPrompt = await getOrSeedCanonicalPrompt();
 
-  // 3. Update conversation status if handoff was triggered
+  // 3. Classify visitor intent (Sheet 085)
+  const historyForIntent = conversation.messages.map((m) => ({
+    role: m.role,
+    content: m.content,
+  }));
+  const intentResult = classifyVisitorIntent(cleanUserContent, historyForIntent);
+
+  // 4. Handle Lead Qualification / Lead Capture (Sheet 085 & Sheet 087)
+  let leadReferenceCode: string | undefined = undefined;
+  if (intentResult.extractedContact?.hasContact) {
+    const leadCaptureResult = await captureLeadFromChat({
+      conversationId: conversation.id,
+      contact: intentResult.extractedContact,
+      lastVisitorMessage: cleanUserContent,
+      route,
+    });
+    if (leadCaptureResult.success) {
+      leadReferenceCode = leadCaptureResult.referenceCode;
+    }
+  }
+
+  // 5. Retrieve Contextual Knowledge Pack (Sheet 083)
+  const activeLang = language || conversation.language || "en";
+  const contextPack = await retrieveGroundedContext({
+    query: cleanUserContent,
+    route,
+    language: activeLang,
+    limit: 4,
+  });
+
+  // 6. Generate Grounded Assistant Response
+  const replyResult = generateGroundedTonyReply(cleanUserContent, {
+    language: activeLang,
+    route,
+    contextSnippets: contextPack.formattedContext,
+    intent: intentResult.intent,
+    promptVersion: currentPrompt.version,
+    leadReferenceCode,
+    isDeclineOrSkip: intentResult.isDeclineOrSkip,
+  });
+
+  // 7. Update conversation status if handoff was triggered
   let updatedStatus = conversation.status;
   if (replyResult.isHandoffRequested && conversation.status !== ConversationStatus.HANDOFF_REQUESTED) {
     updatedStatus = ConversationStatus.HANDOFF_REQUESTED;
   }
 
-  // 4. Persist assistant message and update conversation
+  // 8. Persist assistant message and update conversation
   const [assistantMessage] = await db.$transaction([
     db.chatMessage.create({
       data: {
@@ -194,6 +244,7 @@ export async function postVisitorMessage(params: {
         role: "assistant",
         content: replyResult.content,
         model: replyResult.model,
+        promptVersionId: currentPrompt.id,
         latencyMs: replyResult.latencyMs,
         tokensUsed: replyResult.tokensUsed,
       },
@@ -221,12 +272,16 @@ export async function postVisitorMessage(params: {
       role: assistantMessage.role,
       content: assistantMessage.content,
       model: assistantMessage.model,
+      promptVersionId: assistantMessage.promptVersionId,
       latencyMs: assistantMessage.latencyMs,
       tokensUsed: assistantMessage.tokensUsed,
       createdAt: assistantMessage.createdAt,
     },
     conversationStatus: updatedStatus,
     isHandoffRequested: replyResult.isHandoffRequested,
+    intent: intentResult.intent,
+    leadCaptured: replyResult.leadCaptured,
+    leadReferenceCode,
   };
 }
 

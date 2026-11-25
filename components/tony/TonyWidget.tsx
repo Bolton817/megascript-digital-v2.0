@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { TonyLauncher } from "./TonyLauncher";
 import { TonyChatPanel } from "./TonyChatPanel";
 import { MessageItem } from "./TonyMessageList";
 
 export function TonyWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
@@ -114,6 +116,7 @@ export function TonyWidget() {
           conversationId: activeConvId,
           message: text.trim(),
           language,
+          route: pathname,
         }),
       });
 
