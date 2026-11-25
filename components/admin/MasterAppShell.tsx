@@ -45,6 +45,7 @@ export function MasterAppShell({ children }: MasterAppShellProps) {
     if (path.startsWith("/master/tony/prompts")) return "Tony Prompts & Safety";
     if (path.startsWith("/master/newsletter")) return "Newsletter Campaigns";
     if (path.startsWith("/master/analytics")) return "Traffic & Lead Analytics";
+    if (path.startsWith("/master/integrations")) return "Integration Connection Centre";
     if (path.startsWith("/master/overview")) return "Operations Overview";
     return "Operations Console";
   };

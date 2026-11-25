@@ -7,6 +7,7 @@ import { AppearanceCustomizer } from "@/components/layout/AppearanceCustomizer";
 import { CommunicationHub } from "@/components/layout/CommunicationHub";
 import { TonyWidget } from "@/components/tony/TonyWidget";
 import { UTMTracker } from "@/components/analytics/UTMTracker";
+import { ConsentTagLoader } from "@/components/analytics/ConsentTagLoader";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -92,6 +93,7 @@ export default function RootLayout({
         <ThemeProvider>
           <PublicHeader />
           <UTMTracker />
+          <ConsentTagLoader />
           <div id="main-content" className="flex-1">
             {children}
           </div>

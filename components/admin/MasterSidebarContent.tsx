@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Cpu,
   BarChart3,
+  Plug,
 } from "lucide-react";
 import { authClient } from "@/features/auth/client";
 
@@ -128,6 +129,16 @@ const navGroups: NavGroup[] = [
         label: "Subscribers",
         href: "/master/newsletter/subscribers",
         icon: Users,
+      },
+    ],
+  },
+  {
+    groupName: "Platform & Connectors",
+    items: [
+      {
+        label: "Integration Centre",
+        href: "/master/integrations",
+        icon: Plug,
       },
     ],
   },

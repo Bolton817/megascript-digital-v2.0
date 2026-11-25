@@ -755,6 +755,18 @@ model IntegrationSyncLog {
   @@index([createdAt])
 }
 
+model ExternalMetricSnapshot {
+  id         String   @id @default(cuid())
+  provider   String   // "GA4" | "SEARCH_CONSOLE"
+  metricDate DateTime
+  metrics    Json
+  createdAt  DateTime @default(now())
+
+  @@unique([provider, metricDate])
+  @@index([provider])
+  @@index([metricDate])
+}
+
 model CookieConsentRecord {
   id               String   @id @default(cuid())
   visitorTokenHash String   @unique
