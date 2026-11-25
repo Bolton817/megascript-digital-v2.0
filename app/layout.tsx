@@ -115,6 +115,12 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary`}>
         <ThemeProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary font-medium text-sm"
+          >
+            Skip to main content
+          </a>
           <ScrollProgressBar />
           <PublicHeader />
           <UTMTracker />
