@@ -5,6 +5,7 @@ import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { AppearanceCustomizer } from "@/components/layout/AppearanceCustomizer";
 import { CommunicationHub } from "@/components/layout/CommunicationHub";
+import { TonyWidget } from "@/components/tony/TonyWidget";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -95,6 +96,7 @@ export default function RootLayout({
           <PublicFooter />
           <AppearanceCustomizer />
           <CommunicationHub />
+          <TonyWidget />
         </ThemeProvider>
       </body>
     </html>

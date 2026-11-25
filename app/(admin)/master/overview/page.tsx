@@ -36,6 +36,11 @@ export default function MasterOverviewPage() {
                 Newsletter
               </Button>
             </Link>
+            <Link href="/master/conversations">
+              <Button variant="outline" size="sm">
+                Tony Chat
+              </Button>
+            </Link>
             <Link href="/master/content">
               <Button variant="outline" size="sm">
                 Content Hub
@@ -135,6 +140,26 @@ export default function MasterOverviewPage() {
           <Link href="/master/newsletter">
             <Button variant="primary" size="md" className="shrink-0">
               Open Newsletter Hub &rarr;
+            </Button>
+          </Link>
+        </div>
+
+        {/* Stage 14 Tony Chatbot & Conversation Persistence Card */}
+        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+              Stage 14 AI Operations
+            </span>
+            <h2 className="text-lg font-bold text-foreground">
+              Tony Chatbot &amp; Transcript Store
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-xl leading-relaxed">
+              Floating client widget, session cookie isolation, zero-emoji mock assistant engine, bilingual English/Kiswahili chat, and RBAC-governed audit transcripts before live LLM connection.
+            </p>
+          </div>
+          <Link href="/master/conversations">
+            <Button variant="primary" size="md" className="shrink-0">
+              Open Tony Transcripts &rarr;
             </Button>
           </Link>
         </div>
