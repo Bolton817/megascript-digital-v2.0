@@ -9,6 +9,7 @@ import { TonyWidget } from "@/components/tony/TonyWidget";
 import { UTMTracker } from "@/components/analytics/UTMTracker";
 import { ConsentTagLoader } from "@/components/analytics/ConsentTagLoader";
 import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
+import { ScrollProgressBar } from "@/components/motion/ScrollProgressBar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
@@ -114,6 +115,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-background text-foreground font-sans antialiased selection:bg-primary-subtle selection:text-primary`}>
         <ThemeProvider>
+          <ScrollProgressBar />
           <PublicHeader />
           <UTMTracker />
           <ConsentTagLoader />

@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { WOW_FACTORS_DATA } from "@/config/wow-factors-data";
 import { WowFactorsHero } from "@/components/wow-factors/WowFactorsHero";
 import { WowFactorCard } from "@/components/wow-factors/WowFactorCard";
+import { MotionReveal } from "@/components/motion/MotionReveal";
 import { ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -29,11 +30,13 @@ export default function WowFactorsPage() {
       {/* Demos Showcase Grid */}
       <Section spacing="lg" variant="default" id="showcase">
         <Container size="lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {demos.map((demo) => (
-              <WowFactorCard key={demo.slug} demo={demo} />
-            ))}
-          </div>
+          <MotionReveal preset="stagger">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {demos.map((demo) => (
+                <WowFactorCard key={demo.slug} demo={demo} />
+              ))}
+            </div>
+          </MotionReveal>
 
           {/* Truthful Showcase Disclosure Banner (TDD Sheet 060) */}
           <div className="mt-12 p-6 rounded-3xl bg-surface-muted/70 border border-border flex items-start gap-4 text-xs text-muted-foreground shadow-card">

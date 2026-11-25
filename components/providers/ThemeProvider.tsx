@@ -89,6 +89,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setMotionState(newMotion);
       localStorage.setItem(MOTION_KEY, newMotion);
       applyPreferences(theme, newMotion, textSize);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("megascript-motion-change", { detail: { motion: newMotion } })
+        );
+      }
     },
     [theme, textSize, applyPreferences]
   );
@@ -114,6 +119,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem(MOTION_KEY);
     localStorage.removeItem(TEXT_SIZE_KEY);
     applyPreferences("light", "active", "default");
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("megascript-motion-change", { detail: { motion: "active" } })
+      );
+    }
   }, [applyPreferences]);
 
   return (
