@@ -17,5 +17,27 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Canonical Apex Domain & HTTPS Redirects (TDD Sheet 116 / Sheet 128)
+[[redirects]]
+  from = "https://www.megascriptdigital.co.ke/*"
+  to = "https://megascriptdigital.co.ke/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.megascriptdigital.co.ke/*"
+  to = "https://megascriptdigital.co.ke/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://megascriptdigital.co.ke/*"
+  to = "https://megascriptdigital.co.ke/:splat"
+  status = 301
+  force = true
+
