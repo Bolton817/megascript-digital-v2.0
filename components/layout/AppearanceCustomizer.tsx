@@ -72,9 +72,9 @@ export function AppearanceCustomizer() {
         aria-controls="appearance-customizer-panel"
         aria-label="Website appearance, motion, and accessibility settings"
         title="Customization Settings (Theme, Font Size, Motion, Rendering)"
-        className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-surface-border bg-surface/95 text-foreground shadow-card backdrop-blur-md transition-all duration-200 hover:scale-105 hover:border-primary/50 hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="group relative flex h-11 w-11 items-center justify-center rounded-full border-2 border-orange-500 dark:border-orange-400 bg-surface/95 text-foreground shadow-md shadow-orange-500/20 ring-2 ring-orange-500/25 dark:ring-orange-400/30 backdrop-blur-md transition-all duration-200 hover:scale-110 hover:border-orange-600 hover:ring-orange-500/50 hover:bg-orange-50/50 dark:hover:bg-orange-950/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
       >
-        <SlidersHorizontal className="h-5 w-5 text-primary transition-transform duration-200 group-hover:rotate-45" />
+        <SlidersHorizontal className="h-5 w-5 text-orange-600 dark:text-orange-400 transition-transform duration-200 group-hover:rotate-45" />
         <span className="sr-only">Appearance &amp; Accessibility Settings</span>
 
         {(theme === "dark" || motion === "paused" || visualQuality === "lightweight" || textSize !== "default") && (
