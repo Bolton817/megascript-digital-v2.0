@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown, Mail, Sun, Moon } from "lucide-react";
@@ -16,10 +17,16 @@ interface MobileNavigationProps {
 
 export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
   const closeMenu = useCallback(() => {
@@ -31,7 +38,7 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
     setOpenAccordion((prev) => (prev === id ? null : id));
   };
 
-  // Keyboard navigation & body scroll lock
+  // Keyboard navigation, body scroll lock, and viewport resize safety
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape" && isOpen) {
@@ -40,17 +47,29 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
       }
     }
 
+    function handleResize() {
+      if (window.innerWidth >= 1024 && isOpen) {
+        closeMenu();
+      }
+    }
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("resize", handleResize);
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
     } else {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
     }
 
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isOpen, closeMenu]);
 
@@ -64,56 +83,57 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
         aria-label="Open navigation menu"
         aria-expanded={isOpen}
         aria-controls="mobile-navigation-drawer"
-        className="flex items-center justify-center p-2 rounded-xl text-foreground hover:bg-surface-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/85 hover:text-foreground hover:bg-surface-subtle transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
-        <Menu className="h-6 w-6" aria-hidden="true" />
+        <Menu className="h-5 w-5" aria-hidden="true" />
       </button>
 
-      {/* Full-Screen Accessible Navigation Drawer */}
-      {isOpen && (
+      {/* Full-Screen Accessible Navigation Drawer Portaled to document.body */}
+      {isOpen && mounted && typeof document !== "undefined" && createPortal(
         <div
           id="mobile-navigation-drawer"
           role="dialog"
           aria-modal="true"
           aria-label="Navigation Menu"
-          className="fixed inset-0 z-50 flex flex-col bg-background/98 backdrop-blur-xl animate-in fade-in-0 duration-200"
+          className="fixed inset-0 z-[100] flex flex-col w-screen h-[100dvh] bg-background/98 backdrop-blur-2xl pointer-events-auto overflow-hidden animate-in fade-in-0 duration-200"
         >
           {/* Top Bar with Brand, Theme Toggle & Close Button */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-surface-border">
+          <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 sm:py-4 border-b border-surface-border bg-surface/80 backdrop-blur-md shrink-0">
             <Link
               href="/"
               onClick={closeMenu}
-              className="flex items-center gap-2.5 text-base font-bold text-foreground"
+              className="flex items-center gap-2 text-base font-bold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
             >
               <Image
                 src="/logos/logo.png"
                 alt="MegaScript Digital"
                 width={88}
                 height={40}
-                className="h-8 w-auto object-contain"
+                className="h-7 sm:h-8 w-auto object-contain"
               />
-              <span>MegaScript <span className="text-primary font-normal">Digital</span></span>
+              <span className="font-display">MegaScript <span className="text-primary font-normal">Digital</span></span>
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={toggleTheme}
                 aria-label={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
-                className="rounded-lg p-2 text-muted-foreground hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-subtle hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 {theme === "light" ? (
-                  <Moon className="h-5 w-5" aria-hidden="true" />
+                  <Moon className="h-4 w-4" aria-hidden="true" />
                 ) : (
-                  <Sun className="h-5 w-5 text-amber-400" aria-hidden="true" />
+                  <Sun className="h-4 w-4 text-amber-400" aria-hidden="true" />
                 )}
               </button>
               <button
+                ref={closeButtonRef}
                 type="button"
                 onClick={closeMenu}
                 aria-label="Close navigation menu"
-                className="rounded-lg p-2 text-muted-foreground hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-subtle hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                <X className="h-6 w-6" aria-hidden="true" />
+                <X className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -121,7 +141,7 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
           {/* Scrollable Navigation Tree */}
           <div
             ref={drawerRef}
-            className="flex-1 overflow-y-auto px-6 py-6 space-y-4 text-left"
+            className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-4 text-left overscroll-contain"
           >
             {/* Quick Mobile Search Trigger */}
             {onOpenSearch && (
@@ -211,7 +231,7 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
           </div>
 
           {/* Bottom Fixed Action Panel */}
-          <div className="p-6 border-t border-surface-border bg-surface space-y-3">
+          <div className="p-5 sm:p-6 border-t border-surface-border bg-surface shrink-0 space-y-3">
             <Link href="/contact" onClick={closeMenu} className="block w-full">
               <Button variant="primary" size="lg" className="w-full">
                 Start a Project
@@ -225,7 +245,8 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
               <span>info@megascriptdigital.co.ke</span>
             </a>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

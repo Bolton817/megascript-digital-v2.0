@@ -143,7 +143,7 @@ export function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-12 sm:pt-20 px-3 sm:px-4"
+      className="fixed inset-0 z-[120] flex items-start justify-center pt-12 sm:pt-20 px-3 sm:px-4"
       role="dialog"
       aria-modal="true"
       aria-label="Global Content Search"
@@ -156,7 +156,7 @@ export function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       />
 
       {/* Modal Surface */}
-      <div className="relative w-full max-w-2xl bg-surface border border-surface-border rounded-2xl shadow-2xl overflow-hidden flex flex-col z-50 animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-2xl bg-surface border border-surface-border rounded-2xl shadow-2xl overflow-hidden flex flex-col z-[120] animate-in fade-in zoom-in-95 duration-150">
         {/* Search Input Bar */}
         <div className="p-3.5 sm:p-4 border-b border-surface-border flex items-center gap-3">
           <Search className="w-5 h-5 text-primary shrink-0" />

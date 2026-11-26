@@ -134,7 +134,7 @@ export function PublicHeader() {
                 onClick={toggleTheme}
                 aria-label={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
                 title={`Switch to ${theme === "light" ? "dark" : "light"} appearance`}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/75 hover:text-foreground hover:bg-surface-subtle transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full text-foreground/75 hover:text-foreground hover:bg-surface-subtle transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 {theme === "light" ? (
                   <Moon className="h-4 w-4" aria-hidden="true" />
