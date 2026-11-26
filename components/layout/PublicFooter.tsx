@@ -73,15 +73,13 @@ export function PublicFooter() {
               href="/"
               className="inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
             >
-              <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
-                <Image
-                  src="/logos/site-icon.png"
-                  alt="MegaScript Digital Mark"
-                  width={32}
-                  height={32}
-                  className="h-full w-full object-contain"
-                />
-              </div>
+              <Image
+                src="/logos/logo.png"
+                alt="MegaScript Digital"
+                width={100}
+                height={46}
+                className="h-9 sm:h-10 w-auto object-contain"
+              />
               <span className="text-base font-bold tracking-tight text-foreground">
                 MegaScript <span className="text-primary font-normal">Digital</span>
               </span>

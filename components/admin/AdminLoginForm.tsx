@@ -219,15 +219,14 @@ export function AdminLoginForm() {
           href="/"
           className="inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-surface-subtle border border-surface-border p-1 shadow-sm">
-            <Image
-              src="/logos/site-icon.png"
-              alt="MegaScript Digital Mark"
-              width={32}
-              height={32}
-              className="h-full w-full object-contain"
-            />
-          </div>
+          <Image
+            src="/logos/logo.png"
+            alt="MegaScript Digital"
+            width={120}
+            height={55}
+            className="h-11 w-auto object-contain"
+            priority
+          />
           <span className="text-lg font-bold tracking-tight text-foreground">
             MegaScript <span className="text-primary font-normal">Digital</span>
           </span>

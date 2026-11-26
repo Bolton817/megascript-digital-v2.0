@@ -85,15 +85,13 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
               onClick={closeMenu}
               className="flex items-center gap-2.5 text-base font-bold text-foreground"
             >
-              <div className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg">
-                <Image
-                  src="/logos/site-icon.png"
-                  alt="MegaScript Digital Mark"
-                  width={28}
-                  height={28}
-                  className="h-full w-full object-contain"
-                />
-              </div>
+              <Image
+                src="/logos/logo.png"
+                alt="MegaScript Digital"
+                width={88}
+                height={40}
+                className="h-8 w-auto object-contain"
+              />
               <span>MegaScript <span className="text-primary font-normal">Digital</span></span>
             </Link>
             <div className="flex items-center gap-2">

@@ -192,15 +192,13 @@ export function MasterSidebarContent({ onNavigate }: MasterSidebarContentProps) 
           onClick={onNavigate}
           className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
         >
-          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-surface-subtle border border-surface-border p-1 shadow-sm transition-transform group-hover:scale-105">
-            <Image
-              src="/logos/site-icon.png"
-              alt="MegaScript Digital"
-              width={36}
-              height={36}
-              className="h-full w-full object-contain"
-            />
-          </div>
+          <Image
+            src="/logos/logo.png"
+            alt="MegaScript Digital"
+            width={96}
+            height={44}
+            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
+          />
           <div>
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
