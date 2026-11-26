@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ChevronDown, Mail, Sun, Moon } from "lucide-react";
 import { MEGA_MENUS } from "@/config/navigation";
 import { Button } from "@/components/ui/Button";
@@ -82,9 +83,18 @@ export function MobileNavigation({ onOpenSearch }: MobileNavigationProps) {
             <Link
               href="/"
               onClick={closeMenu}
-              className="text-base font-bold text-foreground"
+              className="flex items-center gap-2.5 text-base font-bold text-foreground"
             >
-              MegaScript Digital
+              <div className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg">
+                <Image
+                  src="/logos/site-icon.png"
+                  alt="MegaScript Digital Mark"
+                  width={28}
+                  height={28}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <span>MegaScript <span className="text-primary font-normal">Digital</span></span>
             </Link>
             <div className="flex items-center gap-2">
               <button

@@ -66,7 +66,14 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logos/site-icon.png", type: "image/png", sizes: "500x500" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/logos/site-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     type: "website",

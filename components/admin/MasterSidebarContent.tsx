@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
@@ -191,8 +192,14 @@ export function MasterSidebarContent({ onNavigate }: MasterSidebarContentProps) 
           onClick={onNavigate}
           className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white font-black text-lg shadow-sm transition-transform group-hover:scale-105">
-            M
+          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-surface-subtle border border-surface-border p-1 shadow-sm transition-transform group-hover:scale-105">
+            <Image
+              src="/logos/site-icon.png"
+              alt="MegaScript Digital"
+              width={36}
+              height={36}
+              className="h-full w-full object-contain"
+            />
           </div>
           <div>
             <div className="flex items-center gap-1.5">

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Mail, CheckCircle2, AlertCircle } from "lucide-react";
 import {
@@ -72,8 +73,14 @@ export function PublicFooter() {
               href="/"
               className="inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground font-black text-sm shadow-sm">
-                M
+              <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg">
+                <Image
+                  src="/logos/site-icon.png"
+                  alt="MegaScript Digital Mark"
+                  width={32}
+                  height={32}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <span className="text-base font-bold tracking-tight text-foreground">
                 MegaScript <span className="text-primary font-normal">Digital</span>

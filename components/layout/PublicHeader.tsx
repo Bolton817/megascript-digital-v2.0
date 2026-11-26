@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   MORE_SERVICES_MENU,
@@ -59,9 +60,16 @@ export function PublicHeader() {
                 aria-label="MegaScript Digital Home"
                 className="group flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg py-1"
               >
-                {/* Brand Mark SVG Symbol */}
-                <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground font-black text-xs sm:text-sm shadow-xs transition-transform group-hover:scale-105">
-                  M
+                {/* Brand Mark Symbol */}
+                <div className="relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+                  <Image
+                    src="/logos/site-icon.png"
+                    alt="MegaScript Digital Mark"
+                    width={32}
+                    height={32}
+                    className="h-full w-full object-contain"
+                    priority
+                  />
                 </div>
                 <span className="text-xs sm:text-base font-bold tracking-tight text-foreground font-display">
                   MegaScript <span className="text-primary font-normal">Digital</span>
