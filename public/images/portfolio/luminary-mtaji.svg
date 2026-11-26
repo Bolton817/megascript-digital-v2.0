@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 340" width="540" height="340" fill="none">
+    <rect width="540" height="340" rx="16" fill="#0f172a" />
+    <rect x="2" y="2" width="536" height="336" rx="14" stroke="#1e293b" stroke-width="2" />
+    <rect x="40" y="40" width="460" height="260" rx="8" fill="#1e293b" fill-opacity="0.6" />
+    <circle cx="270" cy="140" r="40" fill="#0284c7" fill-opacity="0.2" stroke="#0284c7" stroke-width="2" />
+    <text x="270" y="220" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="800" fill="#ffffff">Luminary Mtaji Partners</text>
+    <text x="270" y="248" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#ea580c" letter-spacing="1">Private Equity Portal</text>
+  </svg>

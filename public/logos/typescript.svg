@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" width="140" height="40" fill="none">
+    <rect width="140" height="40" rx="8" fill="#f1f5f9" />
+    <circle cx="22" cy="20" r="10" fill="#3178c6" />
+    <text x="40" y="25" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#334155">TypeScript</text>
+  </svg>
