@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import { Bot, User, Clock, ArrowRight } from "lucide-react";
 
 export interface MessageItem {
@@ -73,13 +74,23 @@ export function TonyMessageList({
           >
             {/* Avatar */}
             <div
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold overflow-hidden ${
                 isUser
                   ? "bg-primary text-white shadow-sm"
                   : "bg-surface-muted border border-surface-border text-primary shadow-sm"
               }`}
             >
-              {isUser ? <User className="h-3.5 w-3.5" /> : <Bot className="h-3.5 w-3.5" />}
+              {isUser ? (
+                <User className="h-3.5 w-3.5" />
+              ) : (
+                <Image
+                  src="/images/avatar/tony-avatar.jpg"
+                  alt="Tony"
+                  width={28}
+                  height={28}
+                  className="h-full w-full object-cover"
+                />
+              )}
             </div>
 
             {/* Bubble */}

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Bot,
   X,
@@ -58,8 +59,14 @@ export function TonyChatPanel({
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-surface-border bg-surface-subtle/50">
         <div className="flex items-center gap-2.5">
-          <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-white shadow-sm">
-            <Bot className="h-4 w-4" />
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center">
+            <Image
+              src="/images/avatar/tony-avatar.jpg"
+              alt="Tony AI Assistant"
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full object-cover ring-2 ring-primary/30 shadow-sm"
+            />
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-surface bg-emerald-500" />
           </div>
           <div>
