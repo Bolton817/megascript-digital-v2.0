@@ -61,8 +61,9 @@ export function TonyMessageList({
   const showQuickPrompts = messages.length <= 1 && !isLoading;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      {/* Messages */}
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+      <div className="max-w-3xl mx-auto w-full space-y-4">
+        {/* Messages */}
       {messages.map((msg) => {
         const isUser = msg.role === "user";
         return (
@@ -160,7 +161,8 @@ export function TonyMessageList({
         </div>
       )}
 
-      <div ref={bottomRef} />
+        <div ref={bottomRef} />
+      </div>
     </div>
   );
 }
