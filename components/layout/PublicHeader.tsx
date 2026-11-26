@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -21,7 +21,19 @@ export function PublicHeader() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 20;
+      setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (pathname?.startsWith("/master")) {
     return null;
@@ -34,6 +46,8 @@ export function PublicHeader() {
   const closeMenu = () => {
     setActiveMenu(null);
   };
+
+  const isSolid = isScrolled || Boolean(activeMenu);
 
   return (
     <>
@@ -50,7 +64,11 @@ export function PublicHeader() {
         <div className="max-w-7xl mx-auto pointer-events-auto">
           <nav
             aria-label="Main Navigation"
-            className="flex items-center justify-between rounded-full border border-surface-border bg-surface/95 backdrop-blur-md px-3 sm:px-6 py-2 sm:py-2.5 shadow-subtle transition-colors"
+            className={`flex items-center justify-between rounded-full px-3 sm:px-6 py-2 sm:py-2.5 transition-all duration-300 ease-in-out ${
+              isSolid
+                ? "bg-surface/95 dark:bg-surface/95 backdrop-blur-md border border-surface-border shadow-md"
+                : "bg-white/45 dark:bg-slate-950/45 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]"
+            }`}
           >
             {/* Extreme Left: Brand Identity & Logo */}
             <div className="flex items-center">
