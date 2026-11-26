@@ -61,7 +61,7 @@ export function AppearanceCustomizer() {
   }, [isOpen]);
 
   return (
-    <div className="fixed bottom-4 left-20 sm:left-24 z-40">
+    <div className="fixed bottom-[4.75rem] left-4 z-40 print:hidden">
       {/* Floating Trigger Button */}
       <button
         ref={triggerRef}
