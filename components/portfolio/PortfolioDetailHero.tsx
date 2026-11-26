@@ -11,7 +11,7 @@ interface PortfolioDetailHeroProps {
 
 export function PortfolioDetailHero({ project }: PortfolioDetailHeroProps) {
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
+    <section className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
       <Container size="lg">
         <div className="max-w-4xl space-y-6">
           {/* Breadcrumb Navigation */}

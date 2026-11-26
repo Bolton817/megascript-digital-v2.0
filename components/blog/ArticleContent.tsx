@@ -15,7 +15,7 @@ export function ArticleContent({ post, relatedPosts }: ArticleContentProps) {
   return (
     <article className="min-h-screen">
       {/* Article Header */}
-      <header className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
+      <header className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
         <Container size="md">
           <div className="space-y-6">
             {/* Breadcrumbs */}

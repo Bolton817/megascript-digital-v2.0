@@ -5,7 +5,7 @@ import { ShieldCheck, CheckCircle2, Layers } from "lucide-react";
 
 export function PortfolioHero() {
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
+    <section className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
       <Container size="lg">
         <div className="max-w-3xl space-y-5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium">

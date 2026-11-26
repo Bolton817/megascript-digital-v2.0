@@ -46,7 +46,7 @@ export function PublicHeader() {
       </a>
 
       {/* Floating Island Navigation Container */}
-      <header className="sticky top-2 sm:top-5 z-40 w-full px-2.5 sm:px-6 pointer-events-none">
+      <header className="fixed top-2 sm:top-5 left-0 right-0 z-40 w-full px-2.5 sm:px-6 pointer-events-none">
         <div className="max-w-7xl mx-auto pointer-events-auto">
           <nav
             aria-label="Main Navigation"

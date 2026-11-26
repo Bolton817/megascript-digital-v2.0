@@ -77,7 +77,7 @@ export default function PrivacyRequestPage() {
   };
 
   return (
-    <main className="py-16 sm:py-24 bg-background text-foreground">
+    <main className="pt-20 pb-16 sm:pt-24 sm:pb-24 bg-background text-foreground">
       <Container size="md">
         {/* Header Breadcrumbs & Title */}
         <div className="space-y-4 border-b border-border pb-8">

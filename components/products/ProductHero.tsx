@@ -226,7 +226,7 @@ export function ProductHero({ product, outboundUrl }: ProductHeroProps) {
   };
 
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-surface-border bg-gradient-to-b from-surface-subtle/50 via-background to-background">
+    <section className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-surface-border bg-gradient-to-b from-surface-subtle/50 via-background to-background">
       <Container size="lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Column: Product Details and Outbound CTA */}

@@ -42,9 +42,9 @@ export default function ServicesCatalogPage() {
   const complementaryServices = allServices.filter((s) => s.category === "COMPLEMENTARY");
 
   return (
-    <main id="main-content" className="min-h-screen pt-28 pb-16 sm:pt-36 sm:pb-24">
+    <main id="main-content" className="min-h-screen pb-16 sm:pb-24">
       {/* Header */}
-      <section className="pb-12 sm:pb-16 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
+      <section className="pt-20 pb-12 sm:pt-24 sm:pb-16 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
         <Container size="lg">
           <div className="max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono font-medium">

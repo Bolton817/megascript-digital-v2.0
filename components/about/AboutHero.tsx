@@ -5,7 +5,7 @@ import { Code2, Compass, ShieldCheck, Terminal, MapPin, Sparkles } from "lucide-
 
 export function AboutHero() {
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
+    <section className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background">
       <Container size="lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 space-y-6">

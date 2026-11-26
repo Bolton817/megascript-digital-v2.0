@@ -5,7 +5,7 @@ import { Clock, ShieldCheck, MessageSquare } from "lucide-react";
 
 export function ContactHero() {
   return (
-    <section className="relative overflow-hidden pt-28 pb-14 md:pt-36 md:pb-16 bg-surface-subtle border-b border-surface-border">
+    <section className="relative overflow-hidden pt-20 pb-14 md:pt-24 md:pb-16 bg-surface-subtle border-b border-surface-border">
       {/* Background glow & subtle grid */}
       <div
         className="absolute top-0 right-1/4 -z-10 h-96 w-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"

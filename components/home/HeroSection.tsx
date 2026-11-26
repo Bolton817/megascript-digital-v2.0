@@ -57,7 +57,7 @@ export function HeroSection() {
   );
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-surface-border bg-gradient-to-b from-surface-subtle/40 via-background to-background">
+    <section className="relative overflow-hidden pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-surface-border bg-gradient-to-b from-surface-subtle/40 via-background to-background">
       {/* Precision Blueprint Grid Overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.035] dark:opacity-[0.06]"

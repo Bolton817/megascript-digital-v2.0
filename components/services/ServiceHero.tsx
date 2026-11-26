@@ -24,7 +24,7 @@ export function ServiceHero({ service }: ServiceHeroProps) {
   const isCore = service.category === "CORE";
 
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
+    <section className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/40 via-background to-background">
       <Container size="lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
           {/* Main Editorial Column */}

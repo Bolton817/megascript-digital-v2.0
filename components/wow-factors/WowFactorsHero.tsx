@@ -55,7 +55,7 @@ export function WowFactorsHero() {
   return (
     <section
       ref={heroRef}
-      className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background overflow-hidden"
+      className="relative pt-20 pb-16 sm:pt-24 sm:pb-24 border-b border-border bg-gradient-to-b from-surface-muted/50 via-background to-background overflow-hidden"
     >
       <Container size="lg">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
